@@ -1,0 +1,409 @@
+{
+  "metadata": {
+    "dataset_name": "Germany_10_Year_NAV_Demo_Dataset",
+    "country": "Germany",
+    "currency": "EUR",
+    "base_year": 2026,
+    "time_horizon_years": 10,
+    "level": "country",
+    "city_specific": false,
+    "notes": "Country-level static dataset for first demo web application."
+  },
+  "visa": {
+    "student_visa": {
+      "application_fee": {
+        "value": 75,
+        "currency": "EUR",
+        "year": 2026,
+        "source": "https://www.auswaertiges-amt.de/en/service/visa-entry-and-residence/overriding-national-visa/229495",
+        "notes": "Standard German national visa fee (long‑stay visa) used as student visa fee【310840071292896†L242-L244】."
+      },
+      "legal_work_hours_per_week": {
+        "value": 20,
+        "unit": "hours_per_week",
+        "source": "https://www.make-it-in-germany.com/en/visa-residence/types/student-visa",
+        "notes": "International students may work up to 20 hours per week (140 full days/280 half-days per year) during term time【414181163000554†L310-L316】."
+      }
+    },
+    "graduate_visa": {
+      "application_fee": {
+        "value": 110,
+        "currency": "EUR",
+        "year": 2026,
+        "source": "https://jobbatical.com/blog/how-much-does-it-cost-to-get-a-residence-permit-in-germany",
+        "notes": "Approximate temporary residence permit fee (national residence permit for job‑seeking or graduate visa) €100–€110【918734663144154†L348-L355】."
+      },
+      "duration_years": {
+        "value": 1.5,
+        "unit": "years",
+        "source": "https://www.make-it-in-germany.com/en/study-training/university/after-studies",
+        "notes": "Non‑EU graduates can obtain a residence permit to seek employment in Germany for up to 18 months【23428582805978†L320-L328】."
+      }
+    },
+    "skilled_work_visa": {
+      "application_fee": {
+        "value": 110,
+        "currency": "EUR",
+        "year": 2026,
+        "source": "https://jobbatical.com/blog/how-much-does-it-cost-to-get-a-residence-permit-in-germany",
+        "notes": "Approximate national residence permit fee for skilled workers (temporary) €100–€110【918734663144154†L348-L355】."
+      },
+      "full_time_work_allowed": true
+    },
+    "permanent_residency": {
+      "application_fee": {
+        "value": 113,
+        "currency": "EUR",
+        "year": 2026,
+        "source": "https://jobbatical.com/blog/how-much-does-it-cost-to-get-a-residence-permit-in-germany",
+        "notes": "Settlement permit (permanent residency) fee around €113【918734663144154†L348-L355】."
+      },
+      "estimated_processing_years": {
+        "value": 5,
+        "unit": "years",
+        "source": "https://www.make-it-in-germany.com/en/visa-residence/types/permanent-residence-permit",
+        "notes": "General estimate: after roughly five years of legal residence and employment a person may apply for permanent residence; processing times vary."
+      }
+    }
+  },
+  "education": {
+    "masters_or_mba": {
+      "annual_tuition_fee": {
+        "value": 1500,
+        "currency": "EUR",
+        "year": 2026,
+        "source": "https://www.mastersportal.com/articles/1001/tuition-fees-at-universities-in-germany.html",
+        "notes": "Most public universities charge no tuition, only administrative fees of roughly €100–€350 per semester; we assume ~€1,500 per year to cover administrative fees and occasional tuition in Baden‑Württemberg or private programs【845758862525167†L368-L387】."
+      },
+      "full_time_duration_years": {
+        "value": 2,
+        "unit": "years"
+      },
+      "part_time_duration_years": {
+        "value": 3,
+        "unit": "years"
+      },
+      "part_time_study_possible": true
+    }
+  },
+  "income": {
+    "it_software_salary": {
+      "graduate_annual_salary": {
+        "value": 45778,
+        "currency": "EUR",
+        "year": 2026,
+        "source": "https://www.salaryexpert.com/salary/job/it-specialist/germany",
+        "notes": "Entry‑level IT specialist salary approximately €45,778 per year【63891457247544†L160-L180】."
+      },
+      "mid_level_annual_salary": {
+        "value": 63647,
+        "currency": "EUR",
+        "year": 2026,
+        "source": "https://www.salaryexpert.com/salary/job/it-specialist/germany",
+        "notes": "Average IT specialist salary ~€63,647 per year【63891457247544†L160-L180】."
+      },
+      "senior_annual_salary": {
+        "value": 71661,
+        "currency": "EUR",
+        "year": 2026,
+        "source": "https://www.salaryexpert.com/salary/job/it-specialist/germany",
+        "notes": "Senior IT specialist salary ~€71,661 per year【63891457247544†L160-L180】."
+      },
+      "annual_salary_growth_rate": {
+        "value": 0.02,
+        "unit": "decimal",
+        "example": 0.04,
+        "source": "https://tradingeconomics.com/germany/wage-growth",
+        "notes": "Real wage growth in Germany was 1.8% year‑over‑year in March 2026 and expected to be around 1.5% by end‑2026【123606854292612†L133-L145】; we assume 2% annual salary growth for the model."
+      }
+    },
+    "student_part_time_work": {
+      "hourly_wage": {
+        "value": 13.9,
+        "currency": "EUR",
+        "year": 2026,
+        "source": "https://allaboutberlin.com/guides/germany-salary",
+        "notes": "Germany’s minimum wage as of June 2026 is €13.90 per hour【765982900491821†L73-L94】; student part‑time jobs typically pay around this rate."
+      },
+      "working_weeks_per_year": {
+        "value": 48,
+        "unit": "weeks",
+        "notes": "Simplified base assumption."
+      }
+    },
+    "spouse_income": {
+      "annual_salary": {
+        "value": 54066,
+        "currency": "EUR",
+        "year": 2026,
+        "source": "https://allaboutberlin.com/guides/germany-salary",
+        "notes": "Median gross income in Germany is €54,066 per year【765982900491821†L73-L94】; used as spouse salary assumption."
+      },
+      "income_cases": {
+        "conservative": 0.0,
+        "moderate": 0.5,
+        "optimistic": 1.0
+      }
+    }
+  },
+  "tax_and_retirement": {
+    "effective_income_tax_rate": {
+      "value": 0.35,
+      "unit": "decimal",
+      "example": 0.25,
+      "source": "https://allaboutberlin.com/guides/germany-salary",
+      "notes": "Average taxes and social contributions are roughly 35% of salary【765982900491821†L73-L94】."
+    },
+    "employer_superannuation_rate": {
+      "value": 0.093,
+      "unit": "decimal",
+      "source": "https://www.deutsche-flagge.de/de/sicherheit/sozialgesetzgebung/beitraege-zur-sozialversicherung",
+      "notes": "Employer pension insurance contribution rate is 9.3% of gross salary【67437544897705†L460-L463】."
+    }
+  },
+  "expenses": {
+    "general_living_excluding_rent": {
+      "single_monthly": {
+        "value": 1101,
+        "currency": "EUR",
+        "year": 2026,
+        "source": "https://www.destatis.de/EN/Themes/Society-Environment/Income-Consumption-Living-Conditions/Consumption-Expenditure/Tables/private-consumption-size-household-evs.html",
+        "notes": "Destatis consumption survey shows single‑person households spend €1,918 per month in total, including €817 on housing; subtracting housing yields €1,101 per month for all other expenses【828066178915918†L126-L138】."
+      },
+      "couple_monthly": {
+        "value": 2142,
+        "currency": "EUR",
+        "year": 2026,
+        "source": "https://www.destatis.de/EN/Themes/Society-Environment/Income-Consumption-Living-Conditions/Consumption-Expenditure/Tables/private-consumption-size-household-evs.html",
+        "notes": "Two‑person households spend €3,382 per month, including €1,240 on housing; non‑housing expenditure is €2,142 per month【828066178915918†L126-L138】."
+      },
+      "family_with_one_child_monthly": {
+        "value": 2647,
+        "currency": "EUR",
+        "year": 2026,
+        "source": "https://www.destatis.de/EN/Themes/Society-Environment/Income-Consumption-Living-Conditions/Consumption-Expenditure/Tables/private-consumption-size-household-evs.html",
+        "notes": "Three‑person households (two adults and one child) spend €4,081 per month total, including €1,434 on housing; non‑housing expenditure is €2,647 per month【828066178915918†L126-L138】."
+      }
+    },
+    "rent": {
+      "single_monthly": {
+        "value": 817,
+        "currency": "EUR",
+        "year": 2026,
+        "source": "https://www.destatis.de/EN/Themes/Society-Environment/Income-Consumption-Living-Conditions/Consumption-Expenditure/Tables/private-consumption-size-household-evs.html",
+        "notes": "Average housing costs (rent, energy and maintenance) for single‑person households are €817 per month【828066178915918†L126-L138】."
+      },
+      "family_monthly": {
+        "value": 1434,
+        "currency": "EUR",
+        "year": 2026,
+        "source": "https://www.destatis.de/EN/Themes/Society-Environment/Income-Consumption-Living-Conditions/Consumption-Expenditure/Tables/private-consumption-size-household-evs.html",
+        "notes": "Average housing costs for three‑person households (family with one child) are €1,434 per month【828066178915918†L126-L138】."
+      }
+    },
+    "childcare": {
+      "monthly_cost_per_child": {
+        "value": 46,
+        "currency": "EUR",
+        "year": 2026,
+        "source": "https://www.euronews.com/business/2025/08/24/nursery-and-creche-how-much-do-families-spend-on-childcare-across-europe",
+        "notes": "Germany’s gross childcare costs are €552 per year【370955719470918†L806-L807】; dividing by 12 yields ~€46 per month."
+      },
+      "applies_until_child_age": {
+        "value": 4,
+        "unit": "years",
+        "notes": "Simplified assumption for demo."
+      }
+    },
+    "transport": {
+      "public_transport_monthly": {
+        "value": 63,
+        "currency": "EUR",
+        "year": 2026,
+        "source": "https://en.wikipedia.org/wiki/Deutschlandticket",
+        "notes": "The Deutschlandticket price increased to €63 per month in January 2026【503370179110941†L158-L160】."
+      }
+    },
+    "healthcare_or_insurance": {
+      "monthly_cost": {
+        "value": 148,
+        "currency": "EUR",
+        "year": 2026,
+        "source": "https://germanpedia.com/public-health-insurance-for-students-in-germany",
+        "notes": "Public health insurance for students under 30 costs about €148 per month in 2026【443402531435665†L585-L593】."
+      }
+    }
+  },
+  "car": {
+    "used_car_purchase_price": {
+      "value": 20032,
+      "currency": "EUR",
+      "year": 2026,
+      "source": "https://autovista24.autovistagroup.com/news/used-car-price-index-december-2025/",
+      "notes": "Average price of a 3‑year‑old used car with 60,000 km was €20,032.1 in December 2025【485918469023133†L523-L525】."
+    },
+    "annual_insurance": {
+      "value": 600,
+      "currency": "EUR",
+      "year": 2026,
+      "source": "https://feather-insurance.com/en/car-insurance-germany",
+      "notes": "Feather insurance lists partial comprehensive car insurance at €580–€636 per year【226540822993010†L124-L134】; we use €600 as an approximate annual premium."
+    },
+    "annual_fuel": {
+      "value": 2600,
+      "currency": "EUR",
+      "year": 2026,
+      "source": "https://tradingeconomics.com/germany/gasoline-prices",
+      "notes": "Gasoline price around €2.17 per litre in May 2026【81037463141262†L133-L135】; assuming 8 L/100 km consumption and 15,000 km per year (1,200 L total), annual fuel cost ≈ €2,600."
+    },
+    "annual_maintenance": {
+      "value": 600,
+      "currency": "EUR",
+      "year": 2026,
+      "source": "https://allaboutberlin.com/guides/car-costs",
+      "notes": "Maintenance and other running costs are not explicitly quantified; based on All About Berlin’s guidance on annual car costs (inspection, minor repairs, tax, parking) we assume €600 per year【664781528004315†L43-L79】."
+    },
+    "annual_depreciation_rate": {
+      "value": 0.15,
+      "unit": "decimal",
+      "example": 0.15,
+      "source": "assumption",
+      "notes": "Assume 15% depreciation per year for a used car."
+    },
+    "car_loan_interest_rate": {
+      "value": 0.04,
+      "unit": "decimal",
+      "source": "https://thebanks.eu/compare-banking-products/car-loans/Germany",
+      "notes": "Effective car loan rates in Germany range from 1.99% to 14.60%【884329008642536†L75-L81】; we use 4% as a typical rate."
+    }
+  },
+  "investment_and_economy": {
+    "inflation_rate": {
+      "value": 0.026,
+      "unit": "decimal",
+      "year": 2026,
+      "source": "https://tradingeconomics.com/germany/inflation-cpi",
+      "notes": "Germany’s inflation rate was 2.6% in May 2026 and is projected to trend around 2.4% in 2027【95211453398490†L137-L166】."
+    },
+    "savings_interest_rate": {
+      "value": 0.0225,
+      "unit": "decimal",
+      "year": 2026,
+      "source": "https://www.raisin.com/en-ie/banking/ecb-rates-explained/",
+      "notes": "ECB deposit rate as of 11 June 2026 is 2.25%【522249913866589†L91-L100】; used as a proxy for typical savings interest rate."
+    },
+    "investment_return_rate": {
+      "value": 0.05,
+      "unit": "decimal",
+      "year": 2026,
+      "source": "assumption",
+      "notes": "Assume 5% annual investment return as a long‑term balanced portfolio assumption."
+    },
+    "eur_to_lkr_exchange_rate": {
+      "value": 383.0,
+      "year": 2026,
+      "source": "https://www.xe.com/en-us/currencyconverter/convert/?Amount=1&From=EUR&To=LKR",
+      "notes": "Mid‑market rate on 28 June 2026 shows 1 EUR ≈ 383 LKR【957637124574866†L39-L45】."
+    }
+  },
+  "loans_and_debt": {
+    "education_loan_interest_rate": {
+      "value": 0.0636,
+      "unit": "decimal",
+      "source": "https://www.expatrio.com/about-germany/student-loans-in-germany",
+      "notes": "KfW Studienkredit for students has a variable interest rate around 6.36% per annum【681248175434204†L269-L274】; used as education loan rate."
+    },
+    "migration_loan_interest_rate": {
+      "value": 0.04,
+      "unit": "decimal",
+      "source": "https://germanpedia.com/personal-loan-germany/",
+      "notes": "Personal loan example shows a 4% interest rate【885521252361883†L930-L935】; used as migration loan rate assumption."
+    },
+    "borrowing_allowed": true,
+    "negative_cash_allowed": false,
+    "notes": "If cash becomes negative, convert it into explicit debt instead of silently allowing negative cash."
+  },
+  "scenario_defaults": {
+    "student_visa_path": {
+      "study_years": [1, 2],
+      "part_time_work_during_study": true,
+      "full_time_work_start_year": 3,
+      "graduate_visa_start_year": 3,
+      "car_purchase_allowed_from_year": 3
+    },
+    "working_visa_path": {
+      "full_time_work_start_year": 1,
+      "part_time_study_possible": true,
+      "car_purchase_allowed_from_year": 2
+    },
+    "life_scenarios": {
+      "single": {
+        "marriage_year": null,
+        "first_child_year": null,
+        "second_child_year": null
+      },
+      "married_no_child": {
+        "marriage_year": 5,
+        "first_child_year": null,
+        "second_child_year": null
+      },
+      "married_one_child": {
+        "marriage_year": 5,
+        "first_child_year": 7,
+        "second_child_year": null
+      },
+      "married_two_children": {
+        "marriage_year": 5,
+        "first_child_year": 7,
+        "second_child_year": 9
+      }
+    }
+  },
+  "sensitivity_analysis": {
+    "variables_to_test": {
+      "salary_growth": [-0.2, -0.1, 0, 0.1, 0.2],
+      "rent": [-0.2, -0.1, 0, 0.1, 0.2],
+      "tuition": [-0.2, -0.1, 0, 0.1, 0.2],
+      "childcare": [-0.2, -0.1, 0, 0.1, 0.2],
+      "investment_return": [-0.2, -0.1, 0, 0.1, 0.2],
+      "exchange_rate": [-0.2, -0.1, 0, 0.1, 0.2],
+      "spouse_income_percentage": [0.0, 0.5, 1.0]
+    }
+  },
+  "sources": {
+    "official_government": [
+      "https://www.auswaertiges-amt.de/en/service/visa-entry-and-residence/overriding-national-visa/229495",
+      "https://www.make-it-in-germany.com/en/visa-residence/types/student-visa",
+      "https://www.make-it-in-germany.com/en/study-training/university/after-studies",
+      "https://www.deutsche-flagge.de/de/sicherheit/sozialgesetzgebung/beitraege-zur-sozialversicherung",
+      "https://www.destatis.de/EN/Themes/Society-Environment/Income-Consumption-Living-Conditions/Consumption-Expenditure/Tables/private-consumption-size-household-evs.html"
+    ],
+    "salary_sources": [
+      "https://www.salaryexpert.com/salary/job/it-specialist/germany",
+      "https://allaboutberlin.com/guides/germany-salary",
+      "https://tradingeconomics.com/germany/wage-growth"
+    ],
+    "cost_of_living_sources": [
+      "https://www.destatis.de/EN/Themes/Society-Environment/Income-Consumption-Living-Conditions/Consumption-Expenditure/Tables/private-consumption-size-household-evs.html",
+      "https://www.euronews.com/business/2025/08/24/nursery-and-creche-how-much-do-families-spend-on-childcare-across-europe",
+      "https://en.wikipedia.org/wiki/Deutschlandticket",
+      "https://germanpedia.com/public-health-insurance-for-students-in-germany",
+      "https://allaboutberlin.com/guides/car-costs"
+    ],
+    "education_sources": [
+      "https://www.mastersportal.com/articles/1001/tuition-fees-at-universities-in-germany.html",
+      "https://www.expatrio.com/about-germany/student-loans-in-germany"
+    ],
+    "economic_sources": [
+      "https://tradingeconomics.com/germany/inflation-cpi",
+      "https://www.raisin.com/en-ie/banking/ecb-rates-explained/",
+      "https://www.xe.com/en-us/currencyconverter/convert/?Amount=1&From=EUR&To=LKR",
+      "https://autovista24.autovistagroup.com/news/used-car-price-index-december-2025/",
+      "https://feather-insurance.com/en/car-insurance-germany",
+      "https://tradingeconomics.com/germany/gasoline-prices",
+      "https://thebanks.eu/compare-banking-products/car-loans/Germany",
+      "https://germanpedia.com/personal-loan-germany/"
+    ],
+    "notes": "Store URLs or citation labels here."
+  }
+}

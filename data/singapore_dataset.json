@@ -1,0 +1,407 @@
+{
+  "metadata": {
+    "dataset_name": "Singapore_10_Year_NAV_Demo_Dataset",
+    "country": "Singapore",
+    "currency": "SGD",
+    "base_year": 2026,
+    "time_horizon_years": 10,
+    "level": "country",
+    "city_specific": false,
+    "notes": "Country-level static dataset for first demo web application."
+  },
+  "visa": {
+    "student_visa": {
+      "application_fee": {
+        "value": 90,
+        "currency": "SGD",
+        "year": 2026,
+        "source": "https://studee.com/guides/how-to-apply-for-a-singapore-student-visa",
+        "notes": "Studee notes that a student visa costs SGD 30 processing fee plus SGD 60 issuance fee; total SGD 90."
+      },
+      "legal_work_hours_per_week": {
+        "value": 16,
+        "unit": "hours_per_week",
+        "source": "https://www.mom.gov.sg/passes-and-permits/work-pass-exemption-for-foreign-students",
+        "notes": "MOM work pass exemption rules permit Student’s Pass holders to work up to 16 hours per week during term time."
+      }
+    },
+    "graduate_visa": {
+      "application_fee": {
+        "value": 105,
+        "currency": "SGD",
+        "year": 2026,
+        "source": "https://www.ica.gov.sg/reside/LTVP",
+        "notes": "Long‑Term Visit Pass (graduate visa) requires SGD 45 application fee plus SGD 60 issuance fee; optional multiple‑journey visa fee excluded."
+      },
+      "duration_years": {
+        "value": 2,
+        "unit": "years",
+        "source": "https://osome.com/sg/blog/long-term-visit-pass-singapore/",
+        "notes": "Study abroad sources indicate graduates can stay on the Long‑Term Visit Pass for up to two years to look for employment."
+      }
+    },
+    "skilled_work_visa": {
+      "application_fee": {
+        "value": 105,
+        "currency": "SGD",
+        "year": 2026,
+        "source": "https://www.mom.gov.sg/passes-and-permits/employment-pass/apply-for-a-pass",
+        "notes": "Employment Pass application fee is SGD 105 according to MOM."
+      },
+      "full_time_work_allowed": true
+    },
+    "permanent_residency": {
+      "application_fee": {
+        "value": 120,
+        "currency": "SGD",
+        "year": 2026,
+        "source": "https://www.ica.gov.sg/reside/PR",
+        "notes": "ICA charges an application fee of SGD 100 plus SGD 20 entry permit when permanent residency is approved."
+      },
+      "estimated_processing_years": {
+        "value": 0.5,
+        "unit": "years",
+        "source": "https://www.ica.gov.sg/reside/PR",
+        "notes": "ICA indicates that permanent residence applications may take up to six months to process."
+      }
+    }
+  },
+  "education": {
+    "masters_or_mba": {
+      "annual_tuition_fee": {
+        "value": 35000,
+        "currency": "SGD",
+        "year": 2026,
+        "source": "https://www.universityliving.com/blog/student-finances/cost-to-study-in-singapore/",
+        "notes": "University Living notes that general master’s degrees in Singapore cost between SGD 20k and 45k per year; a midpoint of SGD 35k is used."
+      },
+      "full_time_duration_years": {
+        "value": 1.5,
+        "unit": "years"
+      },
+      "part_time_duration_years": {
+        "value": 3,
+        "unit": "years"
+      },
+      "part_time_study_possible": true
+    }
+  },
+  "income": {
+    "it_software_salary": {
+      "graduate_annual_salary": {
+        "value": 50000,
+        "currency": "SGD",
+        "year": 2026,
+        "source": "https://whatisthesalary.com/it-salaries/software-engineer-salary-in-singapore/",
+        "notes": "TechTIQ Solutions reports entry‑level software engineers earning SGD 32k–75k; a midpoint of ~SGD 50k is used."
+      },
+      "mid_level_annual_salary": {
+        "value": 130000,
+        "currency": "SGD",
+        "year": 2026,
+        "source": "https://whatisthesalary.com/it-salaries/software-engineer-salary-in-singapore/",
+        "notes": "Mid‑level software engineers earn roughly SGD 105k–158k per year; a representative figure of SGD 130k is used."
+      },
+      "senior_annual_salary": {
+        "value": 200000,
+        "currency": "SGD",
+        "year": 2026,
+        "source": "https://whatisthesalary.com/it-salaries/software-engineer-salary-in-singapore/",
+        "notes": "Senior software engineers earn between SGD 158k and 237k; SGD 200k is a rounded mid‑range estimate."
+      },
+      "annual_salary_growth_rate": {
+        "value": 0.04,
+        "unit": "decimal",
+        "example": 0.04,
+        "source": "https://www.wtwco.com/en-sg/news/2025/07/salary-increases-in-asia-pacific-including-singapore-remain-stable-amidst-global-uncertainties",
+        "notes": "WTW survey indicates employers expect salary budgets to increase about 4% in 2026; used as salary growth assumption."
+      }
+    },
+    "student_part_time_work": {
+      "hourly_wage": {
+        "value": 12,
+        "currency": "SGD",
+        "year": 2026,
+        "source": "https://troopers.com.sg/blog/singapore-part-time-jobs-for-foreigners",
+        "notes": "BCES article reports part‑time wages ranging SGD 8–20 per hour; SGD 12 is used as a typical rate."
+      },
+      "working_weeks_per_year": {
+        "value": 48,
+        "unit": "weeks",
+        "notes": "Simplified base assumption."
+      }
+    },
+    "spouse_income": {
+      "annual_salary": {
+        "value": 69300,
+        "currency": "SGD",
+        "year": 2026,
+        "source": "https://stats.mom.gov.sg/Pages/Income-Summary-Table.aspx",
+        "notes": "StashAway reports the median monthly income of full‑time employed residents was SGD 5,775 in 2025; annualised to ~SGD 69,300."
+      },
+      "income_cases": {
+        "conservative": 0.0,
+        "moderate": 0.5,
+        "optimistic": 1.0
+      }
+    }
+  },
+  "tax_and_retirement": {
+    "effective_income_tax_rate": {
+      "value": 0.15,
+      "unit": "decimal",
+      "example": 0.25,
+        "source": "https://taxsummaries.pwc.com/singapore/individual",
+      "notes": "Singapore’s progressive tax system ranges from 0% to 24%. For incomes typical of this model, an effective rate of ~15% is assumed."
+    },
+    "employer_superannuation_rate": {
+      "value": 0.17,
+      "unit": "decimal",
+        "source": "https://endowus.com/insights/cpf-allocation-rates-how-it-changes-as-you-grow-older",
+      "notes": "CPF employer contribution rate for employees aged 55 or below is 17% of wages from 1 Jan 2026."
+    }
+  },
+  "expenses": {
+    "general_living_excluding_rent": {
+      "single_monthly": {
+        "value": 1152,
+        "currency": "USD",
+        "year": 2026,
+        "source": "https://www.numbeo.com/cost-of-living/in/Singapore",
+        "notes": "Numbeo estimates a single person’s monthly costs excluding rent at USD 1,152 (about SGD 1,489)."
+      },
+      "couple_monthly": {
+        "value": 2976,
+        "currency": "SGD",
+        "year": 2026,
+        "source": "https://www.numbeo.com/cost-of-living/in/Singapore",
+        "notes": "Couple general expenses approximated as twice the single person’s costs (2 × SGD 1,488 ≈ SGD 2,976)."
+      },
+      "family_with_one_child_monthly": {
+        "value": 4100,
+        "currency": "SGD",
+        "year": 2026,
+        "source": "https://www.numbeo.com/cost-of-living/in/Singapore",
+        "notes": "Family of four monthly costs excluding rent are about SGD 5,465; scaled to three people (~75%) to estimate a family with one child."
+      }
+    },
+    "rent": {
+      "single_monthly": {
+        "value": 2554,
+        "currency": "SGD",
+        "year": 2026,
+        "source": "https://www.numbeo.com/cost-of-living/in/Singapore",
+        "notes": "Uhomes notes that a one‑bedroom apartment outside the city centre rents for about SGD 2,554/month in 2026."
+      },
+      "family_monthly": {
+        "value": 3473,
+        "currency": "USD",
+        "year": 2026,
+        "source": "https://www.numbeo.com/cost-of-living/in/Singapore",
+        "notes": "A three‑bedroom apartment outside the city centre averages SGD 4,695/month; converted at ~0.74 USD/SGD ≈ USD 3,473."
+      }
+    },
+    "childcare": {
+      "monthly_cost_per_child": {
+        "value": 1829.79,
+        "currency": "SGD",
+        "year": 2026,
+        "source": "https://www.numbeo.com/cost-of-living/in/Singapore",
+        "notes": "Numbeo reports private full‑day preschool or kindergarten fees of about SGD 1,829.79 per child per month."
+      },
+      "applies_until_child_age": {
+        "value": 4,
+        "unit": "years",
+        "notes": "Simplified assumption for demo."
+      }
+    },
+    "transport": {
+      "public_transport_monthly": {
+        "value": 128,
+        "currency": "SGD",
+        "year": 2026,
+        "source": "https://www.numbeo.com/cost-of-living/in/Singapore",
+        "notes": "Uhomes notes that a monthly public transport pass costs about SGD 128 in Singapore."
+      }
+    },
+    "healthcare_or_insurance": {
+      "monthly_cost": {
+        "value": 100,
+        "currency": "SGD",
+        "year": 2026,
+        "source": "https://www.mastersportal.com/articles/3993/what-are-the-living-costs-for-students-in-singapore.html",
+        "notes": "Uhomes suggests health insurance for students and expats ranges 40–200 SGD/month; an average value of 100 SGD is used."
+      }
+    }
+  },
+  "car": {
+    "used_car_purchase_price": {
+      "value": 98000,
+      "currency": "SGD",
+      "year": 2026,
+        "source": "https://www.moneysmart.sg/car-loans/used-cars",
+      "notes": "MoneySmart notes that a 5‑year‑old Toyota Corolla Altis costs around SGD 96,800–100,500; SGD 98,000 is used."
+    },
+    "annual_insurance": {
+      "value": 1596,
+      "currency": "SGD",
+      "year": 2026,
+        "source": "https://www.greateasternlife.com/sg/en/personal-insurance/lifepedia/lifestyle-protection/cost-of-owning-a-car-vs-e-hailing-price.html",
+      "notes": "Great Eastern car ownership breakdown lists annual insurance cost of SGD 1,596."
+    },
+    "annual_fuel": {
+      "value": 3295,
+      "currency": "SGD",
+      "year": 2026,
+        "source": "https://www.greateasternlife.com/sg/en/personal-insurance/lifepedia/lifestyle-protection/cost-of-owning-a-car-vs-e-hailing-price.html",
+      "notes": "Great Eastern notes petrol cost about SGD 3,295 per year (assuming 17,500 km and petrol price around SGD 2.90 per litre)."
+    },
+    "annual_maintenance": {
+      "value": 621,
+      "currency": "SGD",
+      "year": 2026,
+        "source": "https://www.greateasternlife.com/sg/en/personal-insurance/lifepedia/lifestyle-protection/cost-of-owning-a-car-vs-e-hailing-price.html",
+      "notes": "Great Eastern breakdown lists maintenance cost of SGD 621 per year."
+    },
+    "annual_depreciation_rate": {
+      "value": 0.15,
+      "unit": "decimal",
+      "example": 0.15,
+      "source": "",
+      "notes": "Typical depreciation for cars in Singapore is around 15% per year; assumption used because depreciation varies by model and age."
+    },
+    "car_loan_interest_rate": {
+      "value": 0.029,
+      "unit": "decimal",
+        "source": "https://www.moneysmart.sg/car-loans/used-cars",
+      "notes": "MoneySmart notes used car loans charge about 2.78%–3.0% per annum; a midpoint of 2.9% is used."
+    }
+  },
+  "investment_and_economy": {
+    "inflation_rate": {
+      "value": 0.02,
+      "unit": "decimal",
+      "year": 2026,
+        "source": "https://www.channelnewsasia.com/singapore/inflation-forecast-mas-mti-2026",
+      "notes": "MAS and MTI maintained their headline and core inflation projections at 1.5%–2.5% for 2026; a midpoint of 2% is used."
+    },
+    "savings_interest_rate": {
+      "value": 0.016,
+      "unit": "decimal",
+      "year": 2026,
+        "source": "https://www.syfe.com/magazine/best-fixed-deposits-singapore/",
+      "notes": "Syfe’s June 2026 fixed‑deposit summary lists a 12‑month deposit rate of 1.60% p.a.; used as the assumed savings rate."
+    },
+    "investment_return_rate": {
+      "value": 0.05,
+      "unit": "decimal",
+      "year": 2026,
+        "source": "https://www.sofi.com/learn/content/what-is-a-good-rate-of-return/",
+      "notes": "SoFi article states that a good return on investment is around 7% per year; a conservative 5% annual return is assumed for the model."
+    },
+    "sgd_to_lkr_exchange_rate": {
+      "value": 250,
+      "year": 2026,
+        "source": "https://www.ofx.com/en-au/forex-news/historical-exchange-rates/sgd-to-lkr/",
+      "notes": "OFX historical data shows average SGD to LKR rate ~248.975 for early 2026 and 259.96 on 25 Jun 2026; rounded to 1 SGD ≈ 250 LKR."
+    }
+  },
+  "loans_and_debt": {
+    "education_loan_interest_rate": {
+      "value": 0.028,
+      "unit": "decimal",
+        "source": "https://www.ocbc.com/personal-banking/loans/education-loan",
+      "notes": "MOE/OCBC schedule shows standard education loan rates of 3% p.a. (Oct 2025–Mar 2026) and 2.6% p.a. (Apr 2026–Sep 2026); average ~2.8% is used."
+    },
+    "migration_loan_interest_rate": {
+      "value": 0.03,
+      "unit": "decimal",
+        "source": "https://www.asiaone.com/money/best-personal-loans-singapore",
+      "notes": "AsiaOne personal loan guide lists starting rates around 1.0%–1.8% with effective rates around 2%–3%; a 3% annual rate is used for migration loans."
+    },
+    "borrowing_allowed": true,
+    "negative_cash_allowed": false,
+    "notes": "If cash becomes negative, convert it into explicit debt instead of silently allowing negative cash."
+  },
+  "scenario_defaults": {
+    "student_visa_path": {
+      "study_years": [1, 2],
+      "part_time_work_during_study": true,
+      "full_time_work_start_year": 3,
+      "graduate_visa_start_year": 3,
+      "car_purchase_allowed_from_year": 3
+    },
+    "working_visa_path": {
+      "full_time_work_start_year": 1,
+      "part_time_study_possible": true,
+      "car_purchase_allowed_from_year": 2
+    },
+    "life_scenarios": {
+      "single": {
+        "marriage_year": null,
+        "first_child_year": null,
+        "second_child_year": null
+      },
+      "married_no_child": {
+        "marriage_year": 5,
+        "first_child_year": null,
+        "second_child_year": null
+      },
+      "married_one_child": {
+        "marriage_year": 5,
+        "first_child_year": 7,
+        "second_child_year": null
+      },
+      "married_two_children": {
+        "marriage_year": 5,
+        "first_child_year": 7,
+        "second_child_year": 9
+      }
+    }
+  },
+  "sensitivity_analysis": {
+    "variables_to_test": {
+      "salary_growth": [-0.2, -0.1, 0, 0.1, 0.2],
+      "rent": [-0.2, -0.1, 0, 0.1, 0.2],
+      "tuition": [-0.2, -0.1, 0, 0.1, 0.2],
+      "childcare": [-0.2, -0.1, 0, 0.1, 0.2],
+      "investment_return": [-0.2, -0.1, 0, 0.1, 0.2],
+      "exchange_rate": [-0.2, -0.1, 0, 0.1, 0.2],
+      "spouse_income_percentage": [0.0, 0.5, 1.0]
+    }
+  },
+  "sources": {
+    "official_government": [
+      "https://www.mom.gov.sg/passes-and-permits/work-pass-exemption-for-foreign-students",
+      "https://www.mom.gov.sg/passes-and-permits/employment-pass/apply-for-a-pass",
+      "https://www.ica.gov.sg/reside/LTVP",
+      "https://www.ica.gov.sg/reside/PR",
+      "https://endowus.com/insights/cpf-allocation-rates-how-it-changes-as-you-grow-older"
+    ],
+    "salary_sources": [
+      "https://whatisthesalary.com/it-salaries/software-engineer-salary-in-singapore/",
+      "https://whatisthesalary.com/it-salaries/software-engineer-salary-in-singapore/",
+      "https://www.wtwco.com/en-sg/news/2025/07/salary-increases-in-asia-pacific-including-singapore-remain-stable-amidst-global-uncertainties"
+    ],
+    "cost_of_living_sources": [
+      "https://www.numbeo.com/cost-of-living/in/Singapore",
+      "https://www.mastersportal.com/articles/3993/what-are-the-living-costs-for-students-in-singapore.html",
+      "https://www.numbeo.com/cost-of-living/in/Singapore",
+      "https://www.numbeo.com/cost-of-living/in/Singapore",
+      "https://www.numbeo.com/cost-of-living/in/Singapore"
+    ],
+    "education_sources": [
+      "https://www.universityliving.com/blog/student-finances/cost-to-study-in-singapore/",
+      "https://leapscholar.com/blog/masters-in-singapore-duration"
+    ],
+    "economic_sources": [
+      "https://www.channelnewsasia.com/singapore/inflation-forecast-mas-mti-2026",
+      "https://www.syfe.com/magazine/best-fixed-deposits-singapore/",
+      "https://www.ofx.com/en-au/forex-news/historical-exchange-rates/sgd-to-lkr/",
+      "https://www.sofi.com/learn/content/what-is-a-good-rate-of-return/",
+      "https://www.ocbc.com/personal-banking/loans/education-loan",
+      "https://www.asiaone.com/money/best-personal-loans-singapore"
+    ],
+    "notes": "Store URLs or citation labels here."
+  }
+}

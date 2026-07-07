@@ -1,0 +1,69 @@
+{
+  "default_country": "Australia",
+  "countries": [
+    {
+      "name": "Australia",
+      "code": "AUS",
+      "currency": "AUD",
+      "dataset_path": "data/australia_dataset.json",
+      "enabled": true,
+      "sort_order": 1
+    },
+    {
+      "name": "New Zealand",
+      "code": "NZL",
+      "currency": "NZD",
+      "dataset_path": "data/newzeland_dataset.json",
+      "enabled": true,
+      "sort_order": 2
+    },
+    {
+      "name": "Germany",
+      "code": "DEU",
+      "currency": "EUR",
+      "dataset_path": "data/germany_dataset.json",
+      "enabled": true,
+      "sort_order": 3
+    },
+    {
+      "name": "Canada",
+      "code": "CAN",
+      "currency": "CAD",
+      "dataset_path": "data/canada_dataset.json",
+      "enabled": true,
+      "sort_order": 4
+    },
+    {
+      "name": "Singapore",
+      "code": "SGP",
+      "currency": "SGD",
+      "dataset_path": "data/singapore_dataset.json",
+      "enabled": true,
+      "sort_order": 5
+    },
+    {
+      "name": "Japan",
+      "code": "JPN",
+      "currency": "JPY",
+      "dataset_path": "data/japan_dataset.json",
+      "enabled": true,
+      "sort_order": 6
+    },
+    {
+      "name": "USA",
+      "code": "USA",
+      "currency": "USD",
+      "dataset_path": "data/usa_dataset.json",
+      "enabled": true,
+      "sort_order": 7
+    },
+    {
+      "name": "Sri Lanka",
+      "code": "LKA",
+      "currency": "LKR",
+      "dataset_path": "data/sri_lanka_dataset.json",
+      "enabled": true,
+      "sort_order": 8
+    }
+  ]
+}

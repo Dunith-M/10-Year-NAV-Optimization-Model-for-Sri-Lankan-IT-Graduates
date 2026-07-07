@@ -1,0 +1,455 @@
+{
+  "metadata": {
+    "dataset_name": "NewZeland_10_Year_NAV_Demo_Dataset",
+    "country": "NewZeland",
+    "currency": "NZD",
+    "base_year": 2026,
+    "time_horizon_years": 10,
+    "level": "country",
+    "city_specific": false,
+    "notes": "Country-level static dataset for first demo web application."
+  },
+  "visa": {
+    "student_visa": {
+      "application_fee": {
+        "value": 850,
+        "currency": "NZD",
+        "year": 2026,
+        "source": "https://www.immigration.govt.nz/new-zealand-visas/visas/study/student-visa",
+        "notes": "Fee‑paying student visa application fee for international students (from NZ$850) according to Immigration New Zealand’s fee‑paying student visa page【75522902615188†L220-L228】."
+      },
+      "legal_work_hours_per_week": {
+        "value": 25,
+        "unit": "hours_per_week",
+        "source": "https://www.immigration.govt.nz/new-zealand-visas/visas/study/student-visa",
+        "notes": "Immigration NZ states that holders of a fee‑paying student visa can work up to 25 hours per week during the study period and full‑time in the holidays【75522902615188†L220-L228】."
+      }
+    },
+    "graduate_visa": {
+      "application_fee": {
+        "value": 1670,
+        "currency": "NZD",
+        "year": 2026,
+        "source": "https://www.immigration.govt.nz/new-zealand-visas/visas/work/post-study-work-visa",
+        "notes": "Cost for the Post‑Study Work Visa is from NZ$1,670 according to Immigration New Zealand【188259477904794†L193-L205】."
+      },
+      "duration_years": {
+        "value": 3,
+        "unit": "years",
+        "source": "https://www.immigration.govt.nz/new-zealand-visas/visas/work/post-study-work-visa",
+        "notes": "Immigration NZ states that the post‑study work visa allows a stay of up to 3 years【188259477904794†L193-L205】."
+      }
+    },
+    "skilled_work_visa": {
+      "application_fee": {
+        "value": 1540,
+        "currency": "NZD",
+        "year": 2026,
+        "source": "https://www.immigration.govt.nz/new-zealand-visas/visas/work/accredited-employer-work-visa",
+        "notes": "The Accredited Employer Work Visa (skilled work visa) costs from NZ$1,540 according to Immigration New Zealand【139341506312171†L193-L204】."
+      },
+      "full_time_work_allowed": true
+    },
+    "permanent_residency": {
+      "application_fee": {
+        "value": 6450,
+        "currency": "NZD",
+        "year": 2026,
+        "source": "https://www.immigration.govt.nz/new-zealand-visas/visas/residence/skilled-migrant-category-resident-visa",
+        "notes": "The Skilled Migrant Category Resident Visa (pathway to permanent residency) costs from NZ$6,450 and allows indefinite stay【394874853847487†L194-L205】."
+      },
+      "estimated_processing_years": {
+        "value": 0.25,
+        "unit": "years",
+        "source": "https://www.immigrationconsultants.com/processing-times/skilled-migrant-category-resident-visa",
+        "notes": "Processing time for the Skilled Migrant Category Resident Visa was estimated at 40–124 days (~0.11–0.34 years) in late 2025/early 2026【553685075055548†L160-L170】. A midpoint of 0.25 years is used."
+      }
+    }
+  },
+  "education": {
+    "masters_or_mba": {
+      "annual_tuition_fee": {
+        "value": 30000,
+        "currency": "NZD",
+        "year": 2026,
+        "source": "https://www.educations.com/guides-study-in-new-zealand/cost-of-study-18008",
+        "notes": "Average postgraduate tuition for international students in New Zealand ranges from NZ$20,000–45,000 per year; the midpoint (≈NZ$30k) is used【688300156527011†L126-L131】."
+      },
+      "full_time_duration_years": {
+        "value": 1.5,
+        "unit": "years"
+      },
+      "part_time_duration_years": {
+        "value": 4,
+        "unit": "years"
+      },
+      "part_time_study_possible": true
+    }
+  },
+  "income": {
+    "it_software_salary": {
+      "graduate_annual_salary": {
+        "value": 63553,
+        "currency": "NZD",
+        "year": 2026,
+        "source": "https://www.payscale.com/research/NZ/Job=Graduate_Software_Engineer/Salary",
+        "notes": "PayScale reports the average salary for a graduate software engineer in New Zealand as NZ$63,553 in 2026【881061605075109†L22-L42】."
+      },
+      "mid_level_annual_salary": {
+        "value": 82812,
+        "currency": "NZD",
+        "year": 2026,
+        "source": "https://www.payscale.com/research/NZ/Job=Software_Engineer/Salary",
+        "notes": "PayScale lists the average salary for a software engineer (mid‑level) in New Zealand as NZ$82,812 in 2026【634803593697076†L24-L45】."
+      },
+      "senior_annual_salary": {
+        "value": 136000,
+        "currency": "NZD",
+        "year": 2026,
+        "source": "https://www.glassdoor.co.nz/Salaries/new-zealand-senior-software-engineer-salary-SRCH_IL.0,12_IN260_KO13,37.htm",
+        "notes": "Glassdoor and Indeed indicate senior software engineers in New Zealand earn around NZ$121k–150k, with an average base pay of roughly NZ$136k per year【275265064141094†L30-L46】."
+      },
+      "annual_salary_growth_rate": {
+        "value": 0.035,
+        "unit": "decimal",
+        "example": 0.04,
+        "source": "https://www.hcamag.com/nz/specialisation/reward-strategy/higher-pay-rises-to-be-expected-in-2026/491437",
+        "notes": "Human Resources Director (HRD) citing WTW reported that New Zealand employers expected salary increase budgets around 3.5% for 2026【528471229122750†L78-L100】."
+      }
+    },
+    "student_part_time_work": {
+      "hourly_wage": {
+        "value": 23.95,
+        "currency": "NZD",
+        "year": 2026,
+        "source": "https://www.mbie.govt.nz/about/news/adult-minimum-wage-to-rise-to-23-95-per-hour/",
+        "notes": "MBIE announced that the adult minimum wage in New Zealand would rise to NZ$23.95 per hour from 1 April 2026【685006241193539†L646-L656】; this is used as the student hourly wage."
+      },
+      "working_weeks_per_year": {
+        "value": 48,
+        "unit": "weeks",
+        "notes": "Simplified base assumption."
+      }
+    },
+    "spouse_income": {
+      "annual_salary": {
+        "value": 81484,
+        "currency": "NZD",
+        "year": 2026,
+        "source": "https://www.newzealandshores.com/working-and-living-in-new-zealand/salaries-and-income/",
+        "notes": "New Zealand Shores summarises Stats NZ and Hays data, noting the average salary in New Zealand was about NZ$81,484 and median about NZ$69,836 in 2025【10080713797842†L430-L444】. The average (≈81k) is used as base spouse income."
+      },
+      "income_cases": {
+        "conservative": 0.0,
+        "moderate": 0.5,
+        "optimistic": 1.0
+      }
+    }
+  },
+  "tax_and_retirement": {
+    "effective_income_tax_rate": {
+      "value": 0.24,
+      "unit": "decimal",
+      "example": 0.25,
+      "source": "https://www.ird.govt.nz/income-tax/income-tax-for-individuals",
+      "notes": "New Zealand uses progressive tax brackets (10.5% up to $15,600; 17.5% up to $53,500; 30% up to $78,100; 33% up to $180,000; 39% thereafter)【239357032026526†L91-L98】. A simplified effective tax rate of ~24% is assumed for modelling."
+    },
+    "employer_superannuation_rate": {
+      "value": 0.035,
+      "unit": "decimal",
+      "source": "https://global.lockton.com/nz/en/news-insights/budget-2025-changes-to-minimum-kiwisaver-contribution-rates",
+      "notes": "Budget 2025 announced that from 1 April 2026 both employee and employer minimum KiwiSaver contribution rates increase from 3% to 3.5%【150334359600833†L74-L81】."
+    }
+  },
+  "expenses": {
+    "general_living_excluding_rent": {
+      "single_monthly": {
+        "value": 1708.8,
+        "currency": "NZD",
+        "year": 2026,
+        "source": "https://www.numbeo.com/cost-of-living/country_result.jsp?country=New+Zealand",
+        "notes": "Numbeo estimates monthly costs for a single person in New Zealand (excluding rent) at about NZ$1,708.8 in June 2026【373005563218753†L78-L83】."
+      },
+      "couple_monthly": {
+        "value": 3200,
+        "currency": "NZD",
+        "year": 2026,
+        "source": "https://www.numbeo.com/cost-of-living/country_result.jsp?country=New+Zealand",
+        "notes": "No official couple estimate exists; a couple is assumed to spend roughly 1.9× a single person’s general costs. Based on Numbeo’s single person estimate of NZ$1,708.8【373005563218753†L78-L83】, the couple cost is approximated at NZ$3,200/month."
+      },
+      "family_with_one_child_monthly": {
+        "value": 4700,
+        "currency": "NZD",
+        "year": 2026,
+        "source": "https://www.numbeo.com/cost-of-living/country_result.jsp?country=New+Zealand",
+        "notes": "Numbeo lists costs for a family of four at NZ$6,218.5 excluding rent【373005563218753†L78-L83】. A family with one child (three people) is assumed to require ~75% of a four‑person family cost, giving ~NZ$4,700/month."
+      }
+    },
+    "rent": {
+      "single_monthly": {
+        "value": 1777.25,
+        "currency": "NZD",
+        "year": 2026,
+        "source": "https://www.numbeo.com/cost-of-living/country_result.jsp?country=New+Zealand",
+        "notes": "Average of 1‑bedroom apartment rents in city centre (NZ$1,895.51) and outside centre (NZ$1,658.99) on Numbeo June 2026【373005563218753†L189-L195】."
+      },
+      "family_monthly": {
+        "value": 2810.27,
+        "currency": "NZD",
+        "year": 2026,
+        "source": "https://www.numbeo.com/cost-of-living/country_result.jsp?country=New+Zealand",
+        "notes": "Average of 3‑bedroom apartment rents in city centre (NZ$2,997.62) and outside centre (NZ$2,622.92) from Numbeo【373005563218753†L189-L195】."
+      }
+    },
+    "childcare": {
+      "monthly_cost_per_child": {
+        "value": 1515.69,
+        "currency": "NZD",
+        "year": 2026,
+        "source": "https://www.numbeo.com/cost-of-living/country_result.jsp?country=New+Zealand",
+        "notes": "Numbeo’s childcare section lists the private full‑day preschool/Kindergarten monthly fee for one child at NZ$1,515.69【373005563218753†L171-L175】."
+      },
+      "applies_until_child_age": {
+        "value": 4,
+        "unit": "years",
+        "notes": "Simplified assumption for demo."
+      }
+    },
+    "transport": {
+      "public_transport_monthly": {
+        "value": 200,
+        "currency": "NZD",
+        "year": 2026,
+        "source": "https://www.numbeo.com/cost-of-living/country_result.jsp?country=New+Zealand",
+        "notes": "Numbeo lists the cost of a monthly public transport pass at NZ$200 (range NZ$105–230)【373005563218753†L160-L175】."
+      }
+    },
+    "healthcare_or_insurance": {
+      "monthly_cost": {
+        "value": 74.9,
+        "currency": "NZD",
+        "year": 2026,
+        "source": "https://www.massey.ac.nz/international-apply/fees-and-scholarships/insurance-fees/",
+        "notes": "Massey University’s Studentsafe insurance premium for one month is NZ$74.90; the full academic year premium is NZ$899【995503553405343†L132-L148】."
+      }
+    }
+  },
+  "car": {
+    "used_car_purchase_price": {
+      "value": 9000,
+      "currency": "NZD",
+      "year": 2026,
+      "source": "https://www.2cheapcars.co.nz/buying-guide/how-to-find-the-best-cheap-cars-in-nz-a-kiwi-buyer-s-guide",
+      "notes": "2 Cheap Cars’ 2026 guide notes that the most competitive price bracket for used cars in New Zealand is NZ$8k–10k, with many hybrid hatchbacks and compact cars in this range【900914878106039†L205-L229】. An average of NZ$9k is used as the purchase price."
+    },
+    "annual_insurance": {
+      "value": 1267,
+      "currency": "NZD",
+      "year": 2026,
+      "source": "https://www.quashed.co.nz/car-insurance",
+      "notes": "Quashed’s car insurance guide (updated April 2026) states that the average cost of comprehensive car insurance in New Zealand is about NZ$1,267 per year【20824780541817†L41-L46】."
+    },
+    "annual_fuel": {
+      "value": 3000,
+      "currency": "NZD",
+      "year": 2026,
+      "source": "https://www.moneyhub.co.nz/buying-used-car.html",
+      "notes": "MoneyHub’s car ownership guide suggests that a typical driver spends around NZ$3,000 per year on fuel【499644679155693†L3667-L3671】."
+    },
+    "annual_maintenance": {
+      "value": 1000,
+      "currency": "NZD",
+      "year": 2026,
+      "source": "https://www.moneyhub.co.nz/buying-used-car.html",
+      "notes": "MoneyHub notes that car maintenance costs are roughly NZ$1,000 per year for a typical driver【499644679155693†L3667-L3671】."
+    },
+    "annual_depreciation_rate": {
+      "value": 0.15,
+      "unit": "decimal",
+      "example": 0.15,
+      "source": "https://www.daveallenmotors.co.nz/blog/2026-car-ownership-cost-guide",
+      "notes": "Car is treated as a depreciating asset; a 15% annual depreciation rate is assumed. Dave Allen Motors’ 2026 guide notes that running costs vary by vehicle type【259586428429284†L146-L154】, and depreciation is a significant component."
+    },
+    "car_loan_interest_rate": {
+      "value": 0.094,
+      "unit": "decimal",
+      "source": "https://www.aamoney.co.nz/vehicle-loans/car-loans/",
+      "notes": "AA Money advertises car loan interest rates from 9.40% p.a. with fixed terms of 1–5 years【241837139183327†L76-L78】."
+    }
+  },
+  "investment_and_economy": {
+    "inflation_rate": {
+      "value": 0.031,
+      "unit": "decimal",
+      "year": 2026,
+      "source": "https://www.stats.govt.nz/indicators/consumers-price-index-cpi/",
+      "notes": "Stats NZ’s Consumer Price Index shows annual inflation of 3.1% in the March 2026 quarter【780667652852609†screenshot】."
+    },
+    "savings_interest_rate": {
+      "value": 0.0188,
+      "unit": "decimal",
+      "year": 2026,
+      "source": "https://www.canstar.co.nz/savings-accounts/best-high-interest-savings-accounts-in-new-zealand/",
+      "notes": "Canstar’s January 2026 review of high‑interest savings accounts reports that the average rate across high‑interest savings accounts was about 1.88% p.a.【76501758899679†L118-L122】."
+    },
+    "investment_return_rate": {
+      "value": 0.06,
+      "unit": "decimal",
+      "year": 2026,
+      "source": "https://www.unisaver.co.nz/investments/performance/performance-vs-objectives",
+      "notes": "UniSaver’s statement of investment policy notes that the Balanced fund aims to deliver returns about 3% per annum above inflation over 10 years【20261503224504†L134-L149】. With CPI ~3%, this implies a nominal return of ~6%."
+    },
+    "nzd_to_lkr_exchange_rate": {
+      "value": 186.0944,
+      "year": 2026,
+      "source": "https://wise.com/us/currency-converter/nzd-to-lkr-rate/history",
+      "notes": "Wise’s currency history page notes that the average NZD to LKR rate over the last six months (to 27 June 2026) was approximately 186.0944 LKR per NZD【159385712252782†L169-L172】."
+    }
+  },
+  "loans_and_debt": {
+    "education_loan_interest_rate": {
+      "value": 0.12,
+      "unit": "decimal",
+      "source": "https://www.coccampus.lk/education-loans-in-sri-lanka",
+      "notes": "Ceylon Open Campus’ 2025 guide lists typical education loan rates in Sri Lanka: Bank of Ceylon Vidya Loan 10–12% p.a., People’s Bank 10–13% p.a., NSB 9–11% p.a., and private bank schemes 14–17% p.a. An average rate of 12% is used【285959173420324†L53-L59】."
+    },
+    "migration_loan_interest_rate": {
+      "value": 0.094,
+      "unit": "decimal",
+      "source": "https://www.aamoney.co.nz/vehicle-loans/car-loans/",
+      "notes": "For relocation or migration loans, a standard personal or car loan rate is assumed. AA Money advertises secured car loans from 9.40% p.a. with fixed terms【241837139183327†L76-L78】."
+    },
+    "borrowing_allowed": true,
+    "negative_cash_allowed": false,
+    "notes": "If cash becomes negative, convert it into explicit debt instead of silently allowing negative cash."
+  },
+  "scenario_defaults": {
+    "student_visa_path": {
+      "study_years": [
+        1,
+        2
+      ],
+      "part_time_work_during_study": true,
+      "full_time_work_start_year": 3,
+      "graduate_visa_start_year": 3,
+      "car_purchase_allowed_from_year": 3
+    },
+    "working_visa_path": {
+      "full_time_work_start_year": 1,
+      "part_time_study_possible": true,
+      "car_purchase_allowed_from_year": 2
+    },
+    "life_scenarios": {
+      "single": {
+        "marriage_year": null,
+        "first_child_year": null,
+        "second_child_year": null
+      },
+      "married_no_child": {
+        "marriage_year": 5,
+        "first_child_year": null,
+        "second_child_year": null
+      },
+      "married_one_child": {
+        "marriage_year": 5,
+        "first_child_year": 7,
+        "second_child_year": null
+      },
+      "married_two_children": {
+        "marriage_year": 5,
+        "first_child_year": 7,
+        "second_child_year": 9
+      }
+    }
+  },
+  "sensitivity_analysis": {
+    "variables_to_test": {
+      "salary_growth": [
+        -0.2,
+        -0.1,
+        0,
+        0.1,
+        0.2
+      ],
+      "rent": [
+        -0.2,
+        -0.1,
+        0,
+        0.1,
+        0.2
+      ],
+      "tuition": [
+        -0.2,
+        -0.1,
+        0,
+        0.1,
+        0.2
+      ],
+      "childcare": [
+        -0.2,
+        -0.1,
+        0,
+        0.1,
+        0.2
+      ],
+      "investment_return": [
+        -0.2,
+        -0.1,
+        0,
+        0.1,
+        0.2
+      ],
+      "exchange_rate": [
+        -0.2,
+        -0.1,
+        0,
+        0.1,
+        0.2
+      ],
+      "spouse_income_percentage": [
+        0.0,
+        0.5,
+        1.0
+      ]
+    }
+  },
+  "sources": {
+    "official_government": [
+      "https://www.immigration.govt.nz/new-zealand-visas/visas/study/student-visa",
+      "https://www.immigration.govt.nz/new-zealand-visas/visas/work/post-study-work-visa",
+      "https://www.immigration.govt.nz/new-zealand-visas/visas/work/accredited-employer-work-visa",
+      "https://www.immigration.govt.nz/new-zealand-visas/visas/residence/skilled-migrant-category-resident-visa",
+      "https://www.ird.govt.nz/income-tax/income-tax-for-individuals",
+      "https://www.stats.govt.nz/indicators/consumers-price-index-cpi/",
+      "https://global.lockton.com/nz/en/news-insights/budget-2025-changes-to-minimum-kiwisaver-contribution-rates",
+      "https://www.mbie.govt.nz/about/news/adult-minimum-wage-to-rise-to-23-95-per-hour/"
+    ],
+    "salary_sources": [
+      "https://www.payscale.com/research/NZ/Job=Graduate_Software_Engineer/Salary",
+      "https://www.payscale.com/research/NZ/Job=Software_Engineer/Salary",
+      "https://www.glassdoor.co.nz/Salaries/new-zealand-senior-software-engineer-salary-SRCH_IL.0,12_IN260_KO13,37.htm",
+      "https://www.hcamag.com/nz/specialisation/reward-strategy/higher-pay-rises-to-be-expected-in-2026/491437",
+      "https://www.newzealandshores.com/working-and-living-in-new-zealand/salaries-and-income/"
+    ],
+    "cost_of_living_sources": [
+      "https://www.numbeo.com/cost-of-living/country_result.jsp?country=New+Zealand",
+      "https://www.crayon.com/cost-of-raising-a-child-in-new-zealand",
+      "https://www.massey.ac.nz/international-apply/fees-and-scholarships/insurance-fees/"
+    ],
+    "education_sources": [
+      "https://www.educations.com/guides-study-in-new-zealand/cost-of-study-18008",
+      "https://www.auckland.ac.nz/en/study/postgraduate-study/masters-degrees/time-limits-for-masters-degrees.html"
+    ],
+    "economic_sources": [
+      "https://www.canstar.co.nz/savings-accounts/best-high-interest-savings-accounts-in-new-zealand/",
+      "https://www.unisaver.co.nz/investments/performance/performance-vs-objectives",
+      "https://wise.com/us/currency-converter/nzd-to-lkr-rate/history",
+      "https://www.moneyhub.co.nz/buying-used-car.html",
+      "https://www.2cheapcars.co.nz/buying-guide/how-to-find-the-best-cheap-cars-in-nz-a-kiwi-buyer-s-guide",
+      "https://www.quashed.co.nz/car-insurance",
+      "https://www.aamoney.co.nz/vehicle-loans/car-loans/",
+      "https://www.coccampus.lk/education-loans-in-sri-lanka"
+    ],
+    "notes": "Store URLs or citation labels here."
+  }
+}

@@ -1,0 +1,406 @@
+{
+  "metadata": {
+    "dataset_name": "USA_10_Year_NAV_Demo_Dataset",
+    "country": "USA",
+    "currency": "USD",
+    "base_year": 2026,
+    "time_horizon_years": 10,
+    "level": "country",
+    "city_specific": false,
+    "notes": "Country-level static dataset for first demo web application."
+  },
+  "visa": {
+    "student_visa": {
+      "application_fee": {
+        "value": 185,
+        "currency": "USD",
+        "year": 2026,
+        "source": "https://travel.state.gov/content/travel/en/us-visas/visa-information-resources/fees/fees-visa-services.html",
+        "notes": "Base student visa (F‑1) application fee for DS‑160 form; SEVIS fee not included."
+      },
+      "legal_work_hours_per_week": {
+        "value": 20,
+        "unit": "hours_per_week",
+        "source": "https://valenciacollege.edu/students/international-students/student-employment-guidelines.php",
+        "notes": "F‑1 visa holders may work up to 20 hours per week during academic terms."
+      }
+    },
+    "graduate_visa": {
+      "application_fee": {
+        "value": 470,
+        "currency": "USD",
+        "year": 2026,
+        "source": "https://ogletree.com/insights-resources/blog-posts/uscis-issues-final-rule-increasing-filing-fees/",
+        "notes": "OPT/EAD application (Form I‑765) fee for online filing."
+      },
+      "duration_years": {
+        "value": 3,
+        "unit": "years",
+        "source": "assumption",
+        "notes": "Typical STEM OPT allows 12 months plus 24‑month extension (approximately 3 years); assumption for CS graduates."
+      }
+    },
+    "skilled_work_visa": {
+      "application_fee": {
+        "value": 3380,
+        "currency": "USD",
+        "year": 2026,
+        "source": "https://sites.lawschool.cornell.edu/path2papers/resources/h-1b-visa-and-employment-based-green-card-filing-fees-breakdown/",
+        "notes": "Total H‑1B filing fee for employers with 26+ employees."
+      },
+      "full_time_work_allowed": true
+    },
+    "permanent_residency": {
+      "application_fee": {
+        "value": 2800,
+        "currency": "USD",
+        "year": 2026,
+        "source": "https://peterchu.com/blogs/medium-feed/i-485-cost-filing-fees-hidden-expenses",
+        "notes": "Estimated mid‑range cost of adjusting status (I‑485) including mandatory fees."
+      },
+      "estimated_processing_years": {
+        "value": 1.5,
+        "unit": "years",
+        "source": "https://luishesslaw.com/green-card-timeline-adjustment-of-status/",
+        "notes": "Average of 12–24‑month processing time for adjustment of status."
+      }
+    }
+  },
+  "education": {
+    "masters_or_mba": {
+      "annual_tuition_fee": {
+        "value": 31410,
+        "currency": "USD",
+        "year": 2026,
+        "source": "https://educationdata.org/average-cost-of-a-masters-degree",
+        "notes": "Average master’s degree cost ($62,820 total) divided by two years for annual estimate."
+      },
+      "full_time_duration_years": {
+        "value": 2,
+        "unit": "years"
+      },
+      "part_time_duration_years": {
+        "value": 3,
+        "unit": "years"
+      },
+      "part_time_study_possible": true
+    }
+  },
+  "income": {
+    "it_software_salary": {
+      "graduate_annual_salary": {
+        "value": 105210,
+        "currency": "USD",
+        "year": 2026,
+        "source": "https://www.rippling.com/blog/software-engineer-salary-in-the-us-2026",
+        "notes": "25th percentile annual salary for software developers (BLS 2025 data)."
+      },
+      "mid_level_annual_salary": {
+        "value": 135980,
+        "currency": "USD",
+        "year": 2026,
+        "source": "https://www.rippling.com/blog/software-engineer-salary-in-the-us-2026",
+        "notes": "Median annual salary for software developers."
+      },
+      "senior_annual_salary": {
+        "value": 171980,
+        "currency": "USD",
+        "year": 2026,
+        "source": "https://www.rippling.com/blog/software-engineer-salary-in-the-us-2026",
+        "notes": "75th percentile annual salary for software developers."
+      },
+      "annual_salary_growth_rate": {
+        "value": 0.033,
+        "unit": "decimal",
+        "example": 0.04,
+        "source": "https://www.supportadventure.com/salary-benchmarking-in-it-2025-global-it-talent-vs-us-market-rates/",
+        "notes": "Projected average IT salary growth rate for 2025 from Avasant report."
+      }
+    },
+    "student_part_time_work": {
+      "hourly_wage": {
+        "value": 15,
+        "currency": "USD",
+        "year": 2026,
+        "source": "https://www.aeccglobal.com/study-in-usa/part-time-jobs",
+        "notes": "Mid‑range of $12–$25/hour typical international student part‑time wages; assumption."
+      },
+      "working_weeks_per_year": {
+        "value": 48,
+        "unit": "weeks",
+        "notes": "Simplified base assumption."
+      }
+    },
+    "spouse_income": {
+      "annual_salary": {
+        "value": 62088,
+        "currency": "USD",
+        "year": 2025,
+        "source": "https://www.fidelity.com/learning-center/smart-money/average-salary-in-us",
+        "notes": "Median annual salary in Q1 2025 multiplied by 52 weeks."
+      },
+      "income_cases": {
+        "conservative": 0.0,
+        "moderate": 0.5,
+        "optimistic": 1.0
+      }
+    }
+  },
+  "tax_and_retirement": {
+    "effective_income_tax_rate": {
+      "value": 0.145,
+      "unit": "decimal",
+      "example": 0.25,
+        "source": "https://nchstats.com/america-s-top-1-pay-26-of-taxes",
+      "notes": "Average effective income tax rate for all taxpayers (2022 data)."
+    },
+    "employer_superannuation_rate": {
+      "value": 0.048,
+      "unit": "decimal",
+        "source": "https://www.fidelity.com/learning-center/smart-money/average-401k-match",
+      "notes": "Average employer 401(k) contribution rate across all ages."
+    }
+  },
+  "expenses": {
+    "general_living_excluding_rent": {
+      "single_monthly": {
+        "value": 1182.6,
+        "currency": "USD",
+        "year": 2026,
+        "source": "https://www.numbeo.com/cost-of-living/country_result.jsp?country=United+States",
+        "notes": "Numbeo estimate of monthly costs for a single person excluding rent."
+      },
+      "couple_monthly": {
+        "value": 2128.68,
+        "currency": "USD",
+        "year": 2026,
+        "source": "https://www.numbeo.com/cost-of-living/country_result.jsp?country=United+States",
+        "notes": "Scaled up from single cost (×1.8) to approximate couple expenses; assumption."
+      },
+      "family_with_one_child_monthly": {
+        "value": 3195.83,
+        "currency": "USD",
+        "year": 2026,
+        "source": "https://www.numbeo.com/cost-of-living/country_result.jsp?country=United+States",
+        "notes": "Derived from Numbeo family of four cost scaled to a three‑person family (×3/4); assumption."
+      }
+    },
+    "rent": {
+      "single_monthly": {
+        "value": 1522,
+        "currency": "USD",
+        "year": 2026,
+        "source": "https://www.zillow.com/rental-manager/market-trends/united-states/",
+        "notes": "Average U.S. rent for a one‑bedroom apartment."
+      },
+      "family_monthly": {
+        "value": 2200,
+        "currency": "USD",
+        "year": 2026,
+        "source": "https://www.zillow.com/rental-manager/market-trends/united-states/",
+        "notes": "Average U.S. rent for a three‑bedroom property."
+      }
+    },
+    "childcare": {
+      "monthly_cost_per_child": {
+        "value": 1451.76,
+        "currency": "USD",
+        "year": 2026,
+        "source": "https://www.numbeo.com/cost-of-living/country_result.jsp?country=United+States",
+        "notes": "Average private full‑day preschool monthly fee per child."
+      },
+      "applies_until_child_age": {
+        "value": 4,
+        "unit": "years",
+        "notes": "Simplified assumption for demo."
+      }
+    },
+    "transport": {
+      "public_transport_monthly": {
+        "value": 65,
+        "currency": "USD",
+        "year": 2026,
+        "source": "https://www.numbeo.com/cost-of-living/country_result.jsp?country=United+States",
+        "notes": "Average monthly public transport pass cost."
+      }
+    },
+    "healthcare_or_insurance": {
+      "monthly_cost": {
+        "value": 291.27,
+        "currency": "USD",
+        "year": 2026,
+        "source": "https://internationalcenter.umich.edu/sites/default/files/info/J1_Scholar_Funding.pdf",
+        "notes": "Monthly premium for international student/scholar health insurance; higher rates apply with dependents."
+      }
+    }
+  },
+  "car": {
+    "used_car_purchase_price": {
+      "value": 25730,
+      "currency": "USD",
+      "year": 2026,
+        "source": "https://caredge.com/guides/2026-used-car-price-forecast",
+      "notes": "Average used car retail price."
+    },
+    "annual_insurance": {
+      "value": 2926,
+      "currency": "USD",
+      "year": 2026,
+        "source": "https://www.experian.com/blogs/ask-experian/average-cost-car-insurance/",
+      "notes": "National average annual cost of full‑coverage car insurance."
+    },
+    "annual_fuel": {
+      "value": 1950,
+      "currency": "USD",
+      "year": 2026,
+        "source": "https://newsroom.aaa.com/wp-content/uploads/2025/09/UPDATE-AAA-Fact-Sheet-Your-Driving-Cost-9.2025-1.pdf",
+      "notes": "Fuel cost estimated at 13¢ per mile × 15,000 miles per year from AAA 2025 driving costs."
+    },
+    "annual_maintenance": {
+      "value": 1656,
+      "currency": "USD",
+      "year": 2026,
+        "source": "https://newsroom.aaa.com/wp-content/uploads/2025/09/UPDATE-AAA-Fact-Sheet-Your-Driving-Cost-9.2025-1.pdf",
+      "notes": "Maintenance and repair cost estimated at 11.04¢ per mile × 15,000 miles per year from AAA 2025 driving costs."
+    },
+    "annual_depreciation_rate": {
+      "value": 0.1,
+      "unit": "decimal",
+      "example": 0.15,
+        "source": "https://www.experian.com/blogs/ask-experian/how-much-do-cars-depreciate-per-year/",
+      "notes": "Approximate annual depreciation rate for a car; new cars lose about 10% of value per year."
+    },
+    "car_loan_interest_rate": {
+      "value": 0.0698,
+      "unit": "decimal",
+        "source": "https://www.bankrate.com/loans/auto-loans/rates/",
+      "notes": "Average auto loan interest rate for a 60‑month new car loan as of June 2026."
+    }
+  },
+  "investment_and_economy": {
+    "inflation_rate": {
+      "value": 0.027,
+      "unit": "decimal",
+      "year": 2026,
+        "source": "https://www.federalreserve.gov/monetarypolicy/fomcprojtabl20260617.htm",
+      "notes": "Federal Reserve median projection for 2026 PCE inflation (March 2026 FOMC)."
+    },
+    "savings_interest_rate": {
+      "value": 0.0038,
+      "unit": "decimal",
+      "year": 2026,
+        "source": "https://www.fdic.gov/national-rates-and-rate-caps",
+      "notes": "National deposit rate for savings accounts (FDIC, May 2026)."
+    },
+    "investment_return_rate": {
+      "value": 0.07,
+      "unit": "decimal",
+      "year": 2026,
+        "source": "https://www.sofi.com/learn/content/average-stock-market-return/",
+      "notes": "Assumed long‑term investment return based on historical real returns of the S&P 500 (~6.64% real); rounded to 7%."
+    },
+    "usd_to_lkr_exchange_rate": {
+      "value": 325.67,
+      "year": 2026,
+        "source": "https://fred.stlouisfed.org/series/EXSLUS",
+      "notes": "Average Sri Lankan rupees per US dollar in May 2026 (FRED EXSLUS series)."
+    }
+  },
+  "loans_and_debt": {
+    "education_loan_interest_rate": {
+      "value": 0.08,
+      "unit": "decimal",
+      "source": "assumption",
+      "notes": "Estimated graduate student loan interest rate; typical federal unsubsidized loan rates around 7–8%."
+    },
+    "migration_loan_interest_rate": {
+      "value": 0.08,
+      "unit": "decimal",
+      "source": "assumption",
+      "notes": "Assumed personal loan interest rate for migration financing."
+    },
+    "borrowing_allowed": true,
+    "negative_cash_allowed": false,
+    "notes": "If cash becomes negative, convert it into explicit debt instead of silently allowing negative cash."
+  },
+  "scenario_defaults": {
+    "student_visa_path": {
+      "study_years": [1, 2],
+      "part_time_work_during_study": true,
+      "full_time_work_start_year": 3,
+      "graduate_visa_start_year": 3,
+      "car_purchase_allowed_from_year": 3
+    },
+    "working_visa_path": {
+      "full_time_work_start_year": 1,
+      "part_time_study_possible": true,
+      "car_purchase_allowed_from_year": 2
+    },
+    "life_scenarios": {
+      "single": {
+        "marriage_year": null,
+        "first_child_year": null,
+        "second_child_year": null
+      },
+      "married_no_child": {
+        "marriage_year": 5,
+        "first_child_year": null,
+        "second_child_year": null
+      },
+      "married_one_child": {
+        "marriage_year": 5,
+        "first_child_year": 7,
+        "second_child_year": null
+      },
+      "married_two_children": {
+        "marriage_year": 5,
+        "first_child_year": 7,
+        "second_child_year": 9
+      }
+    }
+  },
+  "sensitivity_analysis": {
+    "variables_to_test": {
+      "salary_growth": [-0.2, -0.1, 0, 0.1, 0.2],
+      "rent": [-0.2, -0.1, 0, 0.1, 0.2],
+      "tuition": [-0.2, -0.1, 0, 0.1, 0.2],
+      "childcare": [-0.2, -0.1, 0, 0.1, 0.2],
+      "investment_return": [-0.2, -0.1, 0, 0.1, 0.2],
+      "exchange_rate": [-0.2, -0.1, 0, 0.1, 0.2],
+      "spouse_income_percentage": [0.0, 0.5, 1.0]
+    }
+  },
+  "sources": {
+    "official_government": [
+      "https://travel.state.gov/content/travel/en/us-visas/visa-information-resources/fees/fees-visa-services.html",
+      "https://www.federalreserve.gov/monetarypolicy/fomcprojtabl20260617.htm",
+      "https://www.fdic.gov/national-rates-and-rate-caps",
+      "https://fred.stlouisfed.org/series/EXSLUS"
+    ],
+    "salary_sources": [
+      "https://www.rippling.com/blog/software-engineer-salary-in-the-us-2026",
+      "https://www.supportadventure.com/salary-benchmarking-in-it-2025-global-it-talent-vs-us-market-rates/"
+    ],
+    "cost_of_living_sources": [
+      "https://www.numbeo.com/cost-of-living/country_result.jsp?country=United+States",
+      "https://www.zillow.com/rental-manager/market-trends/united-states/",
+      "https://internationalcenter.umich.edu/sites/default/files/info/J1_Scholar_Funding.pdf"
+    ],
+    "education_sources": [
+      "https://educationdata.org/average-cost-of-a-masters-degree",
+      "https://www.bestcolleges.com/blog/how-long-does-masters-degree-take/"
+    ],
+    "economic_sources": [
+      "https://www.sofi.com/learn/content/average-stock-market-return/",
+      "https://newsroom.aaa.com/wp-content/uploads/2025/09/UPDATE-AAA-Fact-Sheet-Your-Driving-Cost-9.2025-1.pdf",
+      "https://www.bankrate.com/loans/auto-loans/rates/",
+      "https://www.experian.com/blogs/ask-experian/how-much-do-cars-depreciate-per-year/",
+      "https://www.experian.com/blogs/ask-experian/average-cost-car-insurance/",
+      "https://nchstats.com/america-s-top-1-pay-26-of-taxes",
+      "https://www.fidelity.com/learning-center/smart-money/average-401k-match",
+      "https://www.fidelity.com/learning-center/smart-money/average-salary-in-us",
+      "https://caredge.com/guides/2026-used-car-price-forecast"
+    ],
+    "notes": "Store URLs or citation labels here."
+  }
+}

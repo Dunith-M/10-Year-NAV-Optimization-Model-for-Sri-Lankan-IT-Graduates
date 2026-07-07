@@ -1,0 +1,423 @@
+{
+"metadata": {
+"dataset_name": "Sri Lanka_10_Year_NAV_Demo_Dataset",
+"country": "Sri Lanka",
+"currency": "LKR",
+"base_year": 2026,
+"time_horizon_years": 10,
+"level": "country",
+"city_specific": false,
+"notes": "Country-level static dataset for first demo web application."
+},
+"visa": {
+"student_visa": {
+"application_fee": {
+"value": 20000,
+"currency": "LKR",
+"year": 2026,
+"source": "【253390197729879†L100-L105】",
+"notes": "Government student visa fee per year."
+},
+"legal_work_hours_per_week": {
+"value": 20,
+"unit": "hours_per_week",
+"source": "Assumption based on common practice for student visas; Sri Lanka does not explicitly state work-hours limit."
+,
+"notes": "Assumed limit of 20 hours/week during study, similar to other countries."
+}
+},
+"graduate_visa": {
+  "application_fee": {
+    "value": 61912,
+    "currency": "LKR",
+    "year": 2026,
+    "source": "【441612380508283†L111-L129】",
+    "notes": "Residence visa fee for employees (USD 200 converted at 309.56 LKR/USD)."
+  },
+  "duration_years": {
+    "value": 1,
+    "unit": "years",
+    "source": "【441612380508283†L111-L129】",
+    "notes": "Residence visa is valid for one year and renewable."
+  }
+},
+
+"skilled_work_visa": {
+  "application_fee": {
+    "value": 61912,
+    "currency": "LKR",
+    "year": 2026,
+    "source": "【441612380508283†L111-L129】",
+    "notes": "Residence visa fee applicable to employees/investors (USD 200 converted to LKR)."
+  },
+  "full_time_work_allowed": true
+},
+
+"permanent_residency": {
+  "application_fee": {
+    "value": 619120,
+    "currency": "LKR",
+    "year": 2026,
+    "source": "【276938088669420†L390-L415】",
+    "notes": "Golden Paradise long-term residence visa costs USD 2,000 for 10-year validity (approx. 619k LKR)."
+  },
+  "estimated_processing_years": {
+    "value": 0.5,
+    "unit": "years",
+    "source": "Assumption based on typical processing times; no exact figure provided.",
+    "notes": "Assumed half-year processing for demonstration."
+  }
+}
+
+},
+"education": {
+"masters_or_mba": {
+"annual_tuition_fee": {
+"value": 309560,
+"currency": "LKR",
+"year": 2026,
+"source": "【34491528664451†L109-L132】",
+"notes": "Average annual tuition for private universities; international students pay USD 1,000–3,000 per year. Using midpoint of USD 1,000–3,000 range multiplied by 309.56 exchange rate."
+},
+"full_time_duration_years": {
+"value": 2,
+"unit": "years"
+},
+"part_time_duration_years": {
+"value": 3,
+"unit": "years"
+},
+"part_time_study_possible": true
+}
+},
+"income": {
+"it_software_salary": {
+"graduate_annual_salary": {
+"value": 1036662,
+"currency": "LKR",
+"year": 2026,
+"source": "【272310584090274†L24-L42】",
+"notes": "Average software engineer salary according to PayScale."
+},
+"mid_level_annual_salary": {
+"value": 2400000,
+"currency": "LKR",
+"year": 2026,
+"source": "【720858706590718†L24-L67】",
+"notes": "Estimated mid-level salary using compiled.lk data (~200k LKR per month)."
+},
+"senior_annual_salary": {
+"value": 3600000,
+"currency": "LKR",
+"year": 2026,
+"source": "【720858706590718†L24-L67】",
+"notes": "Estimated senior-level salary (median 300k LKR/month)."
+},
+"annual_salary_growth_rate": {
+"value": 0.06,
+"unit": "decimal",
+"example": 0.04,
+"source": "【337505976112313†L140-L144】",
+"notes": "Assumed 6% salary growth based on minimum wage increase from 27k to 30k (about 11%) in 2025–2026."
+}
+},
+"student_part_time_work": {
+  "hourly_wage": {
+    "value": 135,
+    "currency": "LKR",
+    "year": 2026,
+    "source": "【653254284299231†L76-L105】",
+    "notes": "Minimum wage of Rs135 per hour used as typical student part-time wage."
+  },
+  "working_weeks_per_year": {
+    "value": 48,
+    "unit": "weeks",
+    "notes": "Simplified base assumption."
+  }
+},
+
+"spouse_income": {
+  "annual_salary": {
+    "value": 799656,
+    "currency": "LKR",
+    "year": 2026,
+    "source": "【276938088669420†L525-L529】",
+    "notes": "Average net monthly salary of LKR 66,638 converted to annual figure."
+  },
+  "income_cases": {
+    "conservative": 0.0,
+    "moderate": 0.5,
+    "optimistic": 1.0
+  }
+
+}
+
+},
+"tax_and_retirement": {
+"effective_income_tax_rate": {
+"value": 0.20,
+"unit": "decimal",
+"example": 0.25,
+"source": "【309505180147826†L274-L303】",
+"notes": "Average effective tax rate estimated at 20% based on progressive PIT brackets from 6% to 36%."
+},
+"employer_superannuation_rate": {
+"value": 0.15,
+"unit": "decimal",
+"source": "【180916790495242†L118-L120】",
+"notes": "Employer contributions: 12% EPF + 3% ETF = 15%."
+}
+},
+"expenses": {
+"general_living_excluding_rent": {
+"single_monthly": {
+"value": 149660,
+"currency": "LKR",
+"year": 2026,
+"source": "【495741739649571†L78-L83】",
+"notes": "Numbeo estimated monthly costs for a single person excluding rent."
+},
+"couple_monthly": {
+"value": 300000,
+"currency": "LKR",
+"year": 2026,
+"source": "Assumption based on double the single cost with economies of scale.",
+"notes": "Estimated couple expenses excluding rent."
+},
+"family_with_one_child_monthly": {
+"value": 450000,
+"currency": "LKR",
+"year": 2026,
+"source": "Assumption derived from family-of-four cost (550,637 LKR) scaled for three persons.",
+"notes": "Estimated family expenses excluding rent and childcare."
+}
+},
+"rent": {
+  "single_monthly": {
+    "value": 82369,
+    "currency": "LKR",
+    "year": 2026,
+    "source": "【495741739649571†L195-L198】",
+    "notes": "Average of 1-bedroom apartment rent in city centre and outside centre (112,962 and 51,776 LKR)."
+  },
+  "family_monthly": {
+    "value": 166130,
+    "currency": "LKR",
+    "year": 2026,
+    "source": "【495741739649571†L195-L198】",
+    "notes": "Average of 3-bedroom apartment rent in city centre and outside centre (251,241 and 81,019 LKR)."
+  }
+},
+
+"childcare": {
+  "monthly_cost_per_child": {
+    "value": 10852,
+    "currency": "LKR",
+    "year": 2026,
+    "source": "【999574372220786†L168-L180】",
+    "notes": "Numbeo ranking shows private preschool/kindergarten cost of USD 35.07 per month; converted using 309.56 LKR/USD."
+  },
+  "applies_until_child_age": {
+    "value": 4,
+    "unit": "years",
+    "notes": "Simplified assumption for demo."
+  }
+},
+
+"transport": {
+  "public_transport_monthly": {
+    "value": 1550,
+    "currency": "LKR",
+    "year": 2026,
+    "source": "【319376523757354†L383-L387】",
+    "notes": "Monthly public transport pass costs around USD 5 according to Wise, converted to LKR."
+  }
+},
+
+"healthcare_or_insurance": {
+  "monthly_cost": {
+    "value": 0,
+    "currency": "LKR",
+    "year": 2026,
+    "source": "【128767502854963†L13-L16】【128767502854963†L50-L53】",
+    "notes": "Sri Lanka provides universal free public health care; hence minimal private health cost assumed for locals."
+  }
+}
+
+},
+"car": {
+"used_car_purchase_price": {
+"value": 5000000,
+"currency": "LKR",
+"year": 2026,
+"source": "【97678694974516†L45-L49】",
+"notes": "Approximate price for a used compact car considering import restrictions causing new cars to cost 8–10 million LKR."
+},
+"annual_insurance": {
+"value": 100000,
+"currency": "LKR",
+"year": 2026,
+"source": "【576222616490955†L146-L152】",
+"notes": "Reddit discussion noted a Rs.10M car's insurance starts around 200k per year; assuming 100k for a 5M used car."
+},
+"annual_fuel": {
+"value": 450000,
+"currency": "LKR",
+"year": 2026,
+"source": "【617098601045525†L114-L119】",
+"notes": "Estimated using petrol price ~450 LKR per litre and 1,000 litres per year (12,000 km at 12 km/l)."
+},
+"annual_maintenance": {
+"value": 150000,
+"currency": "LKR",
+"year": 2026,
+"source": "Assumption based on 3% of car value for maintenance.",
+"notes": "Approximate annual maintenance for a used car."
+},
+"annual_depreciation_rate": {
+"value": 0.15,
+"unit": "decimal",
+"example": 0.15,
+"source": "Standard assumption for car depreciation.",
+"notes": "Car treated as depreciating asset."
+},
+"car_loan_interest_rate": {
+"value": 0.11,
+"unit": "decimal",
+"source": "【336368699131884†L2-L19】",
+"notes": "SBI Sri Lanka fixed car loan rate of 11% per annum."
+}
+},
+"investment_and_economy": {
+"inflation_rate": {
+"value": 0.055,
+"unit": "decimal",
+"year": 2026,
+"source": "【633357609314241†L8-L14】【633357609314241†L108-L113】",
+"notes": "Headline inflation year-on-year in May 2026 was 5.5%."
+},
+"savings_interest_rate": {
+"value": 0.0725,
+"unit": "decimal",
+"year": 2026,
+"source": "【376727312219446†L186-L199】",
+"notes": "12-month term deposit interest rate of 7.25% at SBI Sri Lanka."
+},
+"investment_return_rate": {
+"value": 0.08,
+"unit": "decimal",
+"year": 2026,
+"source": "Assumption based on moderate investment return.",
+"notes": "Used to grow investments in model."
+},
+"lkr_to_lkr_exchange_rate": {
+"value": 1,
+"year": 2026,
+"source": "Trivial identity exchange rate.",
+"notes": "Exchange rate from LKR to LKR is 1."
+}
+},
+"loans_and_debt": {
+"education_loan_interest_rate": {
+"value": 0.14,
+"unit": "decimal",
+"source": "【136289977499849†L289-L291】",
+"notes": "People's Bank education loan interest rate range 13–14.5%; using 14%."
+},
+"migration_loan_interest_rate": {
+"value": 0.14,
+"unit": "decimal",
+"source": "Assumption based on education loan rates due to similar unsecured loan structures.",
+"notes": "Assumed same as education loan interest rate."
+},
+"borrowing_allowed": true,
+"negative_cash_allowed": false,
+"notes": "If cash becomes negative, convert it into explicit debt instead of silently allowing negative cash."
+},
+"scenario_defaults": {
+"student_visa_path": {
+"study_years": [1, 2],
+"part_time_work_during_study": true,
+"full_time_work_start_year": 3,
+"graduate_visa_start_year": 3,
+"car_purchase_allowed_from_year": 3
+},
+"working_visa_path": {
+  "full_time_work_start_year": 1,
+  "part_time_study_possible": true,
+  "car_purchase_allowed_from_year": 2
+},
+
+"life_scenarios": {
+  "single": {
+    "marriage_year": null,
+    "first_child_year": null,
+    "second_child_year": null
+  },
+  "married_no_child": {
+    "marriage_year": 5,
+    "first_child_year": null,
+    "second_child_year": null
+  },
+  "married_one_child": {
+    "marriage_year": 5,
+    "first_child_year": 7,
+    "second_child_year": null
+  },
+  "married_two_children": {
+    "marriage_year": 5,
+    "first_child_year": 7,
+    "second_child_year": 9
+  }
+}
+
+},
+"sensitivity_analysis": {
+"variables_to_test": {
+"salary_growth": [-0.2, -0.1, 0, 0.1, 0.2],
+"rent": [-0.2, -0.1, 0, 0.1, 0.2],
+"tuition": [-0.2, -0.1, 0, 0.1, 0.2],
+"childcare": [-0.2, -0.1, 0, 0.1, 0.2],
+"investment_return": [-0.2, -0.1, 0, 0.1, 0.2],
+"exchange_rate": [-0.2, -0.1, 0, 0.1, 0.2],
+"spouse_income_percentage": [0.0, 0.5, 1.0]
+}
+},
+"sources": {
+"official_government": [
+"https://inro.pdn.ac.lk/istudent.php",
+"https://www.immigration.gov.lk/pages_e.php?id=45",
+"https://www.braingainmag.com/countries/sri-lanka",
+"https://www.braingainmag.com/countries/sri-lanka",
+"https://energymin.gov.lk/index.php/2026/06/11/fuel-price-to-be-effective-from-12-00-midnight-on-may-30th-2026/",
+"https://www.social-protection.org/gimi/RessourcePDF.action?id=57665",
+"https://www.social-protection.org/gimi/RessourcePDF.action?id=57665",
+"https://labourdept.gov.lk/employees-provident-fund-division-static/",
+"https://www.cbsl.gov.lk/sites/default/files/cbslweb_documents/press/pr/press_20260529_inflation_in_may_2026_ccpi_e.pdf",
+"https://www.cbsl.gov.lk/sites/default/files/cbslweb_documents/press/pr/press_20260529_inflation_in_may_2026_ccpi_e.pdf"
+],
+"salary_sources": [
+"https://compiled.lk/roles/software-engineer",
+"https://www.payscale.com/research/LK/Job=Software_Developer/Salary",
+"https://www.payscale.com/research/LK/Job=Software_Developer/Salary",
+"https://www.levels.fyi/t/software-engineer/locations/sri-lanka"
+],
+"cost_of_living_sources": [
+"https://www.numbeo.com/cost-of-living/country_result.jsp?country=Sri+Lanka",
+"https://www.numbeo.com/cost-of-living/country_result.jsp?country=Sri+Lanka",
+"https://www.numbeo.com/cost-of-living/country_price_rankings?itemId=224",
+"https://wise.com/us/cost-of-living/sri-lanka"
+],
+"education_sources": [
+"https://www.braingainmag.com/countries/sri-lanka",
+"https://www.braingainmag.com/countries/sri-lanka"
+],
+"economic_sources": [
+"https://tradingeconomics.com/sri-lanka/minimum-wages",
+"https://sl.statebank/interest-rates",
+"https://sl.statebank/documents/657067/0/Personal+Loan+Interest+rate+-+In+English+language+-+Rates+effective+from+17.06.2026.pdf/2815aa08-bba1-628e-68ff-a7550da3abf7?t=1782300203604",
+"https://www.peoplesbank.lk/educational-loans-en/"
+],
+"notes": "Store URLs or citation labels here."
+}
+}

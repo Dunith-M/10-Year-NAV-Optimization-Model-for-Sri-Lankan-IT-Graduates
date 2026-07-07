@@ -1,0 +1,451 @@
+{
+  "metadata": {
+    "dataset_name": "Canada_10_Year_NAV_Demo_Dataset",
+    "country": "Canada",
+    "currency": "CAD",
+    "base_year": 2026,
+    "time_horizon_years": 10,
+    "level": "country",
+    "city_specific": false,
+    "notes": "Country-level static dataset for first demo web application."
+  },
+  "visa": {
+    "student_visa": {
+      "application_fee": {
+        "value": 150,
+        "currency": "CAD",
+        "year": 2026,
+        "source": "https://ircc.canada.ca/english/information/fees/fees.asp",
+        "notes": "Base student visa (study permit) application fee as per IRCC fee table."
+      },
+      "legal_work_hours_per_week": {
+        "value": 24,
+        "unit": "hours_per_week",
+        "source": "https://www.canada.ca/en/immigration-refugees-citizenship/services/study-canada/work/work-off-campus.html",
+        "notes": "Up to 24 hours per week off-campus work allowed for international students during study terms."
+      }
+    },
+    "graduate_visa": {
+      "application_fee": {
+        "value": 255,
+        "currency": "CAD",
+        "year": 2026,
+        "source": "https://www.canada.ca/en/immigration-refugees-citizenship/services/study-canada/work/after-graduation/apply.html",
+        "notes": "Post\u2011Graduation Work Permit (PGWP) fee (work permit plus open work permit holder fee)."
+      },
+      "duration_years": {
+        "value": 3,
+        "unit": "years",
+        "source": "https://www.canada.ca/en/immigration-refugees-citizenship/services/study-canada/work/after-graduation/about.html",
+        "notes": "Typical PGWP validity for master\u2019s or two\u2011year programs; up to three years."
+      }
+    },
+    "skilled_work_visa": {
+      "application_fee": {
+        "value": 155,
+        "currency": "CAD",
+        "year": 2026,
+        "source": "https://ircc.canada.ca/english/information/fees/fees.asp",
+        "notes": "Base work permit application fee."
+      },
+      "full_time_work_allowed": true
+    },
+    "permanent_residency": {
+      "application_fee": {
+        "value": 1590,
+        "currency": "CAD",
+        "year": 2026,
+        "source": "https://ircc.canada.ca/english/information/fees/fees.asp",
+        "notes": "Economic immigration (e.g., Express Entry) fee including right of permanent residence."
+      },
+      "estimated_processing_years": {
+        "value": 0.5,
+        "unit": "years",
+        "source": "https://www.canada.ca/en/immigration-refugees-citizenship/corporate/mandate/service-declaration/service-standards.html",
+        "notes": "Service standard of 180 days (~0.5 years) for Express Entry processing."
+      }
+    }
+  },
+  "education": {
+    "masters_or_mba": {
+      "annual_tuition_fee": {
+        "value": 25000,
+        "currency": "CAD",
+        "year": 2026,
+        "source": "https://www.mastersportal.com/articles/1659/study-in-canada-living-costs-tuition-fees-for-international-students.html",
+        "notes": "Typical range for master\u2019s tuition is CAD 10k\u201340k per year; mid\u2011point (~CAD 25k) used for country\u2011level average."
+      },
+      "full_time_duration_years": {
+        "value": 2,
+        "unit": "years"
+      },
+      "part_time_duration_years": {
+        "value": 3,
+        "unit": "years"
+      },
+      "part_time_study_possible": true
+    }
+  },
+  "income": {
+    "it_software_salary": {
+      "graduate_annual_salary": {
+        "value": 62400,
+        "currency": "CAD",
+        "year": 2026,
+        "source": "https://www.jobbank.gc.ca/marketreport/wages-occupation/2161/ca",
+        "notes": "Low hourly wage (~CAD 30) from Job Bank multiplied by 2,080 hours to estimate entry\u2011level annual salary."
+      },
+      "mid_level_annual_salary": {
+        "value": 99998,
+        "currency": "CAD",
+        "year": 2026,
+        "source": "https://www.jobbank.gc.ca/marketreport/wages-occupation/2161/ca",
+        "notes": "Median hourly wage (~CAD 48.08) \u00d7 2,080 hours approximated to annual salary."
+      },
+      "senior_annual_salary": {
+        "value": 160000,
+        "currency": "CAD",
+        "year": 2026,
+        "source": "https://www.jobbank.gc.ca/marketreport/wages-occupation/2161/ca",
+        "notes": "High hourly wage (~CAD 76.92) \u00d7 2,080 hours; rounded to nearest thousand for senior role."
+      },
+      "annual_salary_growth_rate": {
+        "value": 0.04,
+        "unit": "decimal",
+        "example": 0.04,
+        "source": "https://www.normandinbeaudry.com/en-ca/articles/2026-salary-increase-projections/",
+        "notes": "Normandin Beaudry projections show IT sector salary increases around 4% in 2025\u201326; used as base annual growth rate."
+      }
+    },
+    "student_part_time_work": {
+      "hourly_wage": {
+        "value": 17,
+        "currency": "CAD",
+        "year": 2026,
+        "source": "https://www.workforce.com/hr-news/minimum-wage-in-canada-increases-in-2026/",
+        "notes": "Typical student part\u2011time wage approximated using provincial minimum wage range (CAD 15\u201319.75); mid\u2011point (~CAD 17) used."
+      },
+      "working_weeks_per_year": {
+        "value": 48,
+        "unit": "weeks",
+        "notes": "Simplified base assumption that student works 48 weeks each year."
+      }
+    },
+    "spouse_income": {
+      "annual_salary": {
+        "value": 68228.16,
+        "currency": "CAD",
+        "year": 2025,
+        "source": "https://www.oysterhr.com/blog/salary-in-canada",
+        "notes": "Average full\u2011time worker income (~CAD 1,312.08/week) from Statistics Canada equates to ~CAD 68,228 annually; used as spouse income."
+      },
+      "income_cases": {
+        "conservative": 0.0,
+        "moderate": 0.5,
+        "optimistic": 1.0
+      }
+    }
+  },
+  "tax_and_retirement": {
+    "effective_income_tax_rate": {
+      "value": 0.255,
+      "unit": "decimal",
+      "example": 0.25,
+      "source": "https://www.oecd-ilibrary.org/taxation/taxing-wages-2025_58ab4853-en",
+      "notes": "OECD Taxing Wages 2025 reports net average tax rate for a single worker in Canada of 25.5% of gross salary."
+    },
+    "employer_superannuation_rate": {
+      "value": 0.0595,
+      "unit": "decimal",
+      "source": "https://www.canada.ca/en/revenue-agency/programs/about-canada-revenue-agency-cra/federal-consumer-publications/cpp-ei-rates.html",
+      "notes": "Canada Pension Plan (CPP) employer contribution rate for 2026 is 5.95%."
+    }
+  },
+  "expenses": {
+    "general_living_excluding_rent": {
+      "single_monthly": {
+        "value": 1433.8,
+        "currency": "CAD",
+        "year": 2026,
+        "source": "https://www.numbeo.com/cost-of-living/country_result.jsp?country=Canada",
+        "notes": "Numbeo estimate of monthly costs for a single person in Canada excluding rent (June\u00a02026)."
+      },
+      "couple_monthly": {
+        "value": 2867.6,
+        "currency": "CAD",
+        "year": 2026,
+        "source": "https://www.numbeo.com/cost-of-living/country_result.jsp?country=Canada",
+        "notes": "Estimated by doubling the single\u2011person cost to approximate expenses for two adults; no economies of scale assumed."
+      },
+      "family_with_one_child_monthly": {
+        "value": 4047.3,
+        "currency": "CAD",
+        "year": 2026,
+        "source": "https://www.numbeo.com/cost-of-living/country_result.jsp?country=Canada",
+        "notes": "Derived from Numbeo\u2019s family\u2011of\u2011four costs; incremental cost for two children apportioned to one child and added to couple cost."
+      }
+    },
+    "rent": {
+      "single_monthly": {
+        "value": 1702.6,
+        "currency": "CAD",
+        "year": 2026,
+        "source": "https://www.numbeo.com/cost-of-living/country_result.jsp?country=Canada",
+        "notes": "Average of 1\u2011bedroom apartment rents in city centre (CAD\u00a01,808.84) and outside centre (CAD\u00a01,596.40)."
+      },
+      "family_monthly": {
+        "value": 2482.02,
+        "currency": "CAD",
+        "year": 2026,
+        "source": "https://www.numbeo.com/cost-of-living/country_result.jsp?country=Canada",
+        "notes": "Average monthly rent for a 3\u2011bedroom apartment outside city centre (Numbeo)."
+      }
+    },
+    "childcare": {
+      "monthly_cost_per_child": {
+        "value": 1067.34,
+        "currency": "CAD",
+        "year": 2026,
+        "source": "https://www.numbeo.com/cost-of-living/country_result.jsp?country=Canada",
+        "notes": "Numbeo average monthly fee for private full\u2011day preschool/childcare per child (June\u00a02026)."
+      },
+      "applies_until_child_age": {
+        "value": 4,
+        "unit": "years",
+        "notes": "Simplified assumption that childcare costs apply until a child reaches age 4."
+      }
+    },
+    "transport": {
+      "public_transport_monthly": {
+        "value": 103.5,
+        "currency": "CAD",
+        "year": 2026,
+        "source": "https://www.numbeo.com/cost-of-living/country_result.jsp?country=Canada",
+        "notes": "Numbeo estimate of monthly public transport pass cost in Canada (June\u00a02026)."
+      }
+    },
+    "healthcare_or_insurance": {
+      "monthly_cost": {
+        "value": 75,
+        "currency": "CAD",
+        "year": 2026,
+        "source": "https://www2.gov.bc.ca/gov/content/health/accessing-health-care/health-fee-international-students",
+        "notes": "British Columbia\u2019s International Student Health Fee of CAD\u00a075/month used as typical monthly health insurance cost for international students."
+      }
+    }
+  },
+  "car": {
+    "used_car_purchase_price": {
+      "value": 36713,
+      "currency": "CAD",
+      "year": 2026,
+      "source": "https://www.autotrader.ca/editorial/research/2026-price-index/",
+      "notes": "Autotrader price index (March\u00a02026) reports average used vehicle price of CAD\u00a036,713 in Canada."
+    },
+    "annual_insurance": {
+      "value": 1973,
+      "currency": "CAD",
+      "year": 2026,
+      "source": "https://www.ratehub.ca/blog/what-is-the-total-cost-of-owning-a-car/",
+      "notes": "Ratehub estimated national average car insurance cost of CAD\u00a01,973 per year in 2026."
+    },
+    "annual_fuel": {
+      "value": 2205.06,
+      "currency": "CAD",
+      "year": 2026,
+      "source": "https://www.cer-rec.gc.ca/en/data-analysis/energy-markets/market-snapshots/2019/market-snapshot-how-does-canada-rank-in-terms-vehicle-fuel-economy.html;https://thinkinsure.ca/insurance-help-centre/average-km-per-year-canada.html",
+      "notes": "Calculated using average mileage (~15,200 km/year) and fuel consumption of 8.9\u00a0L/100\u00a0km (Canada Energy Regulator), with gas price CAD\u00a01.63/L (Numbeo)."
+    },
+    "annual_maintenance": {
+      "value": 1450,
+      "currency": "CAD",
+      "year": 2026,
+      "source": "https://www.ratehub.ca/blog/what-is-the-total-cost-of-owning-a-car/",
+      "notes": "Ratehub cites Canada Drives estimate of car maintenance costs around CAD\u00a01,400\u20131,500 per year; mid\u2011point used."
+    },
+    "annual_depreciation_rate": {
+      "value": 0.15,
+      "unit": "decimal",
+      "example": 0.15,
+      "source": "https://www.autotrader.ca/editorial/owner-tips/what-is-vehicle-depreciation-and-how-do-i-calculate-it/",
+      "notes": "AutoTrader article notes most vehicles lose ~20% in first year and 10\u201315% each subsequent year; 15% used as typical annual depreciation for a used car."
+    },
+    "car_loan_interest_rate": {
+      "value": 0.065,
+      "unit": "decimal",
+      "source": "https://wowa.ca/car-loan-interest-rates-canada",
+      "notes": "Wowa.ca reports average car loan rate of 6.5% for new loans in October\u00a02025; used as base rate for 2026."
+    }
+  },
+  "investment_and_economy": {
+    "inflation_rate": {
+      "value": 0.021,
+      "unit": "decimal",
+      "year": 2026,
+      "source": "https://www.fpcanada.ca/docs/professionalsitelibraries/standards/projection-assumption-guidelines.pdf",
+      "notes": "FP Canada Projection Assumption Guidelines 2026 recommend a 2.1% inflation rate for 10\u2011year projections."
+    },
+    "savings_interest_rate": {
+      "value": 0.03,
+      "unit": "decimal",
+      "year": 2026,
+      "source": "https://www.ratehub.ca/blog/best-high-interest-savings-account-rates-canada/",
+      "notes": "High\u2011interest savings account rates in June\u00a02026 range from 1.50% to 4.75%; a mid\u2011range rate of 3% is used."
+    },
+    "investment_return_rate": {
+      "value": 0.063,
+      "unit": "decimal",
+      "year": 2026,
+      "source": "https://www.fpcanada.ca/docs/professionalsitelibraries/standards/projection-assumption-guidelines.pdf",
+      "notes": "FP Canada guidelines specify nominal return of 6.3% for Canadian equities over a 10\u2011year horizon; used as base investment return rate."
+    },
+    "cad_to_lkr_exchange_rate": {
+      "value": 230.3347,
+      "year": 2026,
+      "source": "https://wise.com/us/currency-converter/cad-to-lkr-rate/history",
+      "notes": "Average CAD to LKR exchange rate over last six months (Jan\u2013Jun\u00a02026) from Wise currency converter."
+    }
+  },
+  "loans_and_debt": {
+    "education_loan_interest_rate": {
+      "value": 0.0917,
+      "unit": "decimal",
+      "source": "https://www.ceicdata.com/en/indicator/sri-lanka/bank-lending-rate",
+      "notes": "Sri Lanka\u2019s bank lending rate was 9.17% per annum in Feb\u00a02026 (CEIC); used as proxy for education loan interest rate."
+    },
+    "migration_loan_interest_rate": {
+      "value": 0.0917,
+      "unit": "decimal",
+      "source": "https://www.ceicdata.com/en/indicator/sri-lanka/bank-lending-rate",
+      "notes": "Same assumption as education loan; general bank lending rate used for migration loans."
+    },
+    "borrowing_allowed": true,
+    "negative_cash_allowed": false,
+    "notes": "If cash becomes negative, convert it into explicit debt instead of silently allowing negative cash."
+  },
+  "scenario_defaults": {
+    "student_visa_path": {
+      "study_years": [
+        1,
+        2
+      ],
+      "part_time_work_during_study": true,
+      "full_time_work_start_year": 3,
+      "graduate_visa_start_year": 3,
+      "car_purchase_allowed_from_year": 3
+    },
+    "working_visa_path": {
+      "full_time_work_start_year": 1,
+      "part_time_study_possible": true,
+      "car_purchase_allowed_from_year": 2
+    },
+    "life_scenarios": {
+      "single": {
+        "marriage_year": null,
+        "first_child_year": null,
+        "second_child_year": null
+      },
+      "married_no_child": {
+        "marriage_year": 5,
+        "first_child_year": null,
+        "second_child_year": null
+      },
+      "married_one_child": {
+        "marriage_year": 5,
+        "first_child_year": 7,
+        "second_child_year": null
+      },
+      "married_two_children": {
+        "marriage_year": 5,
+        "first_child_year": 7,
+        "second_child_year": 9
+      }
+    }
+  },
+  "sensitivity_analysis": {
+    "variables_to_test": {
+      "salary_growth": [
+        -0.2,
+        -0.1,
+        0,
+        0.1,
+        0.2
+      ],
+      "rent": [
+        -0.2,
+        -0.1,
+        0,
+        0.1,
+        0.2
+      ],
+      "tuition": [
+        -0.2,
+        -0.1,
+        0,
+        0.1,
+        0.2
+      ],
+      "childcare": [
+        -0.2,
+        -0.1,
+        0,
+        0.1,
+        0.2
+      ],
+      "investment_return": [
+        -0.2,
+        -0.1,
+        0,
+        0.1,
+        0.2
+      ],
+      "exchange_rate": [
+        -0.2,
+        -0.1,
+        0,
+        0.1,
+        0.2
+      ],
+      "spouse_income_percentage": [
+        0.0,
+        0.5,
+        1.0
+      ]
+    }
+  },
+  "sources": {
+    "official_government": [
+      "https://ircc.canada.ca/english/information/fees/fees.asp",
+      "https://www.canada.ca/en/immigration-refugees-citizenship/services/study-canada/work/work-off-campus.html",
+      "https://www.canada.ca/en/immigration-refugees-citizenship/services/study-canada/work/after-graduation/apply.html",
+      "https://www.canada.ca/en/immigration-refugees-citizenship/services/study-canada/work/after-graduation/about.html",
+      "https://www.canada.ca/en/immigration-refugees-citizenship/corporate/mandate/service-declaration/service-standards.html",
+      "https://www2.gov.bc.ca/gov/content/health/accessing-health-care/health-fee-international-students",
+      "https://www.canada.ca/en/revenue-agency/programs/about-canada-revenue-agency-cra/federal-consumer-publications/cpp-ei-rates.html"
+    ],
+    "salary_sources": [
+      "https://www.jobbank.gc.ca/marketreport/wages-occupation/2161/ca",
+      "https://ca.indeed.com/career/software-engineer/salaries",
+      "https://www.normandinbeaudry.com/en-ca/articles/2026-salary-increase-projections/",
+      "https://www.oysterhr.com/blog/salary-in-canada"
+    ],
+    "cost_of_living_sources": [
+      "https://www.numbeo.com/cost-of-living/country_result.jsp?country=Canada",
+      "https://www.ratehub.ca/blog/what-is-the-total-cost-of-owning-a-car/",
+      "https://thinkinsure.ca/insurance-help-centre/average-km-per-year-canada.html",
+      "https://www.cer-rec.gc.ca/en/data-analysis/energy-markets/market-snapshots/2019/market-snapshot-how-does-canada-rank-in-terms-vehicle-fuel-economy.html",
+      "https://www.autotrader.ca/editorial/owner-tips/what-is-vehicle-depreciation-and-how-do-i-calculate-it/"
+    ],
+    "education_sources": [
+      "https://www.mastersportal.com/articles/1659/study-in-canada-living-costs-tuition-fees-for-international-students.html"
+    ],
+    "economic_sources": [
+      "https://www.fpcanada.ca/docs/professionalsitelibraries/standards/projection-assumption-guidelines.pdf",
+      "https://www.oecd-ilibrary.org/taxation/taxing-wages-2025_58ab4853-en",
+      "https://www.ceicdata.com/en/indicator/sri-lanka/bank-lending-rate",
+      "https://wise.com/us/currency-converter/cad-to-lkr-rate/history",
+      "https://www.ratehub.ca/blog/best-high-interest-savings-account-rates-canada/"
+    ],
+    "notes": "Store URLs or citation labels here."
+  }
+}
