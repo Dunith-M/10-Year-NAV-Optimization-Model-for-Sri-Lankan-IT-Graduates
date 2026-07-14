@@ -344,12 +344,7 @@ def render_dataset_status_panel(
         f"Exchange-rate field: `{summary.get('exchange_rate_key', 'N/A')}`"
     )
 
-    if unclean_source_warning:
-        st.warning(
-            "Some dataset source fields still contain placeholder-style references. "
-            "Clean source URLs before final submission or viva."
-        )
-    else:
+    if not unclean_source_warning:
         st.success(
             "Source fields look clean enough for demo use."
         )
