@@ -11,6 +11,10 @@ from src.scenario_builder import (
 from src.income_model import calculate_yearly_income
 from src.expense_model import calculate_yearly_expenses
 from src.nav_model import calculate_nav_simulation, get_nav_summary
+from src.currency_utils import (
+    LKR_PRESENT_VALUE_DISCOUNT_RATE,
+    calculate_lkr_present_value
+)
 
 
 def get_value(dataset: Dict[str, Any], path: str, default: Any = None) -> Any:
@@ -454,6 +458,15 @@ def build_scenario_comparison(
 
             final_nav_local = get_final_nav_from_summary(nav_summary)
             final_nav_lkr = final_nav_local * exchange_rate
+            final_nav_present_value_lkr = float(
+                nav_summary.get(
+                    "year_10_nav_present_value_lkr",
+                    calculate_lkr_present_value(final_nav_lkr)
+                )
+            )
+            present_value_years = int(
+                nav_summary.get("year_10_present_value_years", 10)
+            )
             scenario_name = f"{migration_path_label} + {life_scenario_label}"
 
             records.append(
@@ -470,6 +483,10 @@ def build_scenario_comparison(
                     "Final NAV": round(final_nav_local, 2),
                     "Year-10 NAV LKR": round(final_nav_lkr, 2),
                     "Final NAV LKR": round(final_nav_lkr, 2),
+                    "Year-10 NAV Present Value LKR": round(final_nav_present_value_lkr, 2),
+                    "Final NAV Present Value LKR": round(final_nav_present_value_lkr, 2),
+                    "Present Value Discount Rate": LKR_PRESENT_VALUE_DISCOUNT_RATE,
+                    "Present Value Discount Years": present_value_years,
                     "Final Cash Local": round(
                         _safe_last_value_from_candidates(
                             nav_df,
@@ -686,6 +703,36 @@ def compare_selected_vs_best(
     )
 
     nav_gap_lkr = round(best_lkr - selected_lkr, 2)
+    selected_present_value_lkr = (
+        float(
+            selected_scenario.get(
+                "Year-10 NAV Present Value LKR",
+                selected_scenario.get(
+                    "Final NAV Present Value LKR",
+                    calculate_lkr_present_value(selected_lkr)
+                )
+            )
+        )
+        if selected_scenario
+        else 0.0
+    )
+    best_present_value_lkr = (
+        float(
+            best_scenario.get(
+                "Year-10 NAV Present Value LKR",
+                best_scenario.get(
+                    "Final NAV Present Value LKR",
+                    calculate_lkr_present_value(best_lkr)
+                )
+            )
+        )
+        if best_scenario
+        else 0.0
+    )
+    nav_gap_present_value_lkr = round(
+        best_present_value_lkr - selected_present_value_lkr,
+        2
+    )
     total_scenarios = len(ranked_df)
 
     if selected_rank is None:
@@ -709,7 +756,11 @@ def compare_selected_vs_best(
         "total_scenarios": total_scenarios,
         "nav_gap_local": nav_gap_local,
         "nav_gap_lkr": nav_gap_lkr,
+        "nav_gap_present_value_lkr": nav_gap_present_value_lkr,
         "nav_gap_aud": nav_gap_local,
+        "selected_present_value_lkr": selected_present_value_lkr,
+        "best_present_value_lkr": best_present_value_lkr,
+        "present_value_discount_rate": LKR_PRESENT_VALUE_DISCOUNT_RATE,
         "currency": currency,
         "message": message
     }

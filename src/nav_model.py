@@ -2,6 +2,8 @@ from typing import Any, Dict, List
 import pandas as pd
 
 from src.currency_utils import (
+    LKR_PRESENT_VALUE_DISCOUNT_RATE,
+    calculate_lkr_present_value,
     convert_local_to_lkr,
     get_country_currency,
     get_exchange_rate_to_lkr
@@ -403,6 +405,16 @@ def calculate_nav_simulation(
         total_liabilities = total_debt
         nav = total_assets - total_liabilities
 
+        lkr_cash_flow = convert_local_to_lkr(cash_flow, dataset)
+        lkr_assets = convert_local_to_lkr(total_assets, dataset)
+        lkr_debt = convert_local_to_lkr(total_debt, dataset)
+        lkr_liabilities = convert_local_to_lkr(total_liabilities, dataset)
+        lkr_nav = convert_local_to_lkr(nav, dataset)
+        present_value_lkr_nav = calculate_lkr_present_value(
+            future_lkr_value=lkr_nav,
+            years=year
+        )
+
         debt_to_income_ratio = calculate_debt_to_income_ratio(
             total_debt=total_debt,
             gross_income=gross_income
@@ -427,7 +439,7 @@ def calculate_nav_simulation(
                 "Cash Shortage": round(cash_shortage, 2),
 
                 "Local Currency Cash Flow": round(cash_flow, 2),
-                "LKR Cash Flow": round(convert_local_to_lkr(cash_flow, dataset), 2),
+                "LKR Cash Flow": round(lkr_cash_flow, 2),
 
                 "Amount Added To Savings": round(amount_added_to_savings, 2),
                 "Amount Added To Investment": round(amount_added_to_investment, 2),
@@ -453,7 +465,7 @@ def calculate_nav_simulation(
 
                 "Total Assets": round(total_assets, 2),
                 "Local Currency Assets": round(total_assets, 2),
-                "LKR Assets": round(convert_local_to_lkr(total_assets, dataset), 2),
+                "LKR Assets": round(lkr_assets, 2),
 
                 "Education Debt": round(education_debt, 2),
                 "Migration Debt": round(migration_debt, 2),
@@ -462,15 +474,18 @@ def calculate_nav_simulation(
 
                 "Total Debt": round(total_debt, 2),
                 "Local Currency Debt": round(total_debt, 2),
-                "LKR Debt": round(convert_local_to_lkr(total_debt, dataset), 2),
+                "LKR Debt": round(lkr_debt, 2),
 
                 "Total Liabilities": round(total_liabilities, 2),
                 "Local Currency Liabilities": round(total_liabilities, 2),
-                "LKR Liabilities": round(convert_local_to_lkr(total_liabilities, dataset), 2),
+                "LKR Liabilities": round(lkr_liabilities, 2),
 
                 "NAV": round(nav, 2),
                 "Local Currency NAV": round(nav, 2),
-                "LKR NAV": round(convert_local_to_lkr(nav, dataset), 2),
+                "LKR NAV": round(lkr_nav, 2),
+                "Present Value LKR NAV": round(present_value_lkr_nav, 2),
+                "Present Value Discount Rate": round(LKR_PRESENT_VALUE_DISCOUNT_RATE, 4),
+                "Present Value Discount Years": year,
 
                 "Interest Paid": round(interest_paid, 2),
                 "Education Debt Interest": round(interest_costs["education_debt"], 2),
@@ -502,6 +517,7 @@ def get_nav_summary(nav_df: pd.DataFrame) -> Dict[str, Any]:
     """
 
     final_row = nav_df.iloc[-1]
+    final_year = int(final_row.get("Year", 10))
 
     nav_column = "Local Currency NAV" if "Local Currency NAV" in nav_df.columns else "NAV"
     assets_column = "Local Currency Assets" if "Local Currency Assets" in nav_df.columns else "Total Assets"
@@ -522,12 +538,26 @@ def get_nav_summary(nav_df: pd.DataFrame) -> Dict[str, Any]:
     highest_debt_row = nav_df.loc[nav_df[debt_column].idxmax()]
     lowest_nav_row = nav_df.loc[nav_df[nav_column].idxmin()]
 
+    year_10_nav_lkr = float(final_row.get("LKR NAV", final_row[nav_column]))
+    year_10_nav_present_value_lkr = float(
+        final_row.get(
+            "Present Value LKR NAV",
+            calculate_lkr_present_value(
+                future_lkr_value=year_10_nav_lkr,
+                years=final_year
+            )
+        )
+    )
+
     return {
         "currency": str(final_row.get("Currency", "LOCAL")),
         "exchange_rate_to_lkr": float(final_row.get("Exchange Rate to LKR", 1.0)),
 
         "year_10_nav": float(final_row[nav_column]),
-        "year_10_nav_lkr": float(final_row.get("LKR NAV", final_row[nav_column])),
+        "year_10_nav_lkr": year_10_nav_lkr,
+        "year_10_nav_present_value_lkr": year_10_nav_present_value_lkr,
+        "year_10_present_value_discount_rate": LKR_PRESENT_VALUE_DISCOUNT_RATE,
+        "year_10_present_value_years": final_year,
 
         "year_10_total_assets": float(final_row[assets_column]),
         "year_10_total_assets_lkr": float(final_row.get("LKR Assets", final_row[assets_column])),
@@ -617,7 +647,10 @@ def create_final_simulation_table(
             "LKR Liabilities": nav_df["LKR Liabilities"],
 
             "Local Currency NAV": nav_df["Local Currency NAV"],
-            "LKR NAV": nav_df["LKR NAV"]
+            "LKR NAV": nav_df["LKR NAV"],
+            "Present Value LKR NAV": nav_df["Present Value LKR NAV"],
+            "Present Value Discount Rate": nav_df["Present Value Discount Rate"],
+            "Present Value Discount Years": nav_df["Present Value Discount Years"]
         }
     )
 

@@ -26,21 +26,25 @@ def get_most_sensitive_variable(tornado_df: pd.DataFrame) -> Dict[str, Any]:
     if tornado_df.empty:
         return {
             "variable": None,
+            "max_impact_local": 0.0,
             "max_impact_aud": 0.0,
             "max_impact_lkr": 0.0,
+            "max_impact_present_value_lkr": 0.0,
             "max_impact_percent": 0.0
         }
 
     impact_column = _find_column(
         tornado_df,
-        ["Max Impact %", "Max Impact AUD", "Max Impact LKR"]
+        ["Max Impact %", "Max Impact Local", "Max Impact LKR"]
     )
 
     if impact_column is None:
         return {
             "variable": None,
+            "max_impact_local": 0.0,
             "max_impact_aud": 0.0,
             "max_impact_lkr": 0.0,
+            "max_impact_present_value_lkr": 0.0,
             "max_impact_percent": 0.0
         }
 
@@ -50,9 +54,42 @@ def get_most_sensitive_variable(tornado_df: pd.DataFrame) -> Dict[str, Any]:
 
     return {
         "variable": row.get("Variable"),
+        "max_impact_local": _safe_float(row.get("Max Impact Local")),
         "max_impact_aud": _safe_float(row.get("Max Impact AUD")),
         "max_impact_lkr": _safe_float(row.get("Max Impact LKR")),
+        "max_impact_present_value_lkr": _safe_float(
+            row.get("Max Impact Present Value LKR")
+        ),
         "max_impact_percent": _safe_float(row.get("Max Impact %"))
+    }
+
+
+def _get_sensitivity_nav_column(sensitivity_df: pd.DataFrame) -> Optional[str]:
+    return _find_column(
+        sensitivity_df,
+        [
+            "Year-10 NAV Local",
+            "Final NAV Local",
+            "Year-10 NAV AUD",
+            "Final NAV AUD",
+            "NAV"
+        ]
+    )
+
+
+def _empty_nav_case() -> Dict[str, Any]:
+    return {
+        "variable": None,
+        "change_label": None,
+        "currency": "LOCAL",
+        "nav_local": 0.0,
+        "nav_aud": 0.0,
+        "nav_lkr": 0.0,
+        "nav_present_value_lkr": 0.0,
+        "delta_local": 0.0,
+        "delta_aud": 0.0,
+        "delta_lkr": 0.0,
+        "delta_present_value_lkr": 0.0
     }
 
 
@@ -61,25 +98,32 @@ def get_best_case_nav(sensitivity_df: pd.DataFrame) -> Dict[str, Any]:
     Return the sensitivity test case with the highest Year-10 NAV.
     """
 
-    if sensitivity_df.empty or "Year-10 NAV AUD" not in sensitivity_df.columns:
-        return {
-            "variable": None,
-            "change_label": None,
-            "nav_aud": 0.0,
-            "nav_lkr": 0.0,
-            "delta_aud": 0.0,
-            "delta_lkr": 0.0
-        }
+    if sensitivity_df.empty:
+        return _empty_nav_case()
 
-    row = sensitivity_df.sort_values(by="Year-10 NAV AUD", ascending=False).iloc[0]
+    nav_column = _get_sensitivity_nav_column(sensitivity_df)
+
+    if nav_column is None:
+        return _empty_nav_case()
+
+    row = sensitivity_df.sort_values(by=nav_column, ascending=False).iloc[0]
 
     return {
         "variable": row.get("Variable"),
         "change_label": row.get("Change Label"),
-        "nav_aud": _safe_float(row.get("Year-10 NAV AUD")),
+        "currency": row.get("Local Currency", "LOCAL"),
+        "nav_local": _safe_float(row.get(nav_column)),
+        "nav_aud": _safe_float(row.get("Year-10 NAV AUD", row.get(nav_column))),
         "nav_lkr": _safe_float(row.get("Year-10 NAV LKR")),
-        "delta_aud": _safe_float(row.get("Delta NAV AUD")),
-        "delta_lkr": _safe_float(row.get("Delta NAV LKR"))
+        "nav_present_value_lkr": _safe_float(
+            row.get("Year-10 NAV Present Value LKR")
+        ),
+        "delta_local": _safe_float(row.get("Delta NAV Local")),
+        "delta_aud": _safe_float(row.get("Delta NAV AUD", row.get("Delta NAV Local"))),
+        "delta_lkr": _safe_float(row.get("Delta NAV LKR")),
+        "delta_present_value_lkr": _safe_float(
+            row.get("Delta NAV Present Value LKR")
+        )
     }
 
 
@@ -88,25 +132,32 @@ def get_worst_case_nav(sensitivity_df: pd.DataFrame) -> Dict[str, Any]:
     Return the sensitivity test case with the lowest Year-10 NAV.
     """
 
-    if sensitivity_df.empty or "Year-10 NAV AUD" not in sensitivity_df.columns:
-        return {
-            "variable": None,
-            "change_label": None,
-            "nav_aud": 0.0,
-            "nav_lkr": 0.0,
-            "delta_aud": 0.0,
-            "delta_lkr": 0.0
-        }
+    if sensitivity_df.empty:
+        return _empty_nav_case()
 
-    row = sensitivity_df.sort_values(by="Year-10 NAV AUD", ascending=True).iloc[0]
+    nav_column = _get_sensitivity_nav_column(sensitivity_df)
+
+    if nav_column is None:
+        return _empty_nav_case()
+
+    row = sensitivity_df.sort_values(by=nav_column, ascending=True).iloc[0]
 
     return {
         "variable": row.get("Variable"),
         "change_label": row.get("Change Label"),
-        "nav_aud": _safe_float(row.get("Year-10 NAV AUD")),
+        "currency": row.get("Local Currency", "LOCAL"),
+        "nav_local": _safe_float(row.get(nav_column)),
+        "nav_aud": _safe_float(row.get("Year-10 NAV AUD", row.get(nav_column))),
         "nav_lkr": _safe_float(row.get("Year-10 NAV LKR")),
-        "delta_aud": _safe_float(row.get("Delta NAV AUD")),
-        "delta_lkr": _safe_float(row.get("Delta NAV LKR"))
+        "nav_present_value_lkr": _safe_float(
+            row.get("Year-10 NAV Present Value LKR")
+        ),
+        "delta_local": _safe_float(row.get("Delta NAV Local")),
+        "delta_aud": _safe_float(row.get("Delta NAV AUD", row.get("Delta NAV Local"))),
+        "delta_lkr": _safe_float(row.get("Delta NAV LKR")),
+        "delta_present_value_lkr": _safe_float(
+            row.get("Delta NAV Present Value LKR")
+        )
     }
 
 
@@ -138,12 +189,22 @@ def get_risk_level(
     )
 
     if base_rows.empty:
-        base_nav = _safe_float(sensitivity_df.iloc[0].get("Base NAV AUD"))
+        base_nav = _safe_float(
+            sensitivity_df.iloc[0].get(
+                "Base NAV Local",
+                sensitivity_df.iloc[0].get("Base NAV AUD")
+            )
+        )
     else:
-        base_nav = _safe_float(base_rows.iloc[0].get("Base NAV AUD"))
+        base_nav = _safe_float(
+            base_rows.iloc[0].get(
+                "Base NAV Local",
+                base_rows.iloc[0].get("Base NAV AUD")
+            )
+        )
 
     worst_case = get_worst_case_nav(sensitivity_df)
-    worst_nav = worst_case["nav_aud"]
+    worst_nav = worst_case["nav_local"]
     downside = max(0.0, base_nav - worst_nav)
 
     if worst_nav < 0:
@@ -191,9 +252,9 @@ def get_risk_summary_text(
     return (
         f"{comparison_message} "
         f"The biggest risk variable is {variable_name}. "
-        f"Best-case NAV is AUD {best_case_nav.get('nav_aud', 0.0):,.0f} "
+        f"Best-case NAV is {best_case_nav.get('currency', 'LOCAL')} {best_case_nav.get('nav_local', 0.0):,.0f} "
         f"when {best_variable} is {best_change}. "
-        f"Worst-case NAV is AUD {worst_case_nav.get('nav_aud', 0.0):,.0f} "
+        f"Worst-case NAV is {worst_case_nav.get('currency', 'LOCAL')} {worst_case_nav.get('nav_local', 0.0):,.0f} "
         f"when {worst_variable} is {worst_change}. "
         f"Overall risk level: {risk_level}."
     )

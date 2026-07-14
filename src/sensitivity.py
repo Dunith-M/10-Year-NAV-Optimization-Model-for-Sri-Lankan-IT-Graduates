@@ -4,6 +4,8 @@ from typing import Any, Dict, List
 import pandas as pd
 
 from src.currency_utils import (
+    LKR_PRESENT_VALUE_DISCOUNT_RATE,
+    calculate_lkr_present_value,
     get_country_currency,
     get_exchange_rate_to_lkr
 )
@@ -161,6 +163,7 @@ def build_sensitivity_analysis(
 
     base_nav_local = float(base_result["nav_summary"]["year_10_nav"])
     base_nav_lkr = base_nav_local * base_exchange_rate
+    base_nav_present_value_lkr = calculate_lkr_present_value(base_nav_lkr)
 
     records: List[Dict[str, Any]] = []
 
@@ -186,9 +189,13 @@ def build_sensitivity_analysis(
 
             temp_nav_local = float(temp_result["nav_summary"]["year_10_nav"])
             temp_nav_lkr = temp_nav_local * temp_exchange_rate
+            temp_nav_present_value_lkr = calculate_lkr_present_value(temp_nav_lkr)
 
             delta_nav_local = temp_nav_local - base_nav_local
             delta_nav_lkr = temp_nav_lkr - base_nav_lkr
+            delta_nav_present_value_lkr = (
+                temp_nav_present_value_lkr - base_nav_present_value_lkr
+            )
 
             if base_nav_local != 0:
                 delta_percent_local = delta_nav_local / abs(base_nav_local)
@@ -211,17 +218,22 @@ def build_sensitivity_analysis(
                     "Year-10 NAV Local": round(temp_nav_local, 2),
                     f"Year-10 NAV {local_currency}": round(temp_nav_local, 2),
                     "Year-10 NAV LKR": round(temp_nav_lkr, 2),
+                    "Year-10 NAV Present Value LKR": round(temp_nav_present_value_lkr, 2),
 
                     "Base NAV Local": round(base_nav_local, 2),
                     f"Base NAV {local_currency}": round(base_nav_local, 2),
                     "Base NAV LKR": round(base_nav_lkr, 2),
+                    "Base NAV Present Value LKR": round(base_nav_present_value_lkr, 2),
 
                     "Delta NAV Local": round(delta_nav_local, 2),
                     f"Delta NAV {local_currency}": round(delta_nav_local, 2),
                     "Delta NAV LKR": round(delta_nav_lkr, 2),
+                    "Delta NAV Present Value LKR": round(delta_nav_present_value_lkr, 2),
 
                     "Delta % Local": round(delta_percent_local, 4),
                     "Delta % LKR": round(delta_percent_lkr, 4),
+                    "Present Value Discount Rate": LKR_PRESENT_VALUE_DISCOUNT_RATE,
+                    "Present Value Discount Years": 10,
 
                     "Impact Direction": get_impact_direction(delta_nav_lkr),
                     "Risk Interpretation": get_risk_interpretation(
@@ -241,6 +253,9 @@ def build_sensitivity_analysis(
 
         max_impact_local = float(variable_rows["Delta NAV Local"].abs().max())
         max_impact_lkr = float(variable_rows["Delta NAV LKR"].abs().max())
+        max_impact_present_value_lkr = float(
+            variable_rows["Delta NAV Present Value LKR"].abs().max()
+        )
         max_impact_percent = float(variable_rows["Delta % LKR"].abs().max())
 
         tornado_records.append(
@@ -250,6 +265,7 @@ def build_sensitivity_analysis(
                 "Max Impact Local": round(max_impact_local, 2),
                 f"Max Impact {local_currency}": round(max_impact_local, 2),
                 "Max Impact LKR": round(max_impact_lkr, 2),
+                "Max Impact Present Value LKR": round(max_impact_present_value_lkr, 2),
                 "Max Impact %": round(max_impact_percent, 4)
             }
         )
@@ -347,6 +363,12 @@ def build_final_testing_results(
 
         final_nav_local = float(nav_summary["year_10_nav"])
         final_nav_lkr = final_nav_local * exchange_rate
+        final_nav_present_value_lkr = float(
+            nav_summary.get(
+                "year_10_nav_present_value_lkr",
+                calculate_lkr_present_value(final_nav_lkr)
+            )
+        )
 
         nav_not_blank = pd.notna(final_nav_local)
 
@@ -426,6 +448,7 @@ def build_final_testing_results(
                 "Final NAV Local": round(final_nav_local, 2),
                 f"Final NAV {local_currency}": round(final_nav_local, 2),
                 "Final NAV LKR": round(final_nav_lkr, 2),
+                "Final NAV Present Value LKR": round(final_nav_present_value_lkr, 2),
                 "NAV Not Blank": nav_not_blank,
                 "Rent Grows with Inflation": rent_grows,
                 "Tuition Logic OK": tuition_ok,

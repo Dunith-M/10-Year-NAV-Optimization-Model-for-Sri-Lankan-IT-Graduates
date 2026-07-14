@@ -6,6 +6,8 @@ from typing import Any, Dict, List, Optional
 
 import pandas as pd
 
+from src.currency_utils import calculate_lkr_present_value
+
 
 def _safe_float(value: Any, default: float = 0.0) -> float:
     try:
@@ -168,12 +170,18 @@ def get_dataset_last_updated(dataset: Dict[str, Any]) -> str:
 
 
 def _get_final_nav_from_outputs(simulation_outputs: Dict[str, Any]) -> float:
+    nav_summary = simulation_outputs.get("nav_summary", {})
+
+    if isinstance(nav_summary, dict) and "year_10_nav" in nav_summary:
+        return _safe_float(nav_summary.get("year_10_nav"))
+
     nav_df = _ensure_dataframe(simulation_outputs.get("nav_df"))
 
     if nav_df.empty:
         return 0.0
 
     column_candidates = [
+        "Local Currency NAV",
         "NAV",
         "Net Asset Value",
         "Net Asset Value AUD",
@@ -186,6 +194,44 @@ def _get_final_nav_from_outputs(simulation_outputs: Dict[str, Any]) -> float:
             return _safe_float(nav_df[column].iloc[-1])
 
     return 0.0
+
+
+def _get_final_nav_lkr_from_outputs(simulation_outputs: Dict[str, Any]) -> float:
+    nav_summary = simulation_outputs.get("nav_summary", {})
+
+    if isinstance(nav_summary, dict) and "year_10_nav_lkr" in nav_summary:
+        return _safe_float(nav_summary.get("year_10_nav_lkr"))
+
+    nav_df = _ensure_dataframe(simulation_outputs.get("nav_df"))
+
+    if nav_df.empty:
+        return 0.0
+
+    for column in ["LKR NAV", "Year-10 NAV LKR", "Final NAV LKR"]:
+        if column in nav_df.columns:
+            return _safe_float(nav_df[column].iloc[-1])
+
+    final_nav_local = _get_final_nav_from_outputs(simulation_outputs)
+    exchange_rate = _get_exchange_rate_from_outputs(simulation_outputs)
+    return final_nav_local * exchange_rate if exchange_rate else 0.0
+
+
+def _get_final_nav_present_value_lkr_from_outputs(
+    simulation_outputs: Dict[str, Any]
+) -> float:
+    nav_summary = simulation_outputs.get("nav_summary", {})
+
+    if isinstance(nav_summary, dict) and "year_10_nav_present_value_lkr" in nav_summary:
+        return _safe_float(nav_summary.get("year_10_nav_present_value_lkr"))
+
+    nav_df = _ensure_dataframe(simulation_outputs.get("nav_df"))
+
+    if not nav_df.empty and "Present Value LKR NAV" in nav_df.columns:
+        return _safe_float(nav_df["Present Value LKR NAV"].iloc[-1])
+
+    return calculate_lkr_present_value(
+        _get_final_nav_lkr_from_outputs(simulation_outputs)
+    )
 
 
 def _get_final_debt_from_outputs(simulation_outputs: Dict[str, Any]) -> float:
@@ -216,8 +262,23 @@ def _format_aud(value: Any) -> str:
     return f"AUD {_safe_float(value):,.0f}"
 
 
+def _format_local(value: Any, currency: str) -> str:
+    return f"{currency} {_safe_float(value):,.0f}"
+
+
 def _format_lkr(value: Any) -> str:
     return f"LKR {_safe_float(value):,.0f}"
+
+
+def _get_dict_numeric_value(data: Dict[str, Any], key_candidates: List[str]) -> float:
+    if not isinstance(data, dict):
+        return 0.0
+
+    for key in key_candidates:
+        if key in data:
+            return _safe_float(data.get(key))
+
+    return 0.0
 
 
 def build_scenario_inputs_dataframe(scenario_config: Dict[str, Any]) -> pd.DataFrame:
@@ -294,10 +355,16 @@ def build_executive_summary_dataframe(
         - quick CSV export
     """
 
-    final_nav_aud = _get_final_nav_from_outputs(simulation_outputs)
+    local_currency = str(
+        simulation_outputs.get("local_currency", "LOCAL")
+    ).upper()
+    final_nav_local = _get_final_nav_from_outputs(simulation_outputs)
     exchange_rate = _get_exchange_rate_from_outputs(simulation_outputs)
-    final_nav_lkr = final_nav_aud * exchange_rate if exchange_rate else 0.0
-    final_debt_aud = _get_final_debt_from_outputs(simulation_outputs)
+    final_nav_lkr = _get_final_nav_lkr_from_outputs(simulation_outputs)
+    final_nav_present_value_lkr = _get_final_nav_present_value_lkr_from_outputs(
+        simulation_outputs
+    )
+    final_debt_local = _get_final_debt_from_outputs(simulation_outputs)
 
     comparison_result = simulation_outputs.get("comparison_result", {})
     risk_result = simulation_outputs.get("risk_result", {})
@@ -314,10 +381,10 @@ def build_executive_summary_dataframe(
     else:
         selected_rank_text = "N/A"
 
-    if final_nav_aud > 0 and final_debt_aud <= 0:
+    if final_nav_local > 0 and final_debt_local <= 0:
         nav_status = "Good"
         nav_interpretation = "The scenario ends with positive NAV and low final debt pressure."
-    elif final_nav_aud > 0:
+    elif final_nav_local > 0:
         nav_status = "Mixed"
         nav_interpretation = "The scenario ends with positive NAV, but debt/liability pressure still matters."
     else:
@@ -345,8 +412,8 @@ def build_executive_summary_dataframe(
         },
         {
             "Section": "Financial result",
-            "Metric": "Final NAV AUD",
-            "Value": _format_aud(final_nav_aud),
+            "Metric": f"Final Year-10 NAV ({local_currency})",
+            "Value": _format_local(final_nav_local, local_currency),
             "Interpretation": nav_interpretation
         },
         {
@@ -357,8 +424,14 @@ def build_executive_summary_dataframe(
         },
         {
             "Section": "Financial result",
-            "Metric": "Final debt/liabilities AUD",
-            "Value": _format_aud(final_debt_aud),
+            "Metric": "Today's value of final NAV LKR",
+            "Value": _format_lkr(final_nav_present_value_lkr),
+            "Interpretation": "Final LKR NAV discounted using 5.5% Sri Lanka inflation for 10 years."
+        },
+        {
+            "Section": "Financial result",
+            "Metric": f"Final debt/liabilities ({local_currency})",
+            "Value": _format_local(final_debt_local, local_currency),
             "Interpretation": "Higher final debt reduces the quality of the scenario."
         },
         {
@@ -371,13 +444,25 @@ def build_executive_summary_dataframe(
             "Section": "Scenario comparison",
             "Metric": "Best scenario",
             "Value": best_scenario.get("Scenario", "N/A"),
-            "Interpretation": _format_aud(best_scenario.get("Year-10 NAV AUD", 0.0))
+            "Interpretation": _format_local(
+                _get_dict_numeric_value(
+                    best_scenario,
+                    ["Year-10 NAV Local", "Final NAV Local", "Final NAV"]
+                ),
+                local_currency
+            )
         },
         {
             "Section": "Scenario comparison",
             "Metric": "Worst scenario",
             "Value": worst_scenario.get("Scenario", "N/A"),
-            "Interpretation": _format_aud(worst_scenario.get("Year-10 NAV AUD", 0.0))
+            "Interpretation": _format_local(
+                _get_dict_numeric_value(
+                    worst_scenario,
+                    ["Year-10 NAV Local", "Final NAV Local", "Final NAV"]
+                ),
+                local_currency
+            )
         },
         {
             "Section": "Scenario comparison",
@@ -388,8 +473,19 @@ def build_executive_summary_dataframe(
         {
             "Section": "Scenario comparison",
             "Metric": "NAV gap from best",
-            "Value": _format_aud(comparison_result.get("nav_gap_aud", 0.0)),
+            "Value": _format_local(
+                comparison_result.get("nav_gap_local", 0.0),
+                local_currency
+            ),
             "Interpretation": "Opportunity cost of choosing the selected scenario instead of the best scenario."
+        },
+        {
+            "Section": "Scenario comparison",
+            "Metric": "Present-value NAV gap from best",
+            "Value": _format_lkr(
+                comparison_result.get("nav_gap_present_value_lkr", 0.0)
+            ),
+            "Interpretation": "Same gap discounted into today's LKR value."
         },
         {
             "Section": "Risk",

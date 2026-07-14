@@ -1,6 +1,10 @@
 from typing import Any, Dict, Optional
 
 
+LKR_PRESENT_VALUE_DISCOUNT_RATE = 0.055
+LKR_PRESENT_VALUE_YEARS = 10
+
+
 CURRENCY_SYMBOLS = {
     "AUD": "$",
     "LKR": "Rs.",
@@ -139,6 +143,45 @@ def convert_local_to_lkr(
         exchange_rate = get_exchange_rate_to_lkr(dataset)
 
     return float(amount) * float(exchange_rate)
+
+
+def calculate_present_value(
+    future_value: Any,
+    discount_rate: float = LKR_PRESENT_VALUE_DISCOUNT_RATE,
+    years: int = LKR_PRESENT_VALUE_YEARS
+) -> float:
+    """
+    Discount a future value back to today's money value.
+
+    Formula:
+        present value = future value / (1 + discount rate) ** years
+    """
+
+    try:
+        amount = float(future_value)
+    except Exception:
+        amount = 0.0
+
+    safe_years = max(int(years), 0)
+    safe_discount_rate = float(discount_rate)
+
+    return amount / ((1 + safe_discount_rate) ** safe_years)
+
+
+def calculate_lkr_present_value(
+    future_lkr_value: Any,
+    years: int = LKR_PRESENT_VALUE_YEARS,
+    discount_rate: float = LKR_PRESENT_VALUE_DISCOUNT_RATE
+) -> float:
+    """
+    Discount a future LKR value using Sri Lanka inflation as the LKR discount rate.
+    """
+
+    return calculate_present_value(
+        future_value=future_lkr_value,
+        discount_rate=discount_rate,
+        years=years
+    )
 
 
 def format_local_currency(

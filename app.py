@@ -768,6 +768,14 @@ def render_scenario_decision_panel(simulation_outputs, dataset):
         ]
     )
 
+    nav_gap_present_value_lkr = get_dict_numeric_value(
+        comparison_result,
+        [
+            "nav_gap_present_value_lkr",
+            "present_value_difference_from_best_lkr"
+        ]
+    )
+
     columns = st.columns(4)
 
     with columns[0]:
@@ -812,7 +820,7 @@ def render_scenario_decision_panel(simulation_outputs, dataset):
                 value=nav_gap_local,
                 dataset=dataset
             ),
-            format_lkr(nav_gap_lkr)
+            f"Today's value: {format_lkr(nav_gap_present_value_lkr)}"
         )
 
 

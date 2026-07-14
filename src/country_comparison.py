@@ -16,6 +16,10 @@ from src.comparison_model import (
     get_exchange_rate_from_dataset,
     get_final_nav_from_summary
 )
+from src.currency_utils import (
+    LKR_PRESENT_VALUE_DISCOUNT_RATE,
+    calculate_lkr_present_value
+)
 
 
 def _safe_last_value_from_candidates(
@@ -333,6 +337,15 @@ def build_country_comparison(
 
             final_nav_local = get_final_nav_from_summary(nav_summary)
             final_nav_lkr = final_nav_local * exchange_rate
+            final_nav_present_value_lkr = float(
+                nav_summary.get(
+                    "year_10_nav_present_value_lkr",
+                    calculate_lkr_present_value(final_nav_lkr)
+                )
+            )
+            present_value_years = int(
+                nav_summary.get("year_10_present_value_years", 10)
+            )
             break_even_year = _get_break_even_year(nav_df)
 
             lowest_nav = _safe_min_from_candidates(
@@ -380,6 +393,9 @@ def build_country_comparison(
                     "Final NAV Local": round(final_nav_local, 2),
                     f"Final NAV {currency}": round(final_nav_local, 2),
                     "Final NAV LKR": round(final_nav_lkr, 2),
+                    "Final NAV Present Value LKR": round(final_nav_present_value_lkr, 2),
+                    "Present Value Discount Rate": LKR_PRESENT_VALUE_DISCOUNT_RATE,
+                    "Present Value Discount Years": present_value_years,
                     "Break-even Year": break_even_year if break_even_year is not None else "No break-even",
                     "Lowest NAV": round(lowest_nav, 2),
                     "Highest Debt": round(highest_debt, 2),
@@ -401,6 +417,9 @@ def build_country_comparison(
                     "Scenario": f"{migration_path_label} + {life_scenario_label}",
                     "Final NAV Local": None,
                     "Final NAV LKR": None,
+                    "Final NAV Present Value LKR": None,
+                    "Present Value Discount Rate": LKR_PRESENT_VALUE_DISCOUNT_RATE,
+                    "Present Value Discount Years": None,
                     "Break-even Year": None,
                     "Lowest NAV": None,
                     "Highest Debt": None,
@@ -424,13 +443,29 @@ def build_country_comparison(
 
     if not successful_df.empty:
         successful_df = successful_df.sort_values(
-            by="Final NAV LKR",
+            by="Final NAV Present Value LKR",
             ascending=False
         ).reset_index(drop=True)
         successful_df["Country Rank"] = successful_df.index + 1
 
+        sri_lanka_rows = successful_df[
+            successful_df["Country"].astype(str).str.lower() == "sri lanka"
+        ]
+
+        if not sri_lanka_rows.empty:
+            sri_lanka_present_value = float(
+                sri_lanka_rows.iloc[0]["Final NAV Present Value LKR"]
+            )
+            successful_df["Present Value Difference vs Sri Lanka"] = (
+                successful_df["Final NAV Present Value LKR"]
+                - sri_lanka_present_value
+            ).round(2)
+        else:
+            successful_df["Present Value Difference vs Sri Lanka"] = None
+
     if not failed_df.empty:
         failed_df["Country Rank"] = None
+        failed_df["Present Value Difference vs Sri Lanka"] = None
 
     return pd.concat(
         [successful_df, failed_df],
@@ -450,7 +485,7 @@ def render_country_comparison_tab(
 
     st.caption(
         "This compares the same selected scenario across all registered countries. "
-        "Ranking is based on LKR-converted final NAV, because local currencies are not directly comparable."
+        "Ranking is based on the present-day LKR value of final NAV, because local currencies are not directly comparable."
     )
 
     if country_comparison_df is None or country_comparison_df.empty:
@@ -469,7 +504,7 @@ def render_country_comparison_tab(
         country_comparison_df["Status"] == "OK"
     ].copy() if "Status" in country_comparison_df.columns else country_comparison_df.copy()
 
-    metric_col_1, metric_col_2, metric_col_3 = st.columns(3)
+    metric_col_1, metric_col_2, metric_col_3, metric_col_4 = st.columns(4)
 
     with metric_col_1:
         st.metric("Countries compared", len(country_comparison_df))
@@ -491,6 +526,27 @@ def render_country_comparison_tab(
         else:
             st.metric("Selected country rank", "N/A")
 
+    with metric_col_4:
+        if (
+            selected_country
+            and not ok_df.empty
+            and selected_country in ok_df["Country"].values
+            and "Present Value Difference vs Sri Lanka" in ok_df.columns
+        ):
+            selected_difference = ok_df.loc[
+                ok_df["Country"] == selected_country,
+                "Present Value Difference vs Sri Lanka"
+            ].iloc[0]
+            if pd.isna(selected_difference):
+                st.metric("Selected vs Sri Lanka", "N/A")
+            else:
+                st.metric(
+                    "Selected vs Sri Lanka",
+                    f"LKR {float(selected_difference):,.0f}"
+                )
+        else:
+            st.metric("Selected vs Sri Lanka", "N/A")
+
     st.dataframe(
         country_comparison_df,
         use_container_width=True,
@@ -501,19 +557,19 @@ def render_country_comparison_tab(
         st.error("No successful country comparison rows were generated.")
         return
 
-    st.subheader("Final NAV in LKR by Country")
+    st.subheader("Today's Value of Final NAV in LKR by Country")
 
     nav_fig = px.bar(
         ok_df,
         x="Country",
-        y="Final NAV LKR",
+        y="Final NAV Present Value LKR",
         text_auto=".2s",
-        title="Country Comparison - Final NAV in LKR"
+        title="Country Comparison - Present Value of Final NAV in LKR"
     )
 
     nav_fig.update_layout(
         xaxis_title="Country",
-        yaxis_title="Final NAV in LKR"
+        yaxis_title="Present Value of Final NAV in LKR"
     )
 
     st.plotly_chart(

@@ -271,6 +271,10 @@ def render_dashboard_tab(
         "year_10_nav_lkr",
         year_10_nav_local * exchange_rate
     )
+    year_10_nav_present_value_lkr = nav_summary.get(
+        "year_10_nav_present_value_lkr",
+        year_10_nav_lkr
+    )
 
     key_result_metrics = [
         {
@@ -280,6 +284,10 @@ def render_dashboard_tab(
         {
             "label": "Year-10 NAV in LKR",
             "value": format_lkr(year_10_nav_lkr)
+        },
+        {
+            "label": "Today's Value of Year-10 NAV",
+            "value": format_lkr(year_10_nav_present_value_lkr)
         },
         {
             "label": f"Total Income ({local_currency})",
@@ -507,6 +515,28 @@ def render_nav_tab(
     income_df = simulation_outputs["income_df"]
     expense_df = simulation_outputs["expense_df"]
     nav_df = simulation_outputs["nav_df"]
+    nav_summary = simulation_outputs["nav_summary"]
+
+    st.caption(
+        "Present value uses: Year-10 NAV in LKR / (1 + 0.055) ^ 10."
+    )
+
+    nav_metrics = [
+        {
+            "label": f"Year-10 NAV ({local_currency})",
+            "value": format_local(nav_summary["year_10_nav"], local_currency)
+        },
+        {
+            "label": "Year-10 NAV in LKR",
+            "value": format_lkr(nav_summary["year_10_nav_lkr"])
+        },
+        {
+            "label": "Today's Value in LKR",
+            "value": format_lkr(nav_summary["year_10_nav_present_value_lkr"])
+        }
+    ]
+
+    render_metric_grid(nav_metrics, columns_per_row=3)
 
     st.subheader("Final Simulation Table")
     st.dataframe(
@@ -559,6 +589,33 @@ def render_nav_tab(
 
         st.plotly_chart(
             nav_over_time_fig,
+            use_container_width=True
+        )
+
+    present_value_nav_column = get_first_existing_column(
+        nav_df,
+        [
+            "Present Value LKR NAV",
+            "Today's Value LKR NAV"
+        ]
+    )
+
+    if present_value_nav_column is not None:
+        present_value_fig = px.line(
+            nav_df,
+            x="Year",
+            y=present_value_nav_column,
+            markers=True,
+            title=f"Present Value of NAV Over Time - {country_context}"
+        )
+
+        present_value_fig.update_layout(
+            xaxis_title="Year",
+            yaxis_title="Present Value NAV (LKR)"
+        )
+
+        st.plotly_chart(
+            present_value_fig,
             use_container_width=True
         )
 
@@ -644,7 +701,8 @@ def render_scenario_comparison_tab(
 
     st.caption(
         "This compares scenarios inside one selected country only. "
-        "Use Country Comparison for Australia vs Germany vs Japan vs Sri Lanka."
+        "Use Country Comparison for Australia vs Germany vs Japan vs Sri Lanka. "
+        "Present value uses: Year-10 NAV in LKR / (1 + 0.055) ^ 10."
     )
 
     st.subheader("Scenario Ranking by Year-10 NAV")
@@ -654,9 +712,17 @@ def render_scenario_comparison_tab(
         use_container_width=True
     )
 
-    st.subheader(f"Final NAV by Scenario - {country_context}")
+    st.subheader(f"Today's Value of Final NAV by Scenario - {country_context}")
 
-    nav_column = get_first_existing_column(
+    present_value_nav_column = get_first_existing_column(
+        comparison_df,
+        [
+            "Year-10 NAV Present Value LKR",
+            "Final NAV Present Value LKR"
+        ]
+    )
+
+    nav_column = present_value_nav_column or get_first_existing_column(
         comparison_df,
         [
             "Year-10 NAV Local",
@@ -678,13 +744,17 @@ def render_scenario_comparison_tab(
         comparison_df,
         x="Scenario",
         y=nav_column,
-        title=f"Final Year-10 NAV by Scenario - {country_context}",
+        title=(
+            f"Present Value of Final Year-10 NAV by Scenario - {country_context}"
+            if present_value_nav_column
+            else f"Final Year-10 NAV by Scenario - {country_context}"
+        ),
         text_auto=".2s"
     )
 
     comparison_fig.update_layout(
         xaxis_title="Scenario",
-        yaxis_title=f"Year-10 NAV ({local_currency})",
+        yaxis_title="Present Value NAV (LKR)" if present_value_nav_column else f"Year-10 NAV ({local_currency})",
         xaxis_tickangle=-30
     )
 
@@ -698,7 +768,7 @@ def render_scenario_comparison_tab(
     st.success(
         f"Best scenario in {selected_country or 'selected country'}: "
         f"{best_scenario['Scenario']} with Year-10 NAV of "
-        f"{format_local(best_scenario[nav_column], local_currency)}."
+        f"{format_lkr(best_scenario[nav_column]) if present_value_nav_column else format_local(best_scenario[nav_column], local_currency)}."
     )
 
 
@@ -723,7 +793,7 @@ def render_sensitivity_risk_tab(
 
     st.write(
         "Sensitivity analysis changes one variable at a time by -20%, -10%, "
-        "Base, +10%, and +20%, then recalculates Year-10 NAV."
+        "Base, +10%, and +20%, then recalculates Year-10 NAV and its present-day LKR value."
     )
 
     st.subheader("Sensitivity Table")
@@ -735,7 +805,14 @@ def render_sensitivity_risk_tab(
 
     st.subheader(f"Sensitivity Line Chart - {country_context}")
 
-    sensitivity_nav_column = get_first_existing_column(
+    sensitivity_present_value_column = get_first_existing_column(
+        sensitivity_df,
+        [
+            "Year-10 NAV Present Value LKR"
+        ]
+    )
+
+    sensitivity_nav_column = sensitivity_present_value_column or get_first_existing_column(
         sensitivity_df,
         [
             "Year-10 NAV Local",
@@ -752,12 +829,16 @@ def render_sensitivity_risk_tab(
             y=sensitivity_nav_column,
             color="Variable",
             markers=True,
-            title=f"Year-10 NAV Sensitivity by Variable - {country_context}"
+            title=(
+                f"Present Value NAV Sensitivity by Variable - {country_context}"
+                if sensitivity_present_value_column
+                else f"Year-10 NAV Sensitivity by Variable - {country_context}"
+            )
         )
 
         sensitivity_line_fig.update_layout(
             xaxis_title="Sensitivity Level",
-            yaxis_title=f"Year-10 NAV ({local_currency})",
+            yaxis_title="Present Value NAV (LKR)" if sensitivity_present_value_column else f"Year-10 NAV ({local_currency})",
             legend_title="Variable"
         )
 

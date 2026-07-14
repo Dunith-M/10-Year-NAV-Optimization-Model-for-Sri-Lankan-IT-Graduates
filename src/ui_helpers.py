@@ -4,6 +4,8 @@ import pandas as pd
 import streamlit as st
 
 from src.currency_utils import (
+    LKR_PRESENT_VALUE_DISCOUNT_RATE,
+    calculate_lkr_present_value,
     format_currency_pair,
     format_lkr,
     format_local_currency,
@@ -180,6 +182,10 @@ def build_scenario_comparison(
                 "year_10_nav_lkr",
                 nav_local * exchange_rate
             )
+            nav_present_value_lkr = temp_nav_summary.get(
+                "year_10_nav_present_value_lkr",
+                calculate_lkr_present_value(nav_lkr)
+            )
 
             assets_local = temp_nav_summary["year_10_total_assets"]
             liabilities_local = temp_nav_summary["year_10_total_liabilities"]
@@ -198,6 +204,9 @@ def build_scenario_comparison(
                     "Year-10 NAV Local": nav_local,
                     f"Year-10 NAV {local_currency}": nav_local,
                     "Year-10 NAV LKR": nav_lkr,
+                    "Year-10 NAV Present Value LKR": nav_present_value_lkr,
+                    "Present Value Discount Rate": LKR_PRESENT_VALUE_DISCOUNT_RATE,
+                    "Present Value Discount Years": 10,
 
                     "Year-10 Assets Local": assets_local,
                     f"Year-10 Assets {local_currency}": assets_local,

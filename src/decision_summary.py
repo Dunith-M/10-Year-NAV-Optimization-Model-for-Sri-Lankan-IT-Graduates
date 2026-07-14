@@ -2,7 +2,11 @@ from typing import Any, Dict, List, Optional, Tuple
 import pandas as pd
 import streamlit as st
 
-from src.currency_utils import format_local_currency, format_lkr
+from src.currency_utils import (
+    calculate_lkr_present_value,
+    format_local_currency,
+    format_lkr
+)
 
 
 def _normalize_text(value: str) -> str:
@@ -551,6 +555,11 @@ def build_decision_summary(
     else:
         final_nav_lkr = final_year_10_nav * float(exchange_rate)
 
+    if "Present Value LKR NAV" in final_row.index:
+        final_nav_present_value_lkr = float(final_row["Present Value LKR NAV"])
+    else:
+        final_nav_present_value_lkr = calculate_lkr_present_value(final_nav_lkr)
+
     break_even_year = _get_break_even_year(nav_df)
 
     highest_debt_amount, highest_debt_year = _get_highest_debt(nav_df)
@@ -715,10 +724,12 @@ def build_decision_summary(
 
         "final_year_10_nav_local": final_year_10_nav,
         "final_year_10_nav_lkr": final_nav_lkr,
+        "final_year_10_nav_present_value_lkr": final_nav_present_value_lkr,
 
         # Backward-compatible keys.
         "final_year_10_nav": final_year_10_nav,
         "final_nav_lkr": final_nav_lkr,
+        "final_nav_present_value_lkr": final_nav_present_value_lkr,
 
         "break_even_year": break_even_year,
 
@@ -761,6 +772,7 @@ def render_decision_summary_dashboard(
 
     final_nav = decision_summary["final_year_10_nav"]
     final_nav_lkr = decision_summary["final_nav_lkr"]
+    final_nav_present_value_lkr = decision_summary["final_nav_present_value_lkr"]
     break_even_year = decision_summary["break_even_year"]
 
     highest_debt_amount = decision_summary["highest_debt_amount"]
@@ -780,7 +792,7 @@ def render_decision_summary_dashboard(
         st.metric(
             label=f"Final Year-10 NAV ({local_currency})",
             value=_format_local(final_nav, local_currency),
-            delta=_format_lkr(final_nav_lkr)
+            delta=f"Today's value: {_format_lkr(final_nav_present_value_lkr)}"
         )
 
     with metric_col_2:
@@ -838,6 +850,12 @@ def render_decision_summary_dashboard(
                 {
                     "Metric": "Final NAV in LKR",
                     "Value": _format_lkr(decision_summary["final_nav_lkr"])
+                },
+                {
+                    "Metric": "Today's Value of Final NAV in LKR",
+                    "Value": _format_lkr(
+                        decision_summary["final_nav_present_value_lkr"]
+                    )
                 },
                 {
                     "Metric": "Break-even Year",

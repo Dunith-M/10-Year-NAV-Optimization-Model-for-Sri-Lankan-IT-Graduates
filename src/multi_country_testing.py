@@ -16,6 +16,7 @@ from src.comparison_model import (
     get_dataset_currency,
     get_exchange_rate_from_dataset
 )
+from src.currency_utils import calculate_lkr_present_value
 
 
 CURRENCY_CODES = {
@@ -536,7 +537,21 @@ def run_multi_country_validation_tests() -> pd.DataFrame:
                     f"Invalid exchange rate: {exchange_rate}"
                 )
             else:
-                final_nav_lkr = final_nav * exchange_rate
+                lkr_nav_column = _get_first_existing_column(
+                    nav_df,
+                    ["LKR NAV"]
+                )
+
+                if lkr_nav_column is None:
+                    final_nav_lkr = final_nav * exchange_rate
+                else:
+                    final_nav_lkr = float(
+                        pd.to_numeric(
+                            nav_df[lkr_nav_column],
+                            errors="coerce"
+                        ).iloc[-1]
+                    )
+
                 _add_test_result(
                     records,
                     country,
@@ -544,6 +559,50 @@ def run_multi_country_validation_tests() -> pd.DataFrame:
                     "Pass",
                     f"Final NAV LKR = {final_nav_lkr:,.2f}"
                 )
+
+                present_value_column = _get_first_existing_column(
+                    nav_df,
+                    ["Present Value LKR NAV"]
+                )
+
+                if present_value_column is None:
+                    _add_test_result(
+                        records,
+                        country,
+                        "Present value NAV works",
+                        "Fail",
+                        "Present Value LKR NAV column is missing."
+                    )
+                else:
+                    actual_present_value = float(
+                        pd.to_numeric(
+                            nav_df[present_value_column],
+                            errors="coerce"
+                        ).iloc[-1]
+                    )
+                    expected_present_value = calculate_lkr_present_value(
+                        final_nav_lkr
+                    )
+
+                    if abs(actual_present_value - expected_present_value) <= 1.0:
+                        _add_test_result(
+                            records,
+                            country,
+                            "Present value NAV works",
+                            "Pass",
+                            f"Present value NAV = {actual_present_value:,.2f} LKR"
+                        )
+                    else:
+                        _add_test_result(
+                            records,
+                            country,
+                            "Present value NAV works",
+                            "Fail",
+                            (
+                                f"Expected {expected_present_value:,.2f}, "
+                                f"got {actual_present_value:,.2f}."
+                            )
+                        )
 
         except Exception as error:
             _add_test_result(
