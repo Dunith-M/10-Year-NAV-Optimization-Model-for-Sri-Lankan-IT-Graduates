@@ -15,13 +15,13 @@
                 "value": 2000,
                 "currency": "AUD",
                 "year": 2026,
-                "source": ":contentReference[oaicite:0]{index=0}",
+                "source": "https://www.studyaustralia.gov.au/en/tools-and-resources/news/student-visa-application-charge-increase",
                 "notes": "Fee for Student visa (subclass 500) effective July 2025."
             },
             "legal_work_hours_per_week": {
                 "value": 24,
                 "unit": "hours_per_week",
-                "source": ":contentReference[oaicite:1]{index=1}",
+                "source": "https://immi.homeaffairs.gov.au/visas/getting-a-visa/visa-listing/student-500",
                 "notes": "Student visa holders can work up to 48 hours per fortnight during study periods."
             }
         },
@@ -30,13 +30,13 @@
                 "value": 4600,
                 "currency": "AUD",
                 "year": 2026,
-                "source": ":contentReference[oaicite:2]{index=2}",
+                "source": "https://www.studyaustralia.gov.au/en/tools-and-resources/news/student-visa-application-charge-increase",
                 "notes": "Post-study Temporary Graduate visa fee for main applicant from 1 March 2026."
             },
             "duration_years": {
                 "value": 2,
                 "unit": "years",
-                "source": ":contentReference[oaicite:3]{index=3}",
+                "source": "https://immi.homeaffairs.gov.au/visas/getting-a-visa/visa-listing/temporary-graduate-485/post-higher-education-work",
                 "notes": "Typical stay for master's coursework graduates; 2–3 years depending on qualification."
             }
         },
@@ -45,7 +45,7 @@
                 "value": 3115,
                 "currency": "AUD",
                 "year": 2026,
-                "source": ":contentReference[oaicite:4]{index=4}",
+                "source": "https://immi.homeaffairs.gov.au/visas/getting-a-visa/visa-listing/skills-in-demand-visa-subclass-482",
                 "notes": "Skills in Demand/Temporary Skill Shortage visa primary applicant charge."
             },
             "full_time_work_allowed": true
@@ -55,13 +55,13 @@
                 "value": 4910,
                 "currency": "AUD",
                 "year": 2026,
-                "source": ":contentReference[oaicite:5]{index=5}",
+                "source": "https://immi.homeaffairs.gov.au/visas/getting-a-visa/visa-listing/skilled-independent-189",
                 "notes": "Employer Nomination Scheme or Skilled Independent visa fee for main applicant."
             },
             "estimated_processing_years": {
                 "value": 2,
                 "unit": "years",
-                "source": "",
+                "source": "https://immi.homeaffairs.gov.au/visas/getting-a-visa/visa-processing-times/global-visa-processing-times",
                 "notes": "Assumed average processing time; actual times vary."
             }
         }
@@ -72,7 +72,7 @@
                 "value": 35000,
                 "currency": "AUD",
                 "year": 2026,
-                "source": ":contentReference[oaicite:6]{index=6}",
+                "source": "https://search.studyaustralia.gov.au/courses",
                 "notes": "Midpoint of AU$22k–50k per year for master's degree."
             },
             "full_time_duration_years": {
@@ -92,28 +92,28 @@
                 "value": 85000,
                 "currency": "AUD",
                 "year": 2026,
-                "source": ":contentReference[oaicite:7]{index=7}",
+                "source": "https://iterate.com.au/wp-content/uploads/2026/03/Iterate_Technology_Salary_Guide_2026.pdf",
                 "notes": "Median of AU$70k–95k for entry-level software roles."
             },
             "mid_level_annual_salary": {
                 "value": 120000,
                 "currency": "AUD",
                 "year": 2026,
-                "source": ":contentReference[oaicite:8]{index=8}",
+                "source": "https://iterate.com.au/wp-content/uploads/2026/03/Iterate_Technology_Salary_Guide_2026.pdf",
                 "notes": "Median of AU$100k–140k for mid-level software roles."
             },
             "senior_annual_salary": {
                 "value": 170000,
                 "currency": "AUD",
                 "year": 2026,
-                "source": ":contentReference[oaicite:9]{index=9}",
+                "source": "https://iterate.com.au/wp-content/uploads/2026/03/Iterate_Technology_Salary_Guide_2026.pdf",
                 "notes": "Median of AU$150k–190k for senior software roles."
             },
             "annual_salary_growth_rate": {
                 "value": 0.04,
                 "unit": "decimal",
                 "example": 0.04,
-                "source": "",
+                "source": "https://www.abs.gov.au/statistics/economy/price-indexes-and-inflation/wage-price-index-australia/latest-release",
                 "notes": "Assumed salary growth of 4% per year."
             }
         },
@@ -122,7 +122,7 @@
                 "value": 31.19,
                 "currency": "AUD",
                 "year": 2026,
-                "source": ":contentReference[oaicite:10]{index=10}",
+                "source": "https://www.fwc.gov.au/hearings-decisions/major-cases/annual-wage-reviews/annual-wage-review-2025",
                 "notes": "Casual minimum wage (AU$24.95 plus 25% loading) for international students."
             },
             "working_weeks_per_year": {
@@ -136,7 +136,7 @@
                 "value": 70000,
                 "currency": "AUD",
                 "year": 2026,
-                "source": ":contentReference[oaicite:11]{index=11}",
+                "source": "https://www.abs.gov.au/statistics/labour/earnings-and-working-conditions/employee-earnings/latest-release",
                 "notes": "Approximate median full-time salary in Australia."
             },
             "income_cases": {
@@ -151,13 +151,13 @@
             "value": 0.26,
             "unit": "decimal",
             "example": 0.25,
-            "source": ":contentReference[oaicite:12]{index=12}",
+            "source": "https://www.ato.gov.au/tax-rates-and-codes/tax-rates-australian-residents",
             "notes": "Average tax rate (approx. 25.8%) for a salary around AU$110k."
         },
         "employer_superannuation_rate": {
             "value": 0.12,
             "unit": "decimal",
-            "source": ":contentReference[oaicite:13]{index=13}",
+            "source": "https://www.ato.gov.au/tax-rates-and-codes/key-superannuation-rates-and-thresholds/super-guarantee",
             "notes": "Superannuation guarantee rate from July 1 2025."
         }
     },
@@ -167,21 +167,21 @@
                 "value": 1500,
                 "currency": "AUD",
                 "year": 2026,
-                "source": ":contentReference[oaicite:14]{index=14}",
+                "source": "https://costofliving.studyaustralia.gov.au/",
                 "notes": "Midpoint of food, transport, utilities, entertainment and personal expenses from national cost guides."
             },
             "couple_monthly": {
                 "value": 2600,
                 "currency": "AUD",
                 "year": 2026,
-                "source": ":contentReference[oaicite:15]{index=15}",
+                "source": ":https://costofliving.studyaustralia.gov.au/",
                 "notes": "Estimated national-average monthly living expenses for a couple excluding rent."
             },
             "family_with_one_child_monthly": {
                 "value": 3000,
                 "currency": "AUD",
                 "year": 2026,
-                "source": ":contentReference[oaicite:16]{index=16}",
+                "source": "https://costofliving.studyaustralia.gov.au/",
                 "notes": "Estimated monthly expenses for a family with one child excluding rent and childcare."
             }
         },
@@ -190,14 +190,14 @@
                 "value": 3055,
                 "currency": "AUD",
                 "year": 2026,
-                "source": ":contentReference[oaicite:17]{index=17}",
+                "source": "https://insight.domain.com.au/research-insights/industry-news/rents-forecast-to-hit-record-highs-in-every-capital-city-in-2026/",
                 "notes": "Average weekly rent (AU$595–815) converted to monthly (705*52/12)."
             },
             "family_monthly": {
                 "value": 4767,
                 "currency": "AUD",
                 "year": 2026,
-                "source": ":contentReference[oaicite:18]{index=18}",
+                "source": "https://costofliving.studyaustralia.gov.au/",
                 "notes": "Average family home rent (AU$900–1,300 per week) converted to monthly."
             }
         },
@@ -206,7 +206,7 @@
                 "value": 1600,
                 "currency": "AUD",
                 "year": 2026,
-                "source": ":contentReference[oaicite:19]{index=19}",
+                "source": "https://www.ccschecker.com.au/guides/average-childcare-cost-australia",
                 "notes": "Midpoint of AU$1,200–2,000 per month for full-time childcare."
             },
             "applies_until_child_age": {
@@ -220,7 +220,7 @@
                 "value": 190,
                 "currency": "AUD",
                 "year": 2026,
-                "source": ":contentReference[oaicite:20]{index=20}",
+                "source": "https://costofliving.studyaustralia.gov.au/",
                 "notes": "Midpoint of AU$160–220 per month for public transport."
             }
         },
@@ -229,7 +229,7 @@
                 "value": 40,
                 "currency": "AUD",
                 "year": 2026,
-                "source": ":contentReference[oaicite:21]{index=21}",
+                "source": "https://www.studyaustralia.gov.au/en/plan-your-move/overseas-student-health-cover-oshc",
                 "notes": "Overseas Student Health Cover annual cost (AU$478) divided by 12 for singles."
             }
         }
@@ -239,40 +239,40 @@
             "value": 37000,
             "currency": "AUD",
             "year": 2026,
-            "source": ":contentReference[oaicite:22]{index=22}",
+            "source": "https://www.onlycars.com.au/news/used-car-prices",
             "notes": "Average used-car price in 2022; used as 2026 estimate."
         },
         "annual_insurance": {
             "value": 2219,
             "currency": "AUD",
             "year": 2026,
-            "source": ":contentReference[oaicite:23]{index=23}"
+            "source": "https://www.iselect.com.au/car-insurance/car-running-costs/"
         },
         "annual_fuel": {
             "value": 5215,
             "currency": "AUD",
             "year": 2026,
-            "source": ":contentReference[oaicite:24]{index=24}",
+            "source": "https://www.iselect.com.au/car-insurance/car-running-costs/",
             "notes": "Weekly fuel cost of AU$100.29 converted to annual (×52)."
         },
         "annual_maintenance": {
             "value": 3405,
             "currency": "AUD",
             "year": 2026,
-            "source": ":contentReference[oaicite:25]{index=25}",
+            "source": "https://www.iselect.com.au/car-insurance/car-running-costs/",
             "notes": "Includes annual registration (~AU$1,608.50) and servicing (~AU$1,796) costs."
         },
         "annual_depreciation_rate": {
             "value": 0.15,
             "unit": "decimal",
             "example": 0.15,
-            "source": "",
+            "source": "https://www.budgetdirect.com.au/car-insurance/guides/car-buying/car-depreciation.html",
             "notes": "Estimated depreciation rate for a used car."
         },
         "car_loan_interest_rate": {
             "value": 0.075,
             "unit": "decimal",
-            "source": ":contentReference[oaicite:26]{index=26}",
+            "source": "https://www.finder.com.au/car-loans/new-car",
             "notes": "Midpoint of typical new car loan interest rate range (5.09%–9.99%)."
         }
     },
@@ -281,26 +281,26 @@
             "value": 0.042,
             "unit": "decimal",
             "year": 2026,
-            "source": ":contentReference[oaicite:27]{index=27}",
+            "source": "https://www.abs.gov.au/statistics/economy/price-indexes-and-inflation/consumer-price-index-australia/apr-2026",
             "notes": "Annual CPI growth in the 12 months to April 2026."
         },
         "savings_interest_rate": {
             "value": 0.033,
             "unit": "decimal",
             "year": 2026,
-            "source": ":contentReference[oaicite:28]{index=28}"
+            "source": "https://www.rba.gov.au/statistics/tables/xls/f04hist.xlsx"
         },
         "investment_return_rate": {
             "value": 0.098,
             "unit": "decimal",
             "year": 2026,
-            "source": ":contentReference[oaicite:29]{index=29}",
+            "source": "https://www.canstar.com.au/investor-hub/australian-share-performance-30-years/",
             "notes": "Average annual return of Australian shares over the past 30 years."
         },
         "aud_to_lkr_exchange_rate": {
             "value": 221.78,
             "year": 2026,
-            "source": ":contentReference[oaicite:30]{index=30}",
+            "source": "https://www.cbsl.gov.lk/en/rates-and-indicators/exchange-rates/aud-lkr-indicative-rate-chart",
             "notes": "Weighted average AUD→LKR exchange rate from January–May 2026."
         }
     },
@@ -308,13 +308,13 @@
         "education_loan_interest_rate": {
             "value": 0.10,
             "unit": "decimal",
-            "source": "",
+            "source": "https://www.cbsl.gov.lk/sites/default/files/cbslweb_documents/mpr03_2026_e.pdf",
             "notes": "Assumed interest rate for Sri Lankan education loans (approximate)."
         },
         "migration_loan_interest_rate": {
             "value": 0.12,
             "unit": "decimal",
-            "source": "",
+            "source": "https://www.nsb.lk/lending-rates/",
             "notes": "Assumed interest rate for personal/migration loans (approximate)."
         },
         "borrowing_allowed": true,
@@ -413,37 +413,37 @@
     },
     "sources": {
         "official_government": [
-            ":contentReference[oaicite:31]{index=31}",
-            ":contentReference[oaicite:32]{index=32}",
-            ":contentReference[oaicite:33]{index=33}",
-            ":contentReference[oaicite:34]{index=34}",
-            ":contentReference[oaicite:35]{index=35}",
-            ":contentReference[oaicite:36]{index=36}",
-            ":contentReference[oaicite:37]{index=37}"
+            "https://immi.homeaffairs.gov.au/visas/getting-a-visa/visa-listing/student-500",
+            "https://www.studyaustralia.gov.au/en/tools-and-resources/news/student-visa-application-charge-increase",
+            "https://immi.homeaffairs.gov.au/visas/getting-a-visa/visa-listing/temporary-graduate-485/post-higher-education-work",
+            "https://immi.homeaffairs.gov.au/visas/getting-a-visa/visa-listing/skills-in-demand-visa-subclass-482",
+            "https://immi.homeaffairs.gov.au/visas/getting-a-visa/visa-listing/skilled-independent-189",
+            "https://www.ato.gov.au/tax-rates-and-codes/tax-rates-australian-residents",
+            "https://www.ato.gov.au/tax-rates-and-codes/key-superannuation-rates-and-thresholds/super-guarantee"
         ],
         "salary_sources": [
-            ":contentReference[oaicite:38]{index=38}",
-            ":contentReference[oaicite:39]{index=39}",
-            ":contentReference[oaicite:40]{index=40}"
+            "https://iterate.com.au/wp-content/uploads/2026/03/Iterate_Technology_Salary_Guide_2026.pdf",
+            "https://www.hays.com.au/it/software-engineer-jobs/salary",
+            "https://www.abs.gov.au/statistics/labour/earnings-and-working-conditions/employee-earnings/latest-release"
         ],
         "cost_of_living_sources": [
-            ":contentReference[oaicite:41]{index=41}",
-            ":contentReference[oaicite:42]{index=42}",
-            ":contentReference[oaicite:43]{index=43}",
-            ":contentReference[oaicite:44]{index=44}",
-            ":contentReference[oaicite:45]{index=45}",
-            ":contentReference[oaicite:46]{index=46}"
+            "https://costofliving.studyaustralia.gov.au/",
+            "https://www.studyaustralia.gov.au/en/life-in-australia/living-and-education-costs",
+            "https://insight.domain.com.au/research-insights/industry-news/rents-forecast-to-hit-record-highs-in-every-capital-city-in-2026/",
+            "https://www.ccschecker.com.au/guides/average-childcare-cost-australia",
+            "https://www.iselect.com.au/car-insurance/car-running-costs/",
+            "https://www.studyaustralia.gov.au/en/plan-your-move/overseas-student-health-cover-oshc"
         ],
         "education_sources": [
-            ":contentReference[oaicite:47]{index=47}",
-            ":contentReference[oaicite:48]{index=48}",
-            ":contentReference[oaicite:49]{index=49}"
+            "https://search.studyaustralia.gov.au/courses",
+            "https://www.studyaustralia.gov.au/en/life-in-australia/living-and-education-costs",
+            "https://www.education.gov.au/international-education/financial-assistance-international-students"
         ],
         "economic_sources": [
-            ":contentReference[oaicite:50]{index=50}",
-            ":contentReference[oaicite:51]{index=51}",
-            ":contentReference[oaicite:52]{index=52}",
-            ":contentReference[oaicite:53]{index=53}"
+            "",
+            "",
+            "",
+            ""
         ],
         "notes": "Store URLs or citation labels here."
     }
