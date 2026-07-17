@@ -51,7 +51,7 @@ def dictionary_to_json_bytes(data: dict) -> bytes:
 def render_metric_grid(metrics: list[dict], columns_per_row: int = 3) -> None:
     for start_index in range(0, len(metrics), columns_per_row):
         row_metrics = metrics[start_index:start_index + columns_per_row]
-        columns = st.columns(len(row_metrics))
+        columns = st.columns(len(row_metrics), gap="medium")
 
         for column, metric in zip(columns, row_metrics):
             column.metric(

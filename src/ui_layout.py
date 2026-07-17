@@ -168,7 +168,8 @@ def render_sidebar_inputs(default_inputs: dict) -> dict:
 
     run_simulation = st.sidebar.button(
         "Run Simulation",
-        type="primary"
+        type="primary",
+        use_container_width=True
     )
 
     return {

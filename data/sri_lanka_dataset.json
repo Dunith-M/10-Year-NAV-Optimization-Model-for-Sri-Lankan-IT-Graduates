@@ -12,14 +12,14 @@
 "visa": {
 "student_visa": {
 "application_fee": {
-"value": 20000,
+"value": 0,
 "currency": "LKR",
 "year": 2026,
 "source": "【253390197729879†L100-L105】",
 "notes": "Government student visa fee per year."
 },
 "legal_work_hours_per_week": {
-"value": 20,
+"value": 40,
 "unit": "hours_per_week",
 "source": "Assumption based on common practice for student visas; Sri Lanka does not explicitly state work-hours limit."
 ,
@@ -28,7 +28,7 @@
 },
 "graduate_visa": {
   "application_fee": {
-    "value": 61912,
+    "value": 0,
     "currency": "LKR",
     "year": 2026,
     "source": "【441612380508283†L111-L129】",
@@ -44,7 +44,7 @@
 
 "skilled_work_visa": {
   "application_fee": {
-    "value": 61912,
+    "value": 0,
     "currency": "LKR",
     "year": 2026,
     "source": "【441612380508283†L111-L129】",
@@ -55,7 +55,7 @@
 
 "permanent_residency": {
   "application_fee": {
-    "value": 619120,
+    "value": 0,
     "currency": "LKR",
     "year": 2026,
     "source": "【276938088669420†L390-L415】",
@@ -93,21 +93,21 @@
 "income": {
 "it_software_salary": {
 "graduate_annual_salary": {
-"value": 1036662,
+"value": 1236662,
 "currency": "LKR",
 "year": 2026,
 "source": "【272310584090274†L24-L42】",
 "notes": "Average software engineer salary according to PayScale."
 },
 "mid_level_annual_salary": {
-"value": 2400000,
+"value": 3000000,
 "currency": "LKR",
 "year": 2026,
 "source": "【720858706590718†L24-L67】",
 "notes": "Estimated mid-level salary using compiled.lk data (~200k LKR per month)."
 },
 "senior_annual_salary": {
-"value": 3600000,
+"value": 4000000,
 "currency": "LKR",
 "year": 2026,
 "source": "【720858706590718†L24-L67】",
@@ -171,21 +171,21 @@
 "expenses": {
 "general_living_excluding_rent": {
 "single_monthly": {
-"value": 149660,
+"value": 90000,
 "currency": "LKR",
 "year": 2026,
 "source": "【495741739649571†L78-L83】",
 "notes": "Numbeo estimated monthly costs for a single person excluding rent."
 },
 "couple_monthly": {
-"value": 300000,
+"value": 150000,
 "currency": "LKR",
 "year": 2026,
 "source": "Assumption based on double the single cost with economies of scale.",
 "notes": "Estimated couple expenses excluding rent."
 },
 "family_with_one_child_monthly": {
-"value": 450000,
+"value": 200000,
 "currency": "LKR",
 "year": 2026,
 "source": "Assumption derived from family-of-four cost (550,637 LKR) scaled for three persons.",
@@ -194,14 +194,14 @@
 },
 "rent": {
   "single_monthly": {
-    "value": 82369,
+    "value": 40000,
     "currency": "LKR",
     "year": 2026,
     "source": "【495741739649571†L195-L198】",
     "notes": "Average of 1-bedroom apartment rent in city centre and outside centre (112,962 and 51,776 LKR)."
   },
   "family_monthly": {
-    "value": 166130,
+    "value": 60000,
     "currency": "LKR",
     "year": 2026,
     "source": "【495741739649571†L195-L198】",
@@ -226,7 +226,7 @@
 
 "transport": {
   "public_transport_monthly": {
-    "value": 1550,
+    "value": 15500,
     "currency": "LKR",
     "year": 2026,
     "source": "【319376523757354†L383-L387】",

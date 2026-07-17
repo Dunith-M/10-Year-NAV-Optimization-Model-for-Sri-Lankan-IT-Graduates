@@ -118,6 +118,8 @@ from src.ui_layout import (
     render_export_tab
 )
 
+from src.ui_helpers import render_metric_grid
+
 
 STYLE_PATH = "assets/style.css"
 PROJECT_TITLE = "Multi-Country 10-Year NAV Simulator"
@@ -308,37 +310,30 @@ def render_dataset_status_panel(
 
     st.markdown("### Dataset Status")
 
-    columns = st.columns(5)
+    status_metrics = [
+        {
+            "label": "Country",
+            "value": summary.get("country", "N/A")
+        },
+        {
+            "label": "Currency",
+            "value": summary.get("currency", "N/A")
+        },
+        {
+            "label": "Base year",
+            "value": summary.get("base_year", "N/A")
+        },
+        {
+            "label": "Time horizon",
+            "value": f"{summary.get('time_horizon_years', 'N/A')} years"
+        },
+        {
+            "label": "Dataset last updated",
+            "value": dataset_last_updated
+        }
+    ]
 
-    with columns[0]:
-        st.metric(
-            "Country",
-            summary.get("country", "N/A")
-        )
-
-    with columns[1]:
-        st.metric(
-            "Currency",
-            summary.get("currency", "N/A")
-        )
-
-    with columns[2]:
-        st.metric(
-            "Base year",
-            summary.get("base_year", "N/A")
-        )
-
-    with columns[3]:
-        st.metric(
-            "Time horizon",
-            f"{summary.get('time_horizon_years', 'N/A')} years"
-        )
-
-    with columns[4]:
-        st.metric(
-            "Dataset last updated",
-            dataset_last_updated
-        )
+    render_metric_grid(status_metrics, columns_per_row=3)
 
     st.caption(
         f"Exchange-rate field: `{summary.get('exchange_rate_key', 'N/A')}`"
@@ -771,52 +766,47 @@ def render_scenario_decision_panel(simulation_outputs, dataset):
         ]
     )
 
-    columns = st.columns(4)
+    selected_rank = comparison_result.get("selected_rank")
+    total_scenarios = comparison_result.get("total_scenarios", 0)
 
-    with columns[0]:
-        st.metric(
-            "Best scenario",
-            best_scenario.get("Scenario", "N/A"),
-            format_local_currency(
+    if selected_rank is None:
+        rank_label = "N/A"
+    else:
+        rank_label = f"{selected_rank} / {total_scenarios}"
+
+    decision_metrics = [
+        {
+            "label": "Best scenario",
+            "value": best_scenario.get("Scenario", "N/A"),
+            "delta": format_local_currency(
                 value=best_scenario_nav_local,
                 dataset=dataset
             )
-        )
-
-    with columns[1]:
-        st.metric(
-            "Worst scenario",
-            worst_scenario.get("Scenario", "N/A"),
-            format_local_currency(
+        },
+        {
+            "label": "Worst scenario",
+            "value": worst_scenario.get("Scenario", "N/A"),
+            "delta": format_local_currency(
                 value=worst_scenario_nav_local,
                 dataset=dataset
             )
-        )
-
-    with columns[2]:
-        selected_rank = comparison_result.get("selected_rank")
-        total_scenarios = comparison_result.get("total_scenarios", 0)
-
-        if selected_rank is None:
-            rank_label = "N/A"
-        else:
-            rank_label = f"{selected_rank} / {total_scenarios}"
-
-        st.metric(
-            "Selected rank",
-            rank_label,
-            selected_scenario.get("Scenario", "")
-        )
-
-    with columns[3]:
-        st.metric(
-            "Difference from best",
-            format_local_currency(
+        },
+        {
+            "label": "Selected rank",
+            "value": rank_label,
+            "delta": selected_scenario.get("Scenario", "")
+        },
+        {
+            "label": "Difference from best",
+            "value": format_local_currency(
                 value=nav_gap_local,
                 dataset=dataset
             ),
-            f"Today's value: {format_lkr(nav_gap_present_value_lkr)}"
-        )
+            "delta": f"Today's value: {format_lkr(nav_gap_present_value_lkr)}"
+        }
+    ]
+
+    render_metric_grid(decision_metrics, columns_per_row=2)
 
 
 def render_risk_decision_panel(simulation_outputs, dataset):
@@ -875,59 +865,64 @@ def render_risk_decision_panel(simulation_outputs, dataset):
         ]
     )
 
-    columns = st.columns(4)
-
-    with columns[0]:
-        st.metric(
-            "Most dangerous variable",
-            most_sensitive_variable.get("variable", "N/A"),
-            format_local_currency(
+    risk_metrics = [
+        {
+            "label": "Most dangerous variable",
+            "value": most_sensitive_variable.get("variable", "N/A"),
+            "delta": format_local_currency(
                 value=max_impact_local,
                 dataset=dataset
             )
-        )
-
-    with columns[1]:
-        st.metric(
-            "Best-case NAV",
-            format_local_currency(
+        },
+        {
+            "label": "Best-case NAV",
+            "value": format_local_currency(
                 value=best_case_nav_local,
                 dataset=dataset
             ),
-            f"{best_case_nav.get('variable', 'N/A')} {best_case_nav.get('change_label', '')}"
-        )
-
-    with columns[2]:
-        st.metric(
-            "Worst-case NAV",
-            format_local_currency(
+            "delta": f"{best_case_nav.get('variable', 'N/A')} {best_case_nav.get('change_label', '')}"
+        },
+        {
+            "label": "Worst-case NAV",
+            "value": format_local_currency(
                 value=worst_case_nav_local,
                 dataset=dataset
             ),
-            f"{worst_case_nav.get('variable', 'N/A')} {worst_case_nav.get('change_label', '')}"
-        )
+            "delta": f"{worst_case_nav.get('variable', 'N/A')} {worst_case_nav.get('change_label', '')}"
+        },
+        {
+            "label": "Risk level",
+            "value": risk_level,
+            "delta": "Based on downside sensitivity"
+        }
+    ]
 
-    with columns[3]:
-        st.metric(
-            "Risk level",
-            risk_level,
-            "Based on downside sensitivity"
-        )
+    render_metric_grid(risk_metrics, columns_per_row=2)
 
 
 def render_visual_analysis_section(
     simulation_outputs,
     selected_country: str,
-    local_currency: str
+    local_currency: str,
+    chart_group_name: str
 ):
     """
-    Display advanced country-aware Plotly figures generated by src.chart_builder.
+    Display one advanced country-aware Plotly chart group in its matching tab.
     """
 
-    st.subheader(f"Advanced Visual Analysis - {selected_country} {local_currency}")
+    section_titles = {
+        "Income charts": "Income Breakdown & Trends",
+        "Expense charts": "Expense Breakdown & Trends",
+        "NAV charts": "NAV, Assets & Debt Trends"
+    }
+
+    st.subheader(
+        f"{section_titles.get(chart_group_name, chart_group_name)} - "
+        f"{selected_country} ({local_currency})"
+    )
 
     if simulation_outputs is None:
-        st.info("Run the simulation to view the advanced visual analysis charts.")
+        st.info("Run the simulation to view these analysis charts.")
         return
 
     chart_groups = build_all_advanced_charts(
@@ -938,26 +933,24 @@ def render_visual_analysis_section(
         country_name=selected_country
     )
 
-    st.caption(
-        "These charts explain the financial story behind income, expenses, assets, liabilities, debt, and NAV."
-    )
+    figures = chart_groups.get(chart_group_name, {})
+    figure_items = list(figures.items())
 
-    for group_name, figures in chart_groups.items():
-        with st.expander(group_name, expanded=False):
-            figure_items = list(figures.items())
+    for index in range(0, len(figure_items), 2):
+        columns = st.columns(2, gap="large")
+        row_items = figure_items[index:index + 2]
 
-            for index in range(0, len(figure_items), 2):
-                columns = st.columns(2)
-                row_items = figure_items[index:index + 2]
-
-                for column, (chart_name, figure) in zip(columns, row_items):
-                    with column:
-                        st.markdown(f"#### {chart_name}")
-                        st.plotly_chart(
-                            figure,
-                            use_container_width=True,
-                            key=f"advanced_chart_{selected_country}_{group_name}_{chart_name}"
-                        )
+        for column, (chart_name, figure) in zip(columns, row_items):
+            with column:
+                st.markdown(f"#### {chart_name}")
+                st.plotly_chart(
+                    figure,
+                    use_container_width=True,
+                    key=(
+                        f"advanced_chart_{selected_country}_"
+                        f"{chart_group_name}_{chart_name}"
+                    )
+                )
 
 
 def get_safe_country_filename_prefix(selected_country: str) -> str:
@@ -1220,26 +1213,6 @@ try:
             selected_country=selected_country
         )
 
-        render_decision_summary_dashboard(
-            decision_summary=simulation_outputs["decision_summary"]
-        )
-
-        st.divider()
-        render_nav_health_indicator(
-            simulation_outputs=simulation_outputs,
-            dataset=dataset
-        )
-
-        st.divider()
-        render_scenario_decision_panel(
-            simulation_outputs=simulation_outputs,
-            dataset=dataset
-        )
-        render_risk_decision_panel(
-            simulation_outputs=simulation_outputs,
-            dataset=dataset
-        )
-
     (
         dashboard_tab,
         scenario_builder_tab,
@@ -1284,12 +1257,29 @@ try:
             selected_country=selected_country
         )
 
-        st.divider()
+        if simulation_outputs is not None:
+            st.divider()
+            render_decision_summary_dashboard(
+                decision_summary=simulation_outputs["decision_summary"]
+            )
 
-        render_nav_health_indicator(
-            simulation_outputs=simulation_outputs,
-            dataset=dataset
-        )
+            st.divider()
+            render_nav_health_indicator(
+                simulation_outputs=simulation_outputs,
+                dataset=dataset
+            )
+
+            st.divider()
+            render_scenario_decision_panel(
+                simulation_outputs=simulation_outputs,
+                dataset=dataset
+            )
+
+            st.divider()
+            render_risk_decision_panel(
+                simulation_outputs=simulation_outputs,
+                dataset=dataset
+            )
 
         with st.expander("Model limitations", expanded=False):
             render_model_limitations_section()
@@ -1340,6 +1330,14 @@ try:
             selected_country=selected_country
         )
 
+        st.divider()
+        render_visual_analysis_section(
+            simulation_outputs=simulation_outputs,
+            selected_country=selected_country,
+            local_currency=local_currency,
+            chart_group_name="Income charts"
+        )
+
     with expense_analysis_tab:
         st.caption(
             f"Expense analysis for {selected_country} explains rent, living cost, tuition, visa cost, childcare, transport, car cost, and debt pressure."
@@ -1347,6 +1345,14 @@ try:
         render_expense_tab(
             simulation_outputs=simulation_outputs,
             selected_country=selected_country
+        )
+
+        st.divider()
+        render_visual_analysis_section(
+            simulation_outputs=simulation_outputs,
+            selected_country=selected_country,
+            local_currency=local_currency,
+            chart_group_name="Expense charts"
         )
 
     with nav_analysis_tab:
@@ -1363,7 +1369,8 @@ try:
         render_visual_analysis_section(
             simulation_outputs=simulation_outputs,
             selected_country=selected_country,
-            local_currency=local_currency
+            local_currency=local_currency,
+            chart_group_name="NAV charts"
         )
 
     with scenario_comparison_tab:
