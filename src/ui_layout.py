@@ -61,6 +61,13 @@ def format_local(value, currency: str) -> str:
     )
 
 
+def format_probability(value) -> str:
+    try:
+        return f"{float(value) * 100:.1f}%"
+    except (TypeError, ValueError):
+        return "0.0%"
+
+
 def get_first_existing_column(df, column_candidates: list[str]) -> str | None:
     if df is None or getattr(df, "empty", True):
         return None
@@ -911,6 +918,242 @@ def render_sensitivity_risk_tab(
         "That is why the sensitivity table includes both local currency and LKR NAV."
     )
 
+    st.divider()
+
+    render_monte_carlo_risk_section(
+        simulation_outputs=simulation_outputs,
+        country_context=country_context,
+        local_currency=local_currency
+    )
+
+
+def render_monte_carlo_risk_section(
+    simulation_outputs: dict,
+    country_context: str,
+    local_currency: str
+) -> None:
+    st.subheader("Monte Carlo Risk Simulator")
+
+    monte_carlo_results_df = simulation_outputs.get("monte_carlo_results_df")
+    monte_carlo_summary_df = simulation_outputs.get("monte_carlo_summary_df")
+    monte_carlo_percentiles_df = simulation_outputs.get(
+        "monte_carlo_percentiles_df"
+    )
+    probability_summary = simulation_outputs.get(
+        "monte_carlo_probability_summary",
+        {}
+    )
+
+    if (
+        monte_carlo_results_df is None
+        or getattr(monte_carlo_results_df, "empty", True)
+    ):
+        st.info("Monte Carlo results are not available for this run.")
+        return
+
+    simulation_count = int(probability_summary.get("simulation_count", 0))
+
+    st.write(
+        f"This runs {simulation_count:,} randomized future cases through the "
+        "same NAV model and estimates downside probabilities."
+    )
+
+    monte_carlo_metrics = [
+        {
+            "label": "Probability Positive NAV",
+            "value": format_probability(
+                probability_summary.get("positive_nav_probability", 0.0)
+            )
+        },
+        {
+            "label": "Probability High Debt",
+            "value": format_probability(
+                probability_summary.get("high_debt_probability", 0.0)
+            )
+        },
+        {
+            "label": "Probability Very Bad Outcome",
+            "value": format_probability(
+                probability_summary.get("very_bad_outcome_probability", 0.0)
+            )
+        },
+        {
+            "label": f"Median Final NAV ({local_currency})",
+            "value": format_local(
+                probability_summary.get("median_final_nav_local", 0.0),
+                local_currency
+            )
+        },
+        {
+            "label": f"5th Percentile NAV ({local_currency})",
+            "value": format_local(
+                probability_summary.get("p5_final_nav_local", 0.0),
+                local_currency
+            )
+        },
+        {
+            "label": f"95th Percentile NAV ({local_currency})",
+            "value": format_local(
+                probability_summary.get("p95_final_nav_local", 0.0),
+                local_currency
+            )
+        }
+    ]
+
+    render_metric_grid(monte_carlo_metrics, columns_per_row=3)
+
+    final_nav_column = get_first_existing_column(
+        monte_carlo_results_df,
+        [
+            "Final NAV Local",
+            f"Final NAV {local_currency}"
+        ]
+    )
+
+    if final_nav_column is not None:
+        st.subheader(f"Final NAV Distribution - {country_context}")
+
+        histogram_fig = px.histogram(
+            monte_carlo_results_df,
+            x=final_nav_column,
+            nbins=40,
+            title=f"Monte Carlo Final NAV Distribution - {country_context}"
+        )
+
+        histogram_fig.add_vline(
+            x=0,
+            line_dash="dash",
+            annotation_text="Break-even"
+        )
+
+        histogram_fig.update_layout(
+            xaxis_title=f"Final NAV ({local_currency})",
+            yaxis_title="Simulation Count"
+        )
+
+        st.plotly_chart(
+            histogram_fig,
+            use_container_width=True
+        )
+
+    probability_rows = [
+        {
+            "Outcome": "Positive NAV",
+            "Probability": probability_summary.get(
+                "positive_nav_probability",
+                0.0
+            )
+        },
+        {
+            "Outcome": "High Debt",
+            "Probability": probability_summary.get(
+                "high_debt_probability",
+                0.0
+            )
+        },
+        {
+            "Outcome": "Very Bad Outcome",
+            "Probability": probability_summary.get(
+                "very_bad_outcome_probability",
+                0.0
+            )
+        }
+    ]
+
+    probability_fig = px.bar(
+        probability_rows,
+        x="Outcome",
+        y="Probability",
+        text="Probability",
+        title=f"Monte Carlo Risk Probabilities - {country_context}"
+    )
+
+    probability_fig.update_traces(texttemplate="%{text:.1%}")
+    probability_fig.update_layout(
+        xaxis_title="Risk Outcome",
+        yaxis_title="Probability",
+        yaxis_tickformat=".0%",
+        yaxis_range=[0, 1]
+    )
+
+    st.plotly_chart(
+        probability_fig,
+        use_container_width=True
+    )
+
+    if (
+        final_nav_column is not None
+        and "Max Debt-to-Income Ratio" in monte_carlo_results_df.columns
+    ):
+        st.subheader(f"Final NAV vs Debt Pressure - {country_context}")
+
+        hover_columns = [
+            column
+            for column in [
+                "Simulation",
+                "Final Debt",
+                "Peak Debt",
+                "Break-even Year",
+                "Sampled Salary Growth Rate",
+                "Sampled Inflation Rate",
+                "Sampled Investment Return Rate"
+            ]
+            if column in monte_carlo_results_df.columns
+        ]
+
+        scatter_fig = px.scatter(
+            monte_carlo_results_df,
+            x="Max Debt-to-Income Ratio",
+            y=final_nav_column,
+            color="Very Bad Outcome"
+            if "Very Bad Outcome" in monte_carlo_results_df.columns
+            else None,
+            hover_data=hover_columns,
+            title=f"Final NAV vs Max Debt-to-Income Ratio - {country_context}"
+        )
+
+        scatter_fig.add_hline(
+            y=0,
+            line_dash="dash",
+            annotation_text="Break-even NAV"
+        )
+        scatter_fig.add_vline(
+            x=0.50,
+            line_dash="dash",
+            annotation_text="High debt threshold"
+        )
+        scatter_fig.update_layout(
+            xaxis_title="Max Debt-to-Income Ratio",
+            yaxis_title=f"Final NAV ({local_currency})",
+            xaxis_tickformat=".0%"
+        )
+
+        st.plotly_chart(
+            scatter_fig,
+            use_container_width=True
+        )
+
+    with st.expander("View Monte Carlo summary"):
+        st.dataframe(
+            monte_carlo_summary_df,
+            use_container_width=True,
+            hide_index=True
+        )
+
+    with st.expander("View Monte Carlo percentiles"):
+        st.dataframe(
+            monte_carlo_percentiles_df,
+            use_container_width=True,
+            hide_index=True
+        )
+
+    with st.expander("View full Monte Carlo simulation results"):
+        st.dataframe(
+            monte_carlo_results_df,
+            use_container_width=True,
+            hide_index=True
+        )
+
 
 def render_testing_tab(
     simulation_outputs: dict | None,
@@ -962,6 +1205,8 @@ def render_export_tab(
     comparison_df = simulation_outputs["comparison_df"]
     sensitivity_df = simulation_outputs["sensitivity_df"]
     tornado_df = simulation_outputs["tornado_df"]
+    monte_carlo_summary_df = simulation_outputs.get("monte_carlo_summary_df")
+    monte_carlo_results_df = simulation_outputs.get("monte_carlo_results_df")
     testing_df = simulation_outputs["testing_df"]
 
     col1, col2, col3 = st.columns(3)
@@ -988,6 +1233,14 @@ def render_export_tab(
             mime="text/csv"
         )
 
+        if monte_carlo_summary_df is not None:
+            st.download_button(
+                label="Download Monte Carlo Summary CSV",
+                data=dataframe_to_csv_bytes(monte_carlo_summary_df),
+                file_name=f"{safe_country}_monte_carlo_summary.csv",
+                mime="text/csv"
+            )
+
     with col2:
         st.download_button(
             label="Download Expense CSV",
@@ -1009,6 +1262,14 @@ def render_export_tab(
             file_name=f"{safe_country}_tornado_impact_results.csv",
             mime="text/csv"
         )
+
+        if monte_carlo_results_df is not None:
+            st.download_button(
+                label="Download Monte Carlo Results CSV",
+                data=dataframe_to_csv_bytes(monte_carlo_results_df),
+                file_name=f"{safe_country}_monte_carlo_results.csv",
+                mime="text/csv"
+            )
 
     with col3:
         st.download_button(

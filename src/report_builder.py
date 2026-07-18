@@ -26,6 +26,10 @@ def _safe_str(value: Any) -> str:
     return str(value)
 
 
+def _format_percent(value: Any, decimals: int = 1) -> str:
+    return f"{_safe_float(value) * 100:.{decimals}f}%"
+
+
 def _json_default(value: Any):
     """
     JSON fallback for pandas/numpy values.
@@ -368,6 +372,10 @@ def build_executive_summary_dataframe(
 
     comparison_result = simulation_outputs.get("comparison_result", {})
     risk_result = simulation_outputs.get("risk_result", {})
+    monte_carlo_probability_summary = simulation_outputs.get(
+        "monte_carlo_probability_summary",
+        {}
+    )
     decision_summary = simulation_outputs.get("decision_summary", {})
 
     best_scenario = comparison_result.get("best_scenario", {})
@@ -498,7 +506,95 @@ def build_executive_summary_dataframe(
             "Metric": "Most sensitive variable",
             "Value": risk_result.get("most_sensitive_variable", {}).get("variable", "N/A"),
             "Interpretation": "This variable has the highest downside/upside effect in the sensitivity model."
-        },
+        }
+    ]
+
+    if monte_carlo_probability_summary:
+        rows.extend(
+            [
+                {
+                    "Section": "Monte Carlo risk",
+                    "Metric": "Simulation count",
+                    "Value": monte_carlo_probability_summary.get(
+                        "simulation_count",
+                        "N/A"
+                    ),
+                    "Interpretation": "Number of randomized future cases tested."
+                },
+                {
+                    "Section": "Monte Carlo risk",
+                    "Metric": "Probability final NAV is positive",
+                    "Value": _format_percent(
+                        monte_carlo_probability_summary.get(
+                            "positive_nav_probability",
+                            0.0
+                        )
+                    ),
+                    "Interpretation": "Share of randomized cases ending with positive NAV."
+                },
+                {
+                    "Section": "Monte Carlo risk",
+                    "Metric": "Probability high debt",
+                    "Value": _format_percent(
+                        monte_carlo_probability_summary.get(
+                            "high_debt_probability",
+                            0.0
+                        )
+                    ),
+                    "Interpretation": "Share of randomized cases where debt pressure crosses the model threshold."
+                },
+                {
+                    "Section": "Monte Carlo risk",
+                    "Metric": "Probability very bad outcome",
+                    "Value": _format_percent(
+                        monte_carlo_probability_summary.get(
+                            "very_bad_outcome_probability",
+                            0.0
+                        )
+                    ),
+                    "Interpretation": "Share of randomized cases with negative final NAV and high debt."
+                },
+                {
+                    "Section": "Monte Carlo risk",
+                    "Metric": f"Median final NAV ({local_currency})",
+                    "Value": _format_local(
+                        monte_carlo_probability_summary.get(
+                            "median_final_nav_local",
+                            0.0
+                        ),
+                        local_currency
+                    ),
+                    "Interpretation": "Middle final NAV across all randomized cases."
+                },
+                {
+                    "Section": "Monte Carlo risk",
+                    "Metric": f"5th percentile final NAV ({local_currency})",
+                    "Value": _format_local(
+                        monte_carlo_probability_summary.get(
+                            "p5_final_nav_local",
+                            0.0
+                        ),
+                        local_currency
+                    ),
+                    "Interpretation": "Downside case where only 5% of simulations are worse."
+                },
+                {
+                    "Section": "Monte Carlo risk",
+                    "Metric": f"95th percentile final NAV ({local_currency})",
+                    "Value": _format_local(
+                        monte_carlo_probability_summary.get(
+                            "p95_final_nav_local",
+                            0.0
+                        ),
+                        local_currency
+                    ),
+                    "Interpretation": "Upside case where only 5% of simulations are better."
+                }
+            ]
+        )
+
+    rows.extend(
+        [
         {
             "Section": "Decision summary",
             "Metric": "Break-even year",
@@ -511,7 +607,8 @@ def build_executive_summary_dataframe(
             "Value": decision_summary.get("main_expense_category", "N/A"),
             "Interpretation": "Largest cost driver in the selected scenario, if available."
         }
-    ]
+        ]
+    )
 
     return pd.DataFrame(rows)
 
@@ -600,6 +697,15 @@ def build_full_simulation_excel(
     nav_df = _ensure_dataframe(simulation_outputs.get("nav_df"))
     comparison_df = _ensure_dataframe(simulation_outputs.get("comparison_df"))
     sensitivity_df = _ensure_dataframe(simulation_outputs.get("sensitivity_df"))
+    monte_carlo_summary_df = _ensure_dataframe(
+        simulation_outputs.get("monte_carlo_summary_df")
+    )
+    monte_carlo_percentiles_df = _ensure_dataframe(
+        simulation_outputs.get("monte_carlo_percentiles_df")
+    )
+    monte_carlo_results_df = _ensure_dataframe(
+        simulation_outputs.get("monte_carlo_results_df")
+    )
     testing_df = _ensure_dataframe(simulation_outputs.get("testing_df"))
     assumptions_export_df = _ensure_dataframe(assumption_df)
     limitations_df = build_model_limitations_dataframe()
@@ -612,6 +718,9 @@ def build_full_simulation_excel(
         _write_sheet(writer, "NAV", nav_df)
         _write_sheet(writer, "Scenario Comparison", comparison_df)
         _write_sheet(writer, "Sensitivity", sensitivity_df)
+        _write_sheet(writer, "Monte Carlo Summary", monte_carlo_summary_df)
+        _write_sheet(writer, "Monte Carlo Percentiles", monte_carlo_percentiles_df)
+        _write_sheet(writer, "Monte Carlo Results", monte_carlo_results_df)
         _write_sheet(writer, "Testing", testing_df)
         _write_sheet(writer, "Assumptions", assumptions_export_df)
         _write_sheet(writer, "Model Limitations", limitations_df)
@@ -650,6 +759,21 @@ def build_scenario_report_json(
         "nav": _dataframe_to_records(simulation_outputs.get("nav_df")),
         "scenario_comparison": _dataframe_to_records(simulation_outputs.get("comparison_df")),
         "sensitivity": _dataframe_to_records(simulation_outputs.get("sensitivity_df")),
+        "monte_carlo": {
+            "probability_summary": simulation_outputs.get(
+                "monte_carlo_probability_summary",
+                {}
+            ),
+            "summary": _dataframe_to_records(
+                simulation_outputs.get("monte_carlo_summary_df")
+            ),
+            "percentiles": _dataframe_to_records(
+                simulation_outputs.get("monte_carlo_percentiles_df")
+            ),
+            "results": _dataframe_to_records(
+                simulation_outputs.get("monte_carlo_results_df")
+            )
+        },
         "testing": _dataframe_to_records(simulation_outputs.get("testing_df")),
         "risk_result": simulation_outputs.get("risk_result", {}),
         "comparison_result": simulation_outputs.get("comparison_result", {}),
@@ -801,6 +925,9 @@ def build_simple_html_report(
         _html_table("NAV", simulation_outputs.get("nav_df")),
         _html_table("Scenario Comparison", simulation_outputs.get("comparison_df")),
         _html_table("Sensitivity", simulation_outputs.get("sensitivity_df")),
+        _html_table("Monte Carlo Summary", simulation_outputs.get("monte_carlo_summary_df")),
+        _html_table("Monte Carlo Percentiles", simulation_outputs.get("monte_carlo_percentiles_df")),
+        _html_table("Monte Carlo Results", simulation_outputs.get("monte_carlo_results_df")),
         _html_table("Testing", simulation_outputs.get("testing_df")),
         _html_table("Assumptions", assumption_df),
         _html_table("Model Limitations", limitations_df),

@@ -62,6 +62,7 @@ from src.nav_model import (
 )
 
 from src.sensitivity import build_sensitivity_analysis
+from src.monte_carlo import build_monte_carlo_analysis
 from src.testing_helpers import run_model_validation_tests
 
 from src.report_builder import (
@@ -518,6 +519,31 @@ def add_advanced_sidebar_inputs(sidebar_inputs: dict) -> dict:
             )
         )
 
+    with st.sidebar.expander("Monte Carlo risk settings", expanded=False):
+        st.caption(
+            "Runs randomized future cases using the existing NAV model."
+        )
+
+        monte_carlo_simulation_count = int(
+            st.number_input(
+                "Monte Carlo simulations",
+                min_value=100,
+                max_value=5000,
+                value=1000,
+                step=100
+            )
+        )
+
+        monte_carlo_random_seed = int(
+            st.number_input(
+                "Monte Carlo random seed",
+                min_value=0,
+                max_value=999999,
+                value=42,
+                step=1
+            )
+        )
+
     sidebar_inputs["education_mode_label"] = education_mode_label
     sidebar_inputs["pr_timing_label"] = pr_timing_label
     sidebar_inputs["custom_pr_year"] = custom_pr_year
@@ -525,6 +551,8 @@ def add_advanced_sidebar_inputs(sidebar_inputs: dict) -> dict:
     sidebar_inputs["first_child_timing_label"] = first_child_timing_label
     sidebar_inputs["second_child_timing_label"] = second_child_timing_label
     sidebar_inputs["investment_split_label"] = investment_split_label
+    sidebar_inputs["monte_carlo_simulation_count"] = monte_carlo_simulation_count
+    sidebar_inputs["monte_carlo_random_seed"] = monte_carlo_random_seed
 
     if car_purchase_timing_label == "No car":
         sidebar_inputs["car_option_label"] = "No car"
@@ -624,6 +652,13 @@ def run_nav_simulation(
         base_scenario_config=scenario_config
     )
 
+    monte_carlo_result = build_monte_carlo_analysis(
+        dataset=dataset,
+        base_scenario_config=scenario_config,
+        simulation_count=sidebar_inputs.get("monte_carlo_simulation_count", 1000),
+        random_seed=sidebar_inputs.get("monte_carlo_random_seed", 42)
+    )
+
     comparison_result = compare_selected_vs_best(
         comparison_df=comparison_df,
         selected_migration_path_label=sidebar_inputs["migration_path_label"],
@@ -700,6 +735,14 @@ def run_nav_simulation(
         "country_comparison_df": country_comparison_df,
         "sensitivity_df": sensitivity_result["sensitivity_df"],
         "tornado_df": sensitivity_result["tornado_df"],
+        "monte_carlo_results_df": monte_carlo_result["monte_carlo_results_df"],
+        "monte_carlo_summary_df": monte_carlo_result["monte_carlo_summary_df"],
+        "monte_carlo_probability_summary": monte_carlo_result[
+            "monte_carlo_probability_summary"
+        ],
+        "monte_carlo_percentiles_df": monte_carlo_result[
+            "monte_carlo_percentiles_df"
+        ],
         "risk_result": risk_result,
         "testing_df": testing_df,
         "multi_country_testing_df": multi_country_testing_df,
