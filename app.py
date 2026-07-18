@@ -83,6 +83,22 @@ from src.country_comparison import (
     render_country_comparison_tab
 )
 
+from src.ai_recommender import (
+    CHILDREN_PLAN_OPTIONS,
+    FAMILY_STATUS_OPTIONS,
+    PATH_PREFERENCE_OPTIONS,
+    RISK_PREFERENCE_OPTIONS,
+    SALARY_OUTLOOK_OPTIONS,
+    build_fallback_explanation,
+    build_option_records_display_dataframe,
+    build_personalized_recommendations,
+    build_recommendation_display_dataframe,
+    build_recommender_payload,
+    generate_ai_explanation,
+    get_optional_openai_api_key,
+    get_salary_adjustment
+)
+
 from src.multi_country_testing import (
     run_multi_country_validation_tests,
     render_multi_country_testing_tab
@@ -1118,6 +1134,239 @@ def render_report_export_tab(
         )
 
 
+def render_ai_recommender_tab(
+    sidebar_inputs: dict,
+    selected_country: str
+) -> None:
+    """
+    Render the personalized AI recommender UI.
+
+    Financial values are calculated by existing Python models. OpenAI only
+    explains the top ranked results when a key is configured.
+    """
+
+    st.subheader("AI Personalized Path Recommender")
+    st.caption(
+        "The recommender runs the existing country, income, expense, and NAV "
+        "models first. AI only explains the ranked top 3 if an OpenAI API key "
+        "is configured."
+    )
+
+    available_countries = get_available_countries()
+
+    if selected_country in available_countries:
+        default_countries = [selected_country]
+    else:
+        default_countries = available_countries[:1]
+
+    with st.form("ai_recommender_form"):
+        input_col_1, input_col_2, input_col_3 = st.columns(3, gap="medium")
+
+        with input_col_1:
+            current_savings_lkr = st.number_input(
+                "Current savings in LKR",
+                min_value=0.0,
+                value=0.0,
+                step=50000.0,
+                format="%.0f"
+            )
+
+            existing_debt_lkr = st.number_input(
+                "Existing loan/debt in LKR",
+                min_value=0.0,
+                value=0.0,
+                step=50000.0,
+                format="%.0f"
+            )
+
+            salary_outlook = st.selectbox(
+                "Expected salary level",
+                options=list(SALARY_OUTLOOK_OPTIONS.keys()),
+                index=1
+            )
+
+        with input_col_2:
+            family_status = st.selectbox(
+                "Family status",
+                options=FAMILY_STATUS_OPTIONS
+            )
+
+            children_plan = st.selectbox(
+                "Children plan",
+                options=CHILDREN_PLAN_OPTIONS
+            )
+
+            risk_preference = st.selectbox(
+                "Risk preference",
+                options=RISK_PREFERENCE_OPTIONS,
+                index=1
+            )
+
+        with input_col_3:
+            path_preference = st.selectbox(
+                "Preference",
+                options=PATH_PREFERENCE_OPTIONS
+            )
+
+            preferred_countries = st.multiselect(
+                "Preferred countries",
+                options=available_countries,
+                default=default_countries
+            )
+
+        submit_recommender = st.form_submit_button(
+            "Generate recommendation",
+            type="primary",
+            use_container_width=True
+        )
+
+    if submit_recommender:
+        if not preferred_countries:
+            st.warning("Select at least one preferred country.")
+            return
+
+        user_profile = {
+            "current_savings_lkr": float(current_savings_lkr),
+            "existing_debt_lkr": float(existing_debt_lkr),
+            "salary_outlook": salary_outlook,
+            "salary_growth_adjustment": get_salary_adjustment(salary_outlook),
+            "family_status": family_status,
+            "children_plan": children_plan,
+            "risk_preference": risk_preference,
+            "preferred_countries": preferred_countries,
+            "path_preference": path_preference
+        }
+
+        base_options = {
+            "car_option_label": sidebar_inputs.get("car_option_label"),
+            "investment_option_label": sidebar_inputs.get("investment_option_label"),
+            "spouse_income_case_label": sidebar_inputs.get("spouse_income_case_label"),
+            "rent_multiplier": sidebar_inputs.get("rent_multiplier"),
+            "tuition_multiplier": sidebar_inputs.get("tuition_multiplier"),
+            "childcare_multiplier": sidebar_inputs.get("childcare_multiplier"),
+            "pr_timing_label": sidebar_inputs.get("pr_timing_label"),
+            "custom_pr_year": sidebar_inputs.get("custom_pr_year"),
+            "car_purchase_timing_label": sidebar_inputs.get(
+                "car_purchase_timing_label"
+            ),
+            "investment_split_label": sidebar_inputs.get("investment_split_label")
+        }
+
+        with st.spinner("Running country and path simulations..."):
+            recommendation_result = build_personalized_recommendations(
+                selected_countries=preferred_countries,
+                user_profile=user_profile,
+                base_options=base_options
+            )
+            payload = build_recommender_payload(
+                user_profile=user_profile,
+                recommendation_result=recommendation_result
+            )
+            fallback_text = build_fallback_explanation(recommendation_result)
+            api_key = get_optional_openai_api_key(st.secrets)
+            explanation_result = generate_ai_explanation(
+                payload=payload,
+                api_key=api_key,
+                fallback_text=fallback_text
+            )
+
+        st.session_state["ai_recommender_state"] = {
+            "recommendation_result": recommendation_result,
+            "payload": payload,
+            "explanation_result": explanation_result
+        }
+
+    recommender_state = st.session_state.get("ai_recommender_state")
+
+    if not recommender_state:
+        st.info(
+            "Enter your profile and generate a recommendation. Other model "
+            "assumptions come from the country datasets and current sidebar "
+            "settings."
+        )
+        return
+
+    recommendation_result = recommender_state["recommendation_result"]
+    explanation_result = recommender_state["explanation_result"]
+    top_options = recommendation_result.get("top_options", [])
+    display_df = build_recommendation_display_dataframe(recommendation_result)
+
+    if not top_options:
+        st.warning("No successful ranked options were generated.")
+        st.markdown(explanation_result["text"])
+        return
+
+    best_option = top_options[0]
+
+    summary_metrics = [
+        {
+            "label": "Best option",
+            "value": f"{best_option['Country']} | {best_option['Migration Path']}",
+            "delta": f"Score {float(best_option['Recommendation Score']):.2f}"
+        },
+        {
+            "label": "Final NAV present value",
+            "value": format_lkr(best_option["Final NAV Present Value LKR"]),
+            "delta": "Calculated by NAV model"
+        },
+        {
+            "label": "Risk score",
+            "value": f"{float(best_option['Risk Score']):.2f}",
+            "delta": "Lower is safer"
+        }
+    ]
+
+    render_metric_grid(summary_metrics, columns_per_row=3)
+
+    st.divider()
+
+    st.markdown("### Ranked Options")
+    st.dataframe(
+        display_df,
+        use_container_width=True,
+        hide_index=True
+    )
+
+    risky_options = recommendation_result.get("risky_options", [])
+    failed_options = recommendation_result.get("failed_options", [])
+
+    if risky_options:
+        with st.expander("Rejected risky options", expanded=False):
+            st.dataframe(
+                build_option_records_display_dataframe(risky_options),
+                use_container_width=True,
+                hide_index=True
+            )
+
+    if failed_options:
+        with st.expander("Simulation warnings", expanded=False):
+            st.dataframe(
+                failed_options,
+                use_container_width=True,
+                hide_index=True
+            )
+
+    st.divider()
+
+    if explanation_result["used_ai"]:
+        st.success("AI explanation generated from the compact simulation summary.")
+    elif explanation_result.get("error"):
+        st.warning(
+            "OpenAI explanation failed, so the app is showing the non-AI "
+            "fallback explanation."
+        )
+    else:
+        st.info(
+            "OPENAI_API_KEY is blank or missing, so the app is showing the "
+            "non-AI fallback explanation."
+        )
+
+    st.markdown(explanation_result["text"])
+
+    with st.expander("Compact JSON summary for AI", expanded=False):
+        st.json(recommender_state["payload"])
+
+
 def render_footer(dataset_last_updated: str, selected_country: str) -> None:
     """
     Footer for final project polish.
@@ -1222,6 +1471,7 @@ try:
         nav_analysis_tab,
         scenario_comparison_tab,
         country_comparison_tab,
+        ai_recommender_tab,
         sensitivity_risk_tab,
         testing_tab,
         export_tab
@@ -1235,6 +1485,7 @@ try:
             "NAV Analysis",
             "Scenario Comparison",
             "Country Comparison",
+            "AI Recommender",
             "Sensitivity & Risk",
             "Testing",
             "Export"
@@ -1393,6 +1644,12 @@ try:
 
         render_country_comparison_tab(
             country_comparison_df=country_comparison_df,
+            selected_country=selected_country
+        )
+
+    with ai_recommender_tab:
+        render_ai_recommender_tab(
+            sidebar_inputs=sidebar_inputs,
             selected_country=selected_country
         )
 
