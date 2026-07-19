@@ -100,6 +100,12 @@ from src.ai_recommender import (
     get_salary_adjustment
 )
 
+from src.ai_decision_explainer import (
+    build_decision_explanation_payload,
+    build_fallback_decision_answer,
+    generate_decision_explanation
+)
+
 from src.multi_country_testing import (
     run_multi_country_validation_tests,
     render_multi_country_testing_tab
@@ -1410,6 +1416,110 @@ def render_ai_recommender_tab(
         st.json(recommender_state["payload"])
 
 
+def render_ai_decision_explanation_tab(
+    simulation_outputs,
+    scenario_config: dict,
+    selected_country: str
+) -> None:
+    """
+    Render post-simulation AI Q&A for explaining calculated model results.
+    """
+
+    st.subheader("AI Decision Explanation")
+
+    if simulation_outputs is None:
+        st.info("Run the simulation first to ask AI about the result.")
+        return
+
+    payload = build_decision_explanation_payload(
+        simulation_outputs=simulation_outputs,
+        scenario_config=scenario_config,
+        selected_country=selected_country
+    )
+
+    explanation_state = st.session_state.get("ai_decision_explanation_state")
+
+    if explanation_state and explanation_state.get("payload") != payload:
+        st.session_state.pop("ai_decision_explanation_state", None)
+        explanation_state = None
+
+    st.caption(
+        "Ask about country comparison, biggest risks, or student visa vs working visa. "
+        "The answer uses only this simulation output."
+    )
+
+    with st.form("ai_decision_explanation_form"):
+        user_question = st.text_input(
+            "Your question",
+            placeholder="Why is Australia worse than Germany?"
+        )
+
+        submit_question = st.form_submit_button(
+            "Ask AI",
+            type="primary",
+            use_container_width=True
+        )
+
+    if submit_question:
+        clean_question = user_question.strip()
+
+        if not clean_question:
+            st.warning("Enter a question about the simulation result.")
+            return
+
+        fallback_text = build_fallback_decision_answer(
+            payload=payload,
+            question=clean_question
+        )
+        api_key = get_optional_openai_api_key(st.secrets)
+
+        with st.spinner("Explaining the simulation result..."):
+            explanation_result = generate_decision_explanation(
+                payload=payload,
+                user_question=clean_question,
+                api_key=api_key,
+                fallback_text=fallback_text
+            )
+
+        st.session_state["ai_decision_explanation_state"] = {
+            "question": clean_question,
+            "payload": payload,
+            "explanation_result": explanation_result
+        }
+
+    explanation_state = st.session_state.get("ai_decision_explanation_state")
+
+    if not explanation_state:
+        st.info(
+            "Example questions: Why is Australia worse than Germany? "
+            "What is the biggest risk in Canada? Should I choose student visa or working visa?"
+        )
+        return
+
+    explanation_result = explanation_state["explanation_result"]
+
+    st.markdown("### Answer")
+    st.markdown(f"**Question:** {explanation_state['question']}")
+
+    if explanation_result["used_ai"]:
+        st.success("AI explanation generated from the compact simulation summary.")
+    elif explanation_result.get("error"):
+        st.warning(
+            "OpenAI explanation failed, so the app is showing the non-AI "
+            "fallback explanation."
+        )
+    else:
+        st.info(
+            "OPENAI_API_KEY is blank or missing, so the app is showing the "
+            "non-AI fallback explanation."
+        )
+
+    st.markdown(explanation_result["text"])
+
+    with st.expander("Compact JSON summary for AI", expanded=False):
+        st.json(explanation_state["payload"])
+
+
 def render_footer(dataset_last_updated: str, selected_country: str) -> None:
     """
     Footer for final project polish.
@@ -1515,6 +1625,7 @@ try:
         scenario_comparison_tab,
         country_comparison_tab,
         ai_recommender_tab,
+        ai_decision_explanation_tab,
         sensitivity_risk_tab,
         testing_tab,
         export_tab
@@ -1529,6 +1640,7 @@ try:
             "Scenario Comparison",
             "Country Comparison",
             "AI Recommender",
+            "AI Decision Explanation",
             "Sensitivity & Risk",
             "Testing",
             "Export"
@@ -1693,6 +1805,13 @@ try:
     with ai_recommender_tab:
         render_ai_recommender_tab(
             sidebar_inputs=sidebar_inputs,
+            selected_country=selected_country
+        )
+
+    with ai_decision_explanation_tab:
+        render_ai_decision_explanation_tab(
+            simulation_outputs=simulation_outputs,
+            scenario_config=scenario_config,
             selected_country=selected_country
         )
 
